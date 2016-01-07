@@ -1,6 +1,6 @@
 # Java/Spark/Velocity File Structure Template
 
-#### January 5, 2016.
+#### January 5, 2016
 
 #### By Midori Bowen and Jeffrey Ruder
 
