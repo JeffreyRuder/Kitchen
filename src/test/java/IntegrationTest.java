@@ -6,7 +6,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AppTest extends FluentTest {
+public class IntegrationTest extends FluentTest {
   public WebDriver webDriver = new HtmlUnitDriver();
   public WebDriver getDefaultDriver() {
     return webDriver;
