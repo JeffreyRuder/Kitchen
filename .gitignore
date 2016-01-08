@@ -51,7 +51,7 @@ bin/
 gen/
 
 # Gradle files
-# *.gradle/ leave this in for now, might ignore for later projects
+.gradle/
 build/
 
 # Local configuration file (sdk path, etc)
