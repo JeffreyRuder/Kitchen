@@ -1,0 +1,9 @@
+#if ($task)
+    <h1>$task.getDescription()</h1>
+    <p>Created on: $task.getCreatedAt().toLocalDate() at $task.getCreatedAt().toLocalTime();</p>
+#else
+    <h1>Task Not Found</h1>
+#end
+
+<a href="/tasks/new">Add New Task</a>
+<a href="/tasks">All Tasks</a>
