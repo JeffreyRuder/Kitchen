@@ -6,14 +6,16 @@ public class Task {
   private int id;
   private String description;
   private int categoryId;
+  private boolean isfinished;
 
   public Task(String description, int categoryId) {
     this.description = description;
     this.categoryId = categoryId;
+    this.isfinished = false;
   }
 
   public static List<Task> all() {
-    String sql = "SELECT id, description, categoryId FROM Tasks";
+    String sql = "SELECT id, description, categoryId, isfinished FROM tasks WHERE isfinished = false";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Task.class);
     }
@@ -43,10 +45,11 @@ public class Task {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO Tasks(description, categoryId) VALUES (:description, :categoryId)";
+      String sql = "INSERT INTO Tasks(description, categoryId, isfinished) VALUES (:description, :categoryId, :isfinished)";
       this.id  = (int) con.createQuery(sql, true)
         .addParameter("description", description)
         .addParameter("categoryId", categoryId)
+        .addParameter("isfinished", isfinished)
         .executeUpdate()
         .getKey();
     }
@@ -61,6 +64,14 @@ public class Task {
     }
   }
 
+  public void finish() {
+    isfinished = true;
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE tasks SET isfinished = true WHERE id = :id";
+      con.createQuery(sql).addParameter("id", id).executeUpdate();
+    }
+  }
+
   public int getId() {
     return id;
   }
@@ -71,5 +82,9 @@ public class Task {
 
   public int getCategoryId() {
     return categoryId;
+  }
+
+  public boolean isFinished() {
+    return isfinished;
   }
 }

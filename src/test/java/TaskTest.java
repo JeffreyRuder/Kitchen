@@ -60,4 +60,17 @@ public class TaskTest {
     assertEquals(savedTask.getCategoryId(), myCategory.getId());
   }
 
+  @Test
+  public void isfinished_finishsTaskCorrectly_0(){
+    Category newCategory = new Category("Household chores");
+    newCategory.save();
+    Task newTask = new Task("Mow the lawn", newCategory.getId());
+    newTask.save();
+    newTask.finish();
+    assertTrue(newTask.isFinished());
+    assertEquals(0, Task.all().size());
+  }
+
+
+
 }

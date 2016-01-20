@@ -4,11 +4,84 @@ import java.util.HashMap;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
+import java.util.List;
 
 public class App {
-    public static void main(String[] args) {
-//         staticFileLocation("/public");
-//         String layout = "templates/layout.vtl";
+  public static void main(String[] args) {
+      staticFileLocation("/public");
+      String layout = "templates/layout.vtl";
+
+      get("/", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put("template", "templates/index.vtl");
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+      get("/alltasks", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put("template", "templates/alltasks.vtl");
+        List<Category> category = Category.all();
+        model.put("category", category);
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+      get("/allcategories", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put("template", "templates/allcategories.vtl");
+        List<Category> category = Category.all();
+        model.put("categories", category);
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+      get("/category/:id", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put("template", "templates/category.vtl");
+
+        Category category = Category.find(Integer.parseInt(request.params("id")));
+        model.put("category", category);
+
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+      get("/newcategory", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put("template", "templates/newcategory.vtl");
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+      post("/allcategories", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put("template", "templates/allcategories.vtl");
+
+        Category newCategory = new Category(request.queryParams("name"));
+        newCategory.save();
+        List<Category> category = Category.all();
+        model.put("categories", category);
+
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+      post("/category/:id", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put("template", "templates/category.vtl");
+
+        if (request.queryParams("tasktoremove") != null) {
+          Task taskToRemove = Task.find(Integer.parseInt(request.queryParams("tasktoremove")));
+          taskToRemove.finish();
+        } else {
+          Task newTask = new Task(request.queryParams("description"), Integer.parseInt(request.params("id")));
+          newTask.save();          
+        }
+
+        Category thisCategory = Category.find(Integer.parseInt(request.params("id")));
+        model.put("category", thisCategory);
+
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+
+
+
 //
 //         get("/", (request, response) -> {
 //             HashMap<String, Object> model = new HashMap<String, Object>();

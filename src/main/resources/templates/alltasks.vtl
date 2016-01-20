@@ -1,0 +1,9 @@
+<h2>Your tasks for today:</h2>
+
+<ul>
+  #foreach ($newCategory in $category)
+    #foreach ($task in $newCategory.getTasks())
+      <li>$task.getDescription()</li>
+    #end
+  #end
+</ul>

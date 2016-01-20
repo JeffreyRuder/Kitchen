@@ -1,8 +1,23 @@
-<h3>Here are all the tasks in this category:</h3>
+<h2>Tasks of category: $category.getName()</h2>
 
-#foreach($task in $tasks)
- <h3>$task.getDescription()</a></h3>
-#end
+<ul>
+  #foreach ($task in $category.getTasks())
+    <li>$task.getDescription()
+      <form action="/category/$category.getId()" method="post" class="removalform">
+        <div class="form-group">
+          <input name="tasktoremove" type="hidden" value="$task.getId()">
+        </div>
+        <button type="submit" class="btn btn-primary btn-removal">Finish </button>
+      </form>
+    </li>
+  #end
+</ul>
 
-<a href="/categories/$category.getId()/tasks/new">Add a new task</a>
-<a href="/">Return to Main Page</a>
+<h2>New task for category: $category.getName()</h2>
+
+<form action="/category/$category.getId()" method="post">
+  <div class="form-group">
+      <input name="description" type="text" class="form-control" id="name" required placeholder="Type your task description . . .">
+    </div>
+    <button type="submit" class="btn btn-success btn-block">Submit!</button>
+</form>

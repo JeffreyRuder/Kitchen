@@ -26,7 +26,7 @@ public class Category {
 
   public List<Task> getTasks() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM tasks where categoryId=:id";
+      String sql = "SELECT * FROM tasks where categoryId=:id and isFinished = false";
       return con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetch(Task.class);

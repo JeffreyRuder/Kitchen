@@ -1,9 +1,0 @@
-<h1>All Tasks</h1>
-
-<ul>
-#foreach ($task in $tasks)
-    <li><a href="/tasks/$task.getId()">$task.getDescription()</a></li>
-#end
-</ul>
-
-<a href="/tasks/new">Add New Task</a>

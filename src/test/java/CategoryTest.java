@@ -46,4 +46,16 @@ public class CategoryTest {
     Task[] tasks = new Task[] {firstTask, secondTask};
     assertTrue(myCategory.getTasks().containsAll(Arrays.asList(tasks)));
   }
+
+  @Test
+  public void getTasks_retrievesOnlyUnfinishedTasks_taskList() {
+    Category myCategory = new Category("Household chores");
+    myCategory.save();
+    Task firstTask = new Task("Mow the lawn", myCategory.getId());
+    firstTask.save();
+    Task secondTask = new Task("Do the dishes", myCategory.getId());
+    secondTask.save();
+    secondTask.finish();
+    assertEquals(1, myCategory.getTasks().size());
+  }
 }

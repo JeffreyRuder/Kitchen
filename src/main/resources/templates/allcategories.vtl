@@ -1,0 +1,11 @@
+<h2>All categories:</h2>
+
+<ul>
+#if ($categories.size() >= 1)
+  #foreach ($category in $categories)
+    <li><a href="/category/$category.getId()">$category.getName()</a></li>
+  #end
+#end
+</ul>
+
+<a href="/newcategory">Create new category</a>
