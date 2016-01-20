@@ -102,4 +102,16 @@ public class IntegrationTest extends FluentTest {
     assertThat(!(pageSource()).contains("Change wiper blades"));
   }
 
+  @Test
+  public void showFinishedTasksPage() {
+    Category category = new Category("Car repairs");
+    category.save();
+    Task task = new Task("Change wiper blades", category.getId());
+    task.save();
+    task.finish();
+    goTo("http://localhost:4567/");
+    click("a", withText("See all finished tasks"));
+    assertThat(pageSource()).contains("Change wiper blades");
+  }
+
 }

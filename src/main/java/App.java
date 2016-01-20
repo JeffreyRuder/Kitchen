@@ -70,11 +70,20 @@ public class App {
           taskToRemove.finish();
         } else {
           Task newTask = new Task(request.queryParams("description"), Integer.parseInt(request.params("id")));
-          newTask.save();          
+          newTask.save();
         }
 
         Category thisCategory = Category.find(Integer.parseInt(request.params("id")));
         model.put("category", thisCategory);
+
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+      get("/finishedtasks", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        model.put("template", "templates/finishedtasks.vtl");
+
+        model.put("categories", Category.all());
 
         return new ModelAndView(model, layout);
       }, new VelocityTemplateEngine());

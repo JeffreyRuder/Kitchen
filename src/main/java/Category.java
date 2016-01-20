@@ -33,6 +33,18 @@ public class Category {
     }
   }
 
+  public List<Task> getTasks(boolean isFinished) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM tasks where categoryId=:id and isFinished = :isFinished";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .addParameter("isFinished", isFinished)
+        .executeAndFetch(Task.class);
+    }
+  }
+
+
+
   @Override
   public boolean equals(Object otherCategory) {
     if (!(otherCategory instanceof Category)) {
