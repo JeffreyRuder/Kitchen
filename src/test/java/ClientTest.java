@@ -43,7 +43,7 @@ public class ClientTest {
   public void allWithTrue_returnsOrderedListOfAllClients() {
     Client firstClient = new Client("John", "Doe");
     Client secondClient = new Client("Jane", "Roe");
-    Client thirdClient = new Client("Hank", "Aaron");
+    Client thirdClient = new Client("Burke", "Boe");
     firstClient.save();
     secondClient.save();
     thirdClient.save();
@@ -68,6 +68,16 @@ public class ClientTest {
     secondClient.save();
     firstClient.delete();
     assertTrue(!(Client.all().contains(firstClient)));
+  }
+
+  @Test
+  public void getStylistId_returnsStylistId() {
+    Client client = new Client("John", "Doe");
+    client.save();
+    Stylist stylist = new Stylist("Ada", "Lovelace");
+    stylist.save();
+    client.assignStylist(stylist.getId());
+    assertEquals(stylist.getId(), client.getStylistId());
   }
 
 }

@@ -43,7 +43,7 @@ public class StylistTest {
   public void allWithTrue_returnsOrderedListOfAllStylists() {
     Stylist firstStylist = new Stylist("Charles", "Babbage");
     Stylist secondStylist = new Stylist("Ada", "Lovelace");
-    Stylist thirdStylist = new Stylist("Hank", "Aaron");
+    Stylist thirdStylist = new Stylist("Frances", "Allen");
     firstStylist.save();
     secondStylist.save();
     thirdStylist.save();

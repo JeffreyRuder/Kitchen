@@ -5,6 +5,7 @@ public class Client {
   private String mFirstName;
   private String mLastName;
   private int mId;
+  private int mStylistId;
 
   //CONSTRUCTOR
 
@@ -29,6 +30,10 @@ public class Client {
 
   public int getId() {
     return mId;
+  }
+
+  public int getStylistId() {
+    return mStylistId;
   }
 
   //EQUALITY
@@ -96,6 +101,17 @@ public class Client {
       con.createQuery(sql)
         .addParameter("first", first)
         .addParameter("last", last)
+        .addParameter("id", this.getId())
+        .executeUpdate();
+    }
+  }
+
+  public void assignStylist(int stylistId) {
+    String sql = "UPDATE clients SET stylist_id = :stylistid WHERE id = :id";
+    mStylistId = stylistId;
+    try (Connection con = DB.sql2o.open()) {
+      con.createQuery(sql)
+        .addParameter("stylistid", stylistId)
         .addParameter("id", this.getId())
         .executeUpdate();
     }
