@@ -28,12 +28,21 @@ public class IntegrationTest extends FluentTest {
   }
 
   @Test
-  public void addClientFormWorks() {
+  public void addStylistFormWorks() {
     goTo("http://localhost:4567/");
     fill("#firstname").with("Charles");
     fill("#lastname").with("Babbage");
     submit(".btn");
     assertThat(pageSource()).contains("Babbage, Charles");
+  }
+
+  @Test
+  public void removeStylistFormWorks() {
+    Stylist stylist = new Stylist("Grace", "Hopper");
+    stylist.save();
+    goTo("http://localhost:4567/");
+    click(".btn-link", withText("Remove Grace Hopper"));
+    assertThat(!(pageSource()).contains("Hopper, Grace"));
   }
 
 

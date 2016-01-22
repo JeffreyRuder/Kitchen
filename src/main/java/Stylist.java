@@ -121,6 +121,17 @@ public class Stylist {
     }
   }
 
+  public List<Client> getAllClients() {
+    String sql = "SELECT id AS mId, first_name AS mFirstName, last_name AS mLastName FROM clients WHERE stylist_id = :id";
+    try (Connection con = DB.sql2o.open()) {
+      List<Client> clientList = con.createQuery(sql)
+        .addParameter("id", this.getId())
+        .executeAndFetch(Client.class);
+      clientList.sort((c1, c2) -> c1.getLastName().compareTo(c2.getLastName()));
+      return clientList;
+    }
+  }
+
   //UPDATE
 
   public void update(String first, String last) {

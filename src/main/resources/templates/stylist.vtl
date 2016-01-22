@@ -1,0 +1,51 @@
+<h1>Style Tracker</h1>
+<div class="row">
+  <div class="col-md-8 fast-facts">
+    <h2>Data: $stylist.getFullName()</h2>
+    <p><strong>Current Clients: </strong>$stylist.getNumberOfClients()</p>
+  </div>
+
+  <div class="col-md-4 add-box">
+    <h2>Add New Client</h2>
+    <form class="form add-form" action="/stylists/$stylist.getId()" method="post">
+      <div class="form-group">
+        <input name="firstname" type="text" class="form-control" id="firstname" required placeholder="First Name">
+      </div>
+      <div class="form-group">
+        <input name="lastname" type="text" class="form-control" id="lastname" required placeholder="Last Name">
+        <input name="addnewclient" type="hidden" class="form-control" id="addnewclient" value="true">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Add New Client</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Current Clients</h2>
+    <div class="table-responsive">
+      <table class="table">
+        <caption>SELECT A CLIENT TO UPDATE HIS/HER NAME</caption>
+        <thead>
+          <th>Client Name</th>
+          <th>Remove Client</th>
+        </thead>
+        <tbody>
+          #foreach ($person in $clients)
+            <tr>
+              <td><a href="/stylists/$person.getId()">$person.getLastName(), $person.getFirstName()</a></td>
+              <td>
+                <form class="remove-client" action="/stylists/$stylist.getId()" method="post">
+                  <input type="hidden" name="removestylist" value="$person.getId()">
+                  <button type="submit" class="btn-link">Remove $person.getFullName()</button>
+                </form>
+              </td>
+            </tr>
+          #end
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

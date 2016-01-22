@@ -99,6 +99,21 @@ public class StylistTest {
   }
 
   @Test
+  public void getAllClients_returnsAssignedClients() {
+    Client firstClient = new Client("Zeke", "Zoe");
+    Client secondClient = new Client("Jane", "Roe");
+    firstClient.save();
+    secondClient.save();
+    Stylist stylist = new Stylist("Charles", "Babbage");
+    stylist.save();
+    firstClient.assignStylist(stylist.getId());
+    secondClient.assignStylist(stylist.getId());
+    Client[] clients = new Client[] {firstClient, secondClient};
+    assertTrue(stylist.getAllClients().containsAll(Arrays.asList(clients)));
+    assertTrue(stylist.getAllClients().get(0).equals(secondClient));
+  }
+
+  @Test
   public void update_changesStylistNameInObjectAndDatabase() {
     Stylist stylist = new Stylist("Charles", "Babbage");
     stylist.save();
