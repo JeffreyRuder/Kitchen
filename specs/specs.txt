@@ -1,9 +1,6 @@
-    As a user, I want to see a welcome page that includes where I can go and what I can do.
+Do the database table and column names follow proper naming conventions?
+Did a one-to-many relationship get set up correctly in the database?
+Has CRUD functionality for each class been built in Spark?
+Are RESTful routes used in Spark?
 
-    As a user, I want to see all of the lists that I have created so that I can manage them one at a time.
-
-    As a user, I want to create new lists of different categories so that I can keep similar tasks together (phone calls, school work, house work, errands to run, bills to pay, etc)
-
-    As a user, I want to select a single list and see the tasks for it.
-
-    As a user, I want to add tasks to a list.
+The owner should be able to add a list of the stylists, and for each stylist, add clients who see that stylist. The stylists work independently, so each client only belongs to a single stylist.
