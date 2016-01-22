@@ -1,9 +1,0 @@
-<h2>This is all your finished tasks:</h2>
-
-<ul>
-  #foreach ($category in $categories)
-    #foreach ($task in $category.getTasks(true))
-      <li>$task.getDescription()</li>
-    #end
-  #end
-</ul>

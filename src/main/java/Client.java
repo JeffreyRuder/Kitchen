@@ -91,6 +91,13 @@ public class Client {
     }
   }
 
+  public static Integer total() {
+    String sql = "SELECT count(id) FROM clients";
+    try (Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeScalar(Integer.class);
+    }
+  }
+
   //UPDATE
 
   public void update(String first, String last) {

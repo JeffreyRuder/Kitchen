@@ -51,6 +51,33 @@ public class StylistTest {
   }
 
   @Test
+  public void total_returnsTotalNumberOfStylists_3() {
+    Stylist firstStylist = new Stylist("Charles", "Babbage");
+    Stylist secondStylist = new Stylist("Ada", "Lovelace");
+    Stylist thirdStylist = new Stylist("Frances", "Allen");
+    firstStylist.save();
+    secondStylist.save();
+    thirdStylist.save();
+    assertEquals((Integer)3, (Integer)Stylist.total());
+  }
+
+  @Test
+  public void ratio_returnsCorrectRatio() {
+    Client firstClient = new Client("John", "Doe");
+    Client secondClient = new Client("Jane", "Roe");
+    Client thirdClient = new Client("Burke", "Boe");
+    firstClient.save();
+    secondClient.save();
+    thirdClient.save();
+    Stylist firstStylist = new Stylist("Charles", "Babbage");
+    Stylist secondStylist = new Stylist("Ada", "Lovelace");
+    firstStylist.save();
+    secondStylist.save();
+    System.out.println(Stylist.ratio());
+    assertEquals("1.5 : 1", Stylist.ratio());
+  }
+
+  @Test
   public void update_changesStylistNameInObjectAndDatabase() {
     Stylist stylist = new Stylist("Charles", "Babbage");
     stylist.save();

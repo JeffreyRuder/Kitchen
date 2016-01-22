@@ -51,6 +51,17 @@ public class ClientTest {
   }
 
   @Test
+  public void total_returnsTotalNumberOfClients_3() {
+    Client firstClient = new Client("John", "Doe");
+    Client secondClient = new Client("Jane", "Roe");
+    Client thirdClient = new Client("Burke", "Boe");
+    firstClient.save();
+    secondClient.save();
+    thirdClient.save();
+    assertEquals((Integer)3, (Integer)Client.total());
+  }
+
+  @Test
   public void update_changesClientNameInObjectAndDatabase() {
     Client client = new Client("John", "Doe");
     client.save();

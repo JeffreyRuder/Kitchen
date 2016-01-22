@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.List;
 import org.sql2o.*;
 
@@ -84,6 +85,20 @@ public class Stylist {
         .executeAndFetchFirst(Stylist.class);
       return stylist;
     }
+  }
+
+  public static Integer total() {
+    String sql = "SELECT count(id) FROM stylists";
+    try (Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql).executeScalar(Integer.class);
+    }
+  }
+
+  public static String ratio() {
+    double rawRatio = ((double)Client.total()) / Stylist.total();
+    DecimalFormat dfTwo = new DecimalFormat("###.##");
+    double roundedRatio = Double.valueOf(dfTwo.format(rawRatio));
+    return Double.toString(roundedRatio) + " : 1";
   }
 
   //UPDATE
