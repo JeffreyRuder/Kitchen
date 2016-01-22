@@ -12,4 +12,20 @@ public class StylistTest {
     assertEquals("Charles Babbage", stylist.getFullName());
   }
 
+  @Test
+  public void equals_returnsTrueIfSameName() {
+    Stylist firstStylist = new Stylist("Charles", "Babbage");
+    Stylist secondStylist = new Stylist("Charles", "Babbage");
+    assertTrue(firstStylist.equals(secondStylist));
+  }
+
+  @Test
+  public void save_savesStylistInDatabase() {
+    Stylist stylist = new Stylist("Charles", "Babbage");
+    stylist.save();
+    assertEquals(stylist.getFullName(), Stylist.find(stylist.getId()).getFullName());
+  }
+
+
+
 }
