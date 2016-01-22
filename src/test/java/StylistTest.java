@@ -6,4 +6,10 @@ public class StylistTest {
   @Rule
   public DatabaseRule database = new DatabaseRule();
 
+  @Test
+  public void stylist_instantiatesWithName() {
+    Stylist stylist = new Stylist("Charles", "Babbage");
+    assertEquals("Charles Babbage", stylist.getFullName());
+  }
+
 }

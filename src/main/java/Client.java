@@ -11,9 +11,20 @@ public class Client {
     mFirstName = first;
     mLastName = last;
   }
+  
+  public String getFirstName() {
+    return mFirstName;
+  }
+
+  public String getLastName() {
+    return mLastName;
+  }
 
   public String getFullName() {
     return mFirstName + " " + mLastName;
   }
 
+  public int getId() {
+    return mId;
+  }
 }
