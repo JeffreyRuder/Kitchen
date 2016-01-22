@@ -4,7 +4,7 @@
   <li class="active"><a href="/">All Stylists</a></li>
 </ol>
 
-<div class="row">
+<div class="row upper-block">
   <div class="col-md-8 fast-facts">
     <h2>All Stylists</h2>
     <p><strong>Current Stylists: </strong>$stylist.total()</p>
@@ -30,6 +30,21 @@
     </form>
   </div>
 </div>
+
+#if ($unassignedclients)
+  <div class="col-md-12 bg-warning">
+    <p><strong>Warning! There are clients not assigned to a stylist. Please click their names below and assign them to one.</strong></p>
+    <ul>
+      #foreach ($person in $client.all(true))
+        #if ($person.getStylistId() == 0)
+          <li><a href="/clients/$person.getId()">
+            $person.getFullName()</a></li>
+        #end
+      #end
+    </ul>
+  </div>
+#end
+
 
 #if ($duplicatestylistrequested)
   <div class="row">

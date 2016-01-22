@@ -150,6 +150,17 @@ public class Stylist {
   //DELETE
 
   public void delete() {
+
+    //unassign existing clients
+    for (Client client : this.getAllClients()) {
+      try (Connection con = DB.sql2o.open()) {
+        String sql = "UPDATE clients SET stylist_id = null WHERE stylist_id = :id";
+        con.createQuery(sql)
+          .addParameter("id", this.getId())
+          .executeUpdate();
+      }
+    }
+
     String sql = "DELETE FROM stylists WHERE id = :id";
     try (Connection con = DB.sql2o.open()) {
       con.createQuery(sql)

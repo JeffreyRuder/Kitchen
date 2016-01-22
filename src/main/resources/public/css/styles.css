@@ -1,0 +1,21 @@
+.breadcrumb {
+  border-radius: 0;
+}
+
+.bg-warning {
+  padding: 15px;
+}
+
+.upper-block {
+  margin-bottom: 20px;
+}
+
+.btn-link {
+  margin: 0;
+  padding: 0;
+}
+
+#selectstylist {
+  padding: 7px 0;
+  margin-bottom: 0;
+}

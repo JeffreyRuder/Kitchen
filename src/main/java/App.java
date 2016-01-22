@@ -19,6 +19,7 @@ public class App {
         model.put("client", Client.class);
         model.put("stylist", Stylist.class);
         model.put("stylists", Stylist.all(true));
+        model.put("unassignedclients", Client.unassignedClientsExist());
 
         model.put("template", "templates/index.vtl");
         return new ModelAndView(model, layout);
@@ -80,6 +81,7 @@ public class App {
         model.put("client", Client.class);
         model.put("stylist", Stylist.class);
         model.put("stylists", Stylist.all(true));
+        model.put("unassignedclients", Client.unassignedClientsExist());
 
         model.put("template", "templates/index.vtl");
         return new ModelAndView(model, layout);

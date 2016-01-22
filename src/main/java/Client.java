@@ -75,7 +75,7 @@ public class Client {
   //READ
 
   public static List<Client> all() {
-    String sql = "SELECT id AS mId, first_name AS mFirstName, last_name AS mLastName FROM clients";
+    String sql = "SELECT id AS mId, first_name AS mFirstName, last_name AS mLastName, stylist_id AS mStylistId FROM clients";
     try (Connection con = DB.sql2o.open()) {
       return con.createQuery(sql)
         .executeAndFetch(Client.class);
@@ -107,6 +107,15 @@ public class Client {
     try (Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeScalar(Integer.class);
     }
+  }
+
+  public static boolean unassignedClientsExist() {
+    for (Client client : Client.all()) {
+      if (client.getStylistId() == 0) {
+        return true;
+      }
+    }
+    return false;
   }
 
   //UPDATE
