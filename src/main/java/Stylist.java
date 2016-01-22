@@ -56,15 +56,40 @@ public class Stylist {
     }
   }
 
-    //READ
+  //READ
 
-  public static Stylist find(int searchId) {
+  public static List<Stylist> all() {
+    String sql = "SELECT id AS mId, first_name AS mFirstName, last_name AS mLastName FROM stylists";
+    try (Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+        .executeAndFetch(Stylist.class);
+    }
+  }
+
+  public static Stylist find(int search) {
     String sql = "SELECT id AS mId, first_name AS mFirstName, last_name AS mLastName FROM stylists WHERE id = :id";
     try (Connection con = DB.sql2o.open()) {
       Stylist stylist = (Stylist) con.createQuery(sql)
-        .addParameter("id", searchId)
+        .addParameter("id", search)
         .executeAndFetchFirst(Stylist.class);
       return stylist;
     }
   }
+
+  //UPDATE
+
+  public void update(String first, String last) {
+    String sql = "UPDATE stylists SET first_name = :first, last_name = :last WHERE id = :id";
+    mFirstName = first;
+    mLastName = last;
+    try (Connection con = DB.sql2o.open()) {
+      con.createQuery(sql)
+        .addParameter("first", first)
+        .addParameter("last", last)
+        .addParameter("id", this.getId())
+        .executeUpdate();
+    }
+  }
+
+  //DELETE
 }

@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -23,9 +25,28 @@ public class StylistTest {
   public void save_savesStylistInDatabase() {
     Stylist stylist = new Stylist("Charles", "Babbage");
     stylist.save();
-    assertEquals(stylist.getFullName(), Stylist.find(stylist.getId()).getFullName());
+    assertEquals(stylist.getFullName(), Stylist.find(
+      stylist.getId()).getFullName());
   }
 
+  @Test
+  public void all_returnsAllStylists() {
+    Stylist firstStylist = new Stylist("Charles", "Babbage");
+    Stylist secondStylist = new Stylist("Ada", "Lovelace");
+    firstStylist.save();
+    secondStylist.save();
+    Stylist[] stylists = new Stylist[] {firstStylist, secondStylist};
+    assertTrue(Stylist.all().containsAll(Arrays.asList(stylists)));
+  }
 
+  @Test
+  public void update_changesStylistNameInObjectAndDatabase() {
+    Stylist stylist = new Stylist("Charles", "Babbage");
+    stylist.save();
+    stylist.update("Grace", "Hopper");
+    assertEquals("Grace Hopper", stylist.getFullName());
+    assertEquals("Grace Hopper", Stylist.find(
+      stylist.getId()).getFullName());
+  }
 
 }
