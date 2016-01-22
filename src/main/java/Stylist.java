@@ -66,6 +66,16 @@ public class Stylist {
     }
   }
 
+  public static List<Stylist> all(boolean alphabetical) {
+    if (alphabetical) {
+      List<Stylist> stylists = Stylist.all();
+      stylists.sort((s1, s2) -> s1.mLastName.compareTo(s2.mLastName));
+      return stylists;
+    } else {
+      return Stylist.all();
+    }
+  }
+
   public static Stylist find(int search) {
     String sql = "SELECT id AS mId, first_name AS mFirstName, last_name AS mLastName FROM stylists WHERE id = :id";
     try (Connection con = DB.sql2o.open()) {
@@ -92,4 +102,13 @@ public class Stylist {
   }
 
   //DELETE
+
+  public void delete() {
+    String sql = "DELETE FROM stylists WHERE id = :id";
+    try (Connection con = DB.sql2o.open()) {
+      con.createQuery(sql)
+        .addParameter("id", this.getId())
+        .executeUpdate();
+    }
+  }
 }

@@ -40,6 +40,17 @@ public class StylistTest {
   }
 
   @Test
+  public void allWithTrue_returnsOrderedListOfAllStylists() {
+    Stylist firstStylist = new Stylist("Charles", "Babbage");
+    Stylist secondStylist = new Stylist("Ada", "Lovelace");
+    Stylist thirdStylist = new Stylist("Hank", "Aaron");
+    firstStylist.save();
+    secondStylist.save();
+    thirdStylist.save();
+    assertTrue(Stylist.all(true).get(0).equals(thirdStylist));
+  }
+
+  @Test
   public void update_changesStylistNameInObjectAndDatabase() {
     Stylist stylist = new Stylist("Charles", "Babbage");
     stylist.save();
@@ -47,6 +58,16 @@ public class StylistTest {
     assertEquals("Grace Hopper", stylist.getFullName());
     assertEquals("Grace Hopper", Stylist.find(
       stylist.getId()).getFullName());
+  }
+
+  @Test
+  public void delete_removesStylistFromDatabase() {
+    Stylist firstStylist = new Stylist("Charles", "Babbage");
+    Stylist secondStylist = new Stylist("Ada", "Lovelace");
+    firstStylist.save();
+    secondStylist.save();
+    firstStylist.delete();
+    assertTrue(!(Stylist.all().contains(firstStylist)));
   }
 
 }
