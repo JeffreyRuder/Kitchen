@@ -15,6 +15,14 @@ public class ClientTest {
   }
 
   @Test
+  public void stylistConstructor_flagsDuplicates() {
+    Client firstClient = new Client("John", "Doe");
+    firstClient.save();
+    Client secondClient = new Client("John", "Doe");
+    assertTrue(secondClient.isDuplicate());
+  }
+
+  @Test
   public void equals_returnsTrueIfSameName() {
     Client firstClient = new Client("John", "Doe");
     Client secondClient = new Client("John", "Doe");

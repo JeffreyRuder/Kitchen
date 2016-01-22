@@ -6,12 +6,19 @@ public class Client {
   private String mLastName;
   private int mId;
   private int mStylistId;
+  private boolean mDuplicate;
 
   //CONSTRUCTOR
 
   public Client(String first, String last) {
     mFirstName = first.trim();
     mLastName = last.trim();
+    mDuplicate = false;
+    for (Client client : Client.all()) {
+      if (this.equals(client)) {
+        mDuplicate = true;
+      }
+    }
   }
 
   //GETTERS
@@ -34,6 +41,10 @@ public class Client {
 
   public int getStylistId() {
     return mStylistId;
+  }
+
+  public boolean isDuplicate() {
+    return mDuplicate;
   }
 
   //EQUALITY
@@ -82,7 +93,7 @@ public class Client {
   }
 
   public static Client find(int search) {
-    String sql = "SELECT id AS mId, first_name AS mFirstName, last_name AS mLastName FROM clients WHERE id = :id";
+    String sql = "SELECT id AS mId, first_name AS mFirstName, last_name AS mLastName, stylist_id AS mStylistId FROM clients WHERE id = :id";
     try (Connection con = DB.sql2o.open()) {
       Client client = (Client) con.createQuery(sql)
         .addParameter("id", search)

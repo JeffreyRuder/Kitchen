@@ -40,11 +40,13 @@ public class App {
 
       get("/clients/:id", (request, response) -> {
         HashMap<String, Object> model = new HashMap<String, Object>();
-        Stylist thisStylist = Stylist.find(
+        Client thisClient = Client.find(
           Integer.parseInt(request.params("id")));
+        Stylist currentStylist = Stylist.find(thisClient.getStylistId());
 
-        model.put("stylist", thisStylist);
-        model.put("clients", thisStylist.getAllClients());
+        model.put("stylist", Stylist.class);
+        model.put("currentstylist", currentStylist);
+        model.put("client", thisClient);
 
         model.put("template", "templates/client.vtl");
         return new ModelAndView(model, layout);
@@ -55,7 +57,7 @@ public class App {
       post("/", (request, response) -> {
         HashMap<String, Object> model = new HashMap<String, Object>();
 
-        //Add a stylist
+        //Create a stylist
         if (request.queryParams("addnewstylist") != null) {
           String requestedFirst = request.queryParams("firstname");
           String requestedLast = request.queryParams("lastname");
@@ -68,7 +70,7 @@ public class App {
           }
         }
 
-        //Remove a stylist
+        //Delete a stylist
         if (request.queryParams("removestylist") != null) {
           Stylist removalRequest = Stylist.find(Integer.parseInt(
             request.queryParams("removestylist")));
@@ -83,6 +85,86 @@ public class App {
         return new ModelAndView(model, layout);
       }, new VelocityTemplateEngine());
 
-      post("/stylists/:id", (request, response))
+      post("/stylists/:id", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        Stylist thisStylist = Stylist.find(
+          Integer.parseInt(request.params("id")));
+
+        //Update a stylist
+
+        if (request.queryParams("changestylist") != null) {
+          String requestedFirst = request.queryParams("newfirstname");
+          String requestedLast = request.queryParams("newlastname");
+          Stylist duplicateChecker = new Stylist(requestedFirst, requestedLast);
+          boolean duplicateStylistRequested = duplicateChecker.isDuplicate();
+          if (!(duplicateStylistRequested)) {
+            thisStylist.update(requestedFirst, requestedLast);
+          } else {
+            model.put("duplicatestylistrequested", duplicateStylistRequested);
+          }
+        }
+
+        //Create a client
+        if (request.queryParams("addnewclient") != null) {
+          String requestedFirst = request.queryParams("firstname");
+          String requestedLast = request.queryParams("lastname");
+          Client requestedClient = new Client(requestedFirst, requestedLast);
+          boolean duplicateClientRequested = requestedClient.isDuplicate();
+          if (!(duplicateClientRequested)) {
+            requestedClient.save();
+            requestedClient.assignStylist(thisStylist.getId());
+          } else {
+            model.put("duplicateclientrequested", duplicateClientRequested);
+          }
+        }
+
+        //Delete a client
+        if (request.queryParams("removeclient") != null) {
+          Client removalRequest = Client.find(Integer.parseInt(
+            request.queryParams("removeclient")));
+          removalRequest.delete();
+        }
+
+        model.put("stylist", thisStylist);
+        model.put("clients", thisStylist.getAllClients());
+
+        model.put("template", "templates/stylist.vtl");
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+      post("/clients/:id", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+        Client thisClient = Client.find(
+          Integer.parseInt(request.params("id")));
+        Stylist currentStylist = Stylist.find(thisClient.getStylistId());
+
+        //Update a client - change name
+        if (request.queryParams("changeclientname") != null) {
+          String requestedFirst = request.queryParams("newfirstname");
+          String requestedLast = request.queryParams("newlastname");
+          Client duplicateChecker = new Client(requestedFirst, requestedLast);
+          boolean duplicateClientRequested = duplicateChecker.isDuplicate();
+          if (!(duplicateClientRequested)) {
+            thisClient.update(requestedFirst, requestedLast);
+          } else {
+            model.put("duplicateclientrequested", duplicateClientRequested);
+          }
+        }
+
+       //Update a client - change stylist
+        if (request.queryParams("changestylist") != null) {
+          thisClient.assignStylist(Integer.parseInt(
+            request.queryParams("newstylistid")));
+          currentStylist = Stylist.find(thisClient.getStylistId());
+        }
+
+        model.put("stylist", Stylist.class);
+        model.put("currentstylist", currentStylist);
+        model.put("client", thisClient);
+
+        model.put("template", "templates/client.vtl");
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
     }
 }

@@ -136,12 +136,12 @@ public class Stylist {
 
   public void update(String first, String last) {
     String sql = "UPDATE stylists SET first_name = :first, last_name = :last WHERE id = :id";
-    mFirstName = first;
-    mLastName = last;
+    mFirstName = first.trim();
+    mLastName = last.trim();
     try (Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
-        .addParameter("first", first)
-        .addParameter("last", last)
+        .addParameter("first", first.trim())
+        .addParameter("last", last.trim())
         .addParameter("id", this.getId())
         .executeUpdate();
     }
