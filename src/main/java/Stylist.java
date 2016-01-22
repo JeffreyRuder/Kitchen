@@ -6,12 +6,19 @@ public class Stylist {
   private String mFirstName;
   private String mLastName;
   private int mId;
+  private boolean mDuplicate;
 
   //CONSTRUCTOR
 
   public Stylist(String first, String last) {
     mFirstName = first.trim();
     mLastName = last.trim();
+    mDuplicate = false;
+    for (Stylist stylist : Stylist.all()) {
+      if (this.equals(stylist)) {
+        mDuplicate = true;
+      }
+    }
   }
 
   //GETTERS
@@ -30,6 +37,10 @@ public class Stylist {
 
   public int getId() {
     return mId;
+  }
+
+  public boolean isDuplicate() {
+    return mDuplicate;
   }
 
   //EQUALITY
@@ -99,6 +110,15 @@ public class Stylist {
     DecimalFormat dfTwo = new DecimalFormat("###.##");
     double roundedRatio = Double.valueOf(dfTwo.format(rawRatio));
     return Double.toString(roundedRatio) + " : 1";
+  }
+
+  public Integer getNumberOfClients() {
+    String sql = "SELECT count(id) FROM clients WHERE stylist_id = :id";
+    try (Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+        .addParameter("id", this.getId())
+        .executeScalar(Integer.class);
+    }
   }
 
   //UPDATE

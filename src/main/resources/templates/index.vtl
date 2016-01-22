@@ -5,7 +5,7 @@
     <p><strong>Current Stylists: </strong>$stylist.total()</p>
     <p><strong>Current Clients: </strong>$client.total()</p>
     #if ($stylist.total() > 0)
-      <p><strong>Current Client:Stylist Ratio: </strong>$stylist.ratio()</p>
+      <p><strong>Current Client to Stylist Ratio: </strong>$stylist.ratio()</p>
     #end
   </div>
 
@@ -17,6 +17,7 @@
       </div>
       <div class="form-group">
         <input name="lastname" type="text" class="form-control" id="lastname" required placeholder="Last Name">
+        <input name="addnewclient" type="hidden" class="form-control" id="addnewclient" value="true">
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary btn-block">Add New Stylist</button>
@@ -24,6 +25,12 @@
     </form>
   </div>
 </div>
+
+#if ($duplicatestylistrequested)
+  <div class="row">
+    <p><strong>That stylist is already in the database. Select the stylist's name to add clients, or enter new information in the Add New Stylist form.</strong></p>
+  </div>
+#end
 
 <div class="row">
   <div class="col-md-12">
@@ -38,7 +45,7 @@
         <tbody>
           #foreach ($person in $stylists)
             <tr>
-              <td><a href="/stylists/$stylist.getId()">$person.getLastName(), $person.getFirstName()</a></td>
+              <td><a href="/stylists/$person.getId()">$person.getLastName(), $person.getFirstName()</a></td>
               <td>$person.getNumberOfClients()</td>
             </tr>
           #end

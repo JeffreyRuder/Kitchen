@@ -15,6 +15,14 @@ public class StylistTest {
   }
 
   @Test
+  public void stylistConstructor_flagsDuplicates() {
+    Stylist firstStylist = new Stylist("Charles", "Babbage");
+    firstStylist.save();
+    Stylist secondStylist = new Stylist("Charles", "Babbage");
+    assertTrue(secondStylist.isDuplicate());
+  }
+
+  @Test
   public void equals_returnsTrueIfSameName() {
     Stylist firstStylist = new Stylist("Charles", "Babbage");
     Stylist secondStylist = new Stylist("Charles", "Babbage");
@@ -75,6 +83,19 @@ public class StylistTest {
     secondStylist.save();
     System.out.println(Stylist.ratio());
     assertEquals("1.5 : 1", Stylist.ratio());
+  }
+
+  @Test
+  public void getNumberOfClients_returnsCorrectNumber_2() {
+    Client firstClient = new Client("John", "Doe");
+    Client secondClient = new Client("Jane", "Roe");
+    firstClient.save();
+    secondClient.save();
+    Stylist stylist = new Stylist("Charles", "Babbage");
+    stylist.save();
+    firstClient.assignStylist(stylist.getId());
+    secondClient.assignStylist(stylist.getId());
+    assertEquals((Integer)2, (Integer)stylist.getNumberOfClients());
   }
 
   @Test

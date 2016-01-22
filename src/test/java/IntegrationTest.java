@@ -21,5 +21,20 @@ public class IntegrationTest extends FluentTest {
   @ClassRule
   public static ServerRule server = new ServerRule();
 
+  @Test
+  public void homePageIsCreated() {
+    goTo("http://localhost:4567/");
+    assertThat(pageSource()).contains("Add New Stylist");
+  }
+
+  @Test
+  public void addClientFormWorks() {
+    goTo("http://localhost:4567/");
+    fill("#firstname").with("Charles");
+    fill("#lastname").with("Babbage");
+    submit(".btn");
+    assertThat(pageSource()).contains("Babbage, Charles");
+  }
+
 
 }

@@ -18,16 +18,38 @@ public class App {
 
         model.put("client", Client.class);
         model.put("stylist", Stylist.class);
-        model.put("stylists", Stylist.all());
+        model.put("stylists", Stylist.all(true));
 
         model.put("template", "templates/index.vtl");
         return new ModelAndView(model, layout);
       }, new VelocityTemplateEngine());
 
-
       //ROUTES: GETTING RESOURCES
 
 
       //ROUTES: CHANGING RESOURCES
+
+      post("/", (request, response) -> {
+        HashMap<String, Object> model = new HashMap<String, Object>();
+
+        if (request.queryParams("addnewclient").equals("true")) {
+          String requestedFirst = request.queryParams("firstname");
+          String requestedLast = request.queryParams("lastname");
+          Stylist requestedStylist = new Stylist(requestedFirst, requestedLast);
+          boolean duplicateStylistRequested = requestedStylist.isDuplicate();
+          if (!(duplicateStylistRequested)) {
+            requestedStylist.save();
+          } else {
+            model.put("duplicatestylistrequested", duplicateStylistRequested);
+          }
+        }
+
+        model.put("client", Client.class);
+        model.put("stylist", Stylist.class);
+        model.put("stylists", Stylist.all(true));
+
+        model.put("template", "templates/index.vtl");
+        return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
     }
 }
