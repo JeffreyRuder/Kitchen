@@ -8,4 +8,10 @@ public class ClientTest {
   @Rule
   public DatabaseRule database = new DatabaseRule();
 
+  @Test
+  public void client_instantiatesWithName() {
+    Client client = new Client("Jane", "Roe");
+    assertEquals("Jane Roe", client.getFullName());
+  }
+
 }
