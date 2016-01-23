@@ -27,7 +27,7 @@
         <label for="newstylist" id="selectstylist">Select the new stylist for this client.</label>
       </div>
       <div class="form-group">
-        <select name="newstylistid" class="form-control" required>
+        <select name="newstylistid" id="stylistselector" class="form-control" required>
           #foreach ($person in $stylist.all(true))
             <option value="$person.getId()">$person.getFullName()</option>
           #end
