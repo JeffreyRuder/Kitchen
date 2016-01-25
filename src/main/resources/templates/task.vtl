@@ -29,7 +29,18 @@
 <h4>Mark this task as done:</h4>
 
 <form action='/tasks/$task.getId()/finish' method='post'>
+  <div class="form-group">
     <button type='submit'>Do It!</button>
+  </div>
+</form>
+
+<h4>Delete this task:</h4>
+
+<form action='/tasks/delete' method='post'>
+  <div class="form-group">
+    <input id="task_id" name="task_id" type="hidden" value="$task.getId()">
+    <button type='submit'>Do It!</button>
+  </div>
 </form>
 
 <p><a href="/tasks/$task.getId()/edit">Edit this task</a></p>

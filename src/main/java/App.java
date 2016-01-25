@@ -123,5 +123,22 @@ public class App {
       response.redirect("/tasks/" + thisTask.getId());
       return null;
     });
+
+    put("/tasks/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Task task = Task.find(Integer.parseInt(request.params("id")));
+      String description = request.queryParams("description");
+      task.update("description");
+      model.put("template", "templates/task.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/tasks/delete", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Task task = Task.find(Integer.parseInt(request.queryParams("task_id")));
+      task.delete();
+      response.redirect("/tasks");
+      return null;
+    });
   }
 }
