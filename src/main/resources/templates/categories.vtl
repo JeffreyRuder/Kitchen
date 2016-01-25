@@ -1,0 +1,16 @@
+<h1>Categories list!</h1>
+
+<p>Add a new category:</p>
+
+<form action="/categories" method="post">
+  <label for="name">Category Name</label>
+  <input id="name" name="name" type="text">
+
+  <button type="submit">Add category</button>
+</form>
+
+#foreach ($category in $categories)
+  <li><a href="/categories/$category.getId()">$category.getName()</a></li>
+#end
+
+<p><a href='/'>Home</a></p>

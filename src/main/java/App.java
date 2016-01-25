@@ -8,165 +8,108 @@ import java.util.List;
 
 public class App {
   public static void main(String[] args) {
-      staticFileLocation("/public");
-      String layout = "templates/layout.vtl";
+    staticFileLocation("/public");
+    String layout = "templates/layout.vtl";
 
-      //ROUTES: GETTING HOME PAGE
+    //IDENTIFYING RESOURCES
+    get("/", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
-      get("/", (request, response) -> {
-        HashMap<String, Object> model = new HashMap<String, Object>();
+    get("/tasks", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("tasks", Task.all());
+      model.put("template", "templates/tasks.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
-        model.put("client", Client.class);
-        model.put("stylist", Stylist.class);
-        model.put("stylists", Stylist.all(true));
-        model.put("unassignedclients", Client.unassignedClientsExist());
+    get("/categories", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("categories", Category.all());
+      model.put("template", "templates/categories.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
-        model.put("template", "templates/index.vtl");
-        return new ModelAndView(model, layout);
-      }, new VelocityTemplateEngine());
+    get("/tasks/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
 
-      //ROUTES: GETTING RESOURCES
+      Task thisTask = Task.find(
+        Integer.parseInt(
+        request.params("id")));
 
-      get("/stylists/:id", (request, response) -> {
-        HashMap<String, Object> model = new HashMap<String, Object>();
-        Stylist thisStylist = Stylist.find(
-          Integer.parseInt(request.params("id")));
+      model.put("task", thisTask);
+      model.put("allCategories", Category.all());
+      model.put("template", "templates/task.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
-        model.put("stylist", thisStylist);
-        model.put("clients", thisStylist.getAllClients());
+    get("/categories/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
 
-        model.put("template", "templates/stylist.vtl");
-        return new ModelAndView(model, layout);
-      }, new VelocityTemplateEngine());
+      Category thisCategory = Category.find(
+        Integer.parseInt(
+        request.params("id")));
 
-      get("/clients/:id", (request, response) -> {
-        HashMap<String, Object> model = new HashMap<String, Object>();
-        Client thisClient = Client.find(
-          Integer.parseInt(request.params("id")));
-        Stylist currentStylist = Stylist.find(thisClient.getStylistId());
+      model.put("category", thisCategory);
+      model.put("allTasks", Task.all());
+      model.put("template", "templates/category.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
-        model.put("stylist", Stylist.class);
-        model.put("currentstylist", currentStylist);
-        model.put("client", thisClient);
 
-        model.put("template", "templates/client.vtl");
-        return new ModelAndView(model, layout);
-      }, new VelocityTemplateEngine());
+    //CHANGING RESOURCES
+    post("/tasks", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String description = request.queryParams("description");
+      Task newTask = new Task(description);
+      newTask.save();
+      response.redirect("/tasks");
+      return null;
+    });
 
-      //ROUTES: CHANGING RESOURCES
+    post("/categories", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String name = request.queryParams("name");
+      Category newCategory = new Category(name);
+      newCategory.save();
+      response.redirect("/categories");
+      return null;
+    });
 
-      post("/", (request, response) -> {
-        HashMap<String, Object> model = new HashMap<String, Object>();
+    post("/add_categories", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
 
-        //Create a stylist
-        if (request.queryParams("addnewstylist") != null) {
-          String requestedFirst = request.queryParams("firstname");
-          String requestedLast = request.queryParams("lastname");
-          Stylist requestedStylist = new Stylist(requestedFirst, requestedLast);
-          boolean duplicateStylistRequested = requestedStylist.isDuplicate();
-          if (!(duplicateStylistRequested)) {
-            requestedStylist.save();
-          } else {
-            model.put("duplicatestylistrequested", duplicateStylistRequested);
-          }
-        }
+      Category newCategory = Category.find(
+        Integer.parseInt(
+        request.queryParams("category_id")));
 
-        //Delete a stylist
-        if (request.queryParams("removestylist") != null) {
-          Stylist removalRequest = Stylist.find(Integer.parseInt(
-            request.queryParams("removestylist")));
-          removalRequest.delete();
-        }
+      Task thisTask = Task.find(
+        Integer.parseInt(
+        request.queryParams("task_id")));
 
-        model.put("client", Client.class);
-        model.put("stylist", Stylist.class);
-        model.put("stylists", Stylist.all(true));
-        model.put("unassignedclients", Client.unassignedClientsExist());
+      thisTask.addCategory(newCategory);
 
-        model.put("template", "templates/index.vtl");
-        return new ModelAndView(model, layout);
-      }, new VelocityTemplateEngine());
+      response.redirect("/tasks/" + thisTask.getId());
+      return null;
+    });
 
-      post("/stylists/:id", (request, response) -> {
-        HashMap<String, Object> model = new HashMap<String, Object>();
-        Stylist thisStylist = Stylist.find(
-          Integer.parseInt(request.params("id")));
+    post("/add_tasks", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
 
-        //Update a stylist
+      Task newTask = Task.find(
+        Integer.parseInt(
+        request.queryParams("task_id")));
 
-        if (request.queryParams("changestylist") != null) {
-          String requestedFirst = request.queryParams("newfirstname");
-          String requestedLast = request.queryParams("newlastname");
-          Stylist duplicateChecker = new Stylist(requestedFirst, requestedLast);
-          boolean duplicateStylistRequested = duplicateChecker.isDuplicate();
-          if (!(duplicateStylistRequested)) {
-            thisStylist.update(requestedFirst, requestedLast);
-          } else {
-            model.put("duplicatestylistrequested", duplicateStylistRequested);
-          }
-        }
+      Category thisCategory = Category.find(
+        Integer.parseInt(
+        request.queryParams("category_id")));
 
-        //Create a client
-        if (request.queryParams("addnewclient") != null) {
-          String requestedFirst = request.queryParams("firstname");
-          String requestedLast = request.queryParams("lastname");
-          Client requestedClient = new Client(requestedFirst, requestedLast);
-          boolean duplicateClientRequested = requestedClient.isDuplicate();
-          if (!(duplicateClientRequested)) {
-            requestedClient.save();
-            requestedClient.assignStylist(thisStylist.getId());
-          } else {
-            model.put("duplicateclientrequested", duplicateClientRequested);
-          }
-        }
+      thisCategory.addTask(newTask);
 
-        //Delete a client
-        if (request.queryParams("removeclient") != null) {
-          Client removalRequest = Client.find(Integer.parseInt(
-            request.queryParams("removeclient")));
-          removalRequest.delete();
-        }
-
-        model.put("stylist", thisStylist);
-        model.put("clients", thisStylist.getAllClients());
-
-        model.put("template", "templates/stylist.vtl");
-        return new ModelAndView(model, layout);
-      }, new VelocityTemplateEngine());
-
-      post("/clients/:id", (request, response) -> {
-        HashMap<String, Object> model = new HashMap<String, Object>();
-        Client thisClient = Client.find(
-          Integer.parseInt(request.params("id")));
-        Stylist currentStylist = Stylist.find(thisClient.getStylistId());
-
-        //Update a client - change name
-        if (request.queryParams("changeclientname") != null) {
-          String requestedFirst = request.queryParams("newfirstname");
-          String requestedLast = request.queryParams("newlastname");
-          Client duplicateChecker = new Client(requestedFirst, requestedLast);
-          boolean duplicateClientRequested = duplicateChecker.isDuplicate();
-          if (!(duplicateClientRequested)) {
-            thisClient.update(requestedFirst, requestedLast);
-          } else {
-            model.put("duplicateclientrequested", duplicateClientRequested);
-          }
-        }
-
-       //Update a client - change stylist
-        if (request.queryParams("changestylist") != null) {
-          thisClient.assignStylist(Integer.parseInt(
-            request.queryParams("newstylistid")));
-          currentStylist = Stylist.find(thisClient.getStylistId());
-        }
-
-        model.put("stylist", Stylist.class);
-        model.put("currentstylist", currentStylist);
-        model.put("client", thisClient);
-
-        model.put("template", "templates/client.vtl");
-        return new ModelAndView(model, layout);
-      }, new VelocityTemplateEngine());
-
-    }
+      response.redirect("/categories/" + thisCategory.getId());
+      return null;
+    });
+  }
 }

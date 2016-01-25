@@ -1,85 +1,10 @@
-<h1>Style Tracker</h1>
+<head>
+    <title>To Do List</title>
+</head>
+<body>
+    <h1>Welcome to To Do List</h1>
 
-<ol class="breadcrumb">
-  <li class="active"><a href="/">All Stylists</a></li>
-</ol>
+    <h3><a href="/categories">Add or view a category</a></h3>
+    <h3><a href="/tasks">Add or view a task</a></h3>
 
-<div class="row upper-block">
-  <div class="col-md-8 fast-facts">
-    <h2>All Stylists</h2>
-    <p><strong>Current Stylists: </strong>$stylist.total()</p>
-    <p><strong>Current Clients: </strong>$client.all().size()</p>
-    #if ($stylist.total() > 0)
-      <p><strong>Current Client to Stylist Ratio: </strong>$stylist.ratio()</p>
-    #end
-  </div>
-
-  <div class="col-md-4 add-box">
-    <h2>Add New Stylist</h2>
-    <form class="form add-form" action="/" method="post">
-      <div class="form-group">
-        <input name="firstname" type="text" class="form-control" id="firstname" required placeholder="First Name">
-      </div>
-      <div class="form-group">
-        <input name="lastname" type="text" class="form-control" id="lastname" required placeholder="Last Name">
-        <input name="addnewstylist" type="hidden" class="form-control" id="addnewstylist" value="true">
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary btn-block">Add New Stylist</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-#if ($unassignedclients)
-  <div class="col-md-12 bg-warning">
-    <p><strong>Warning! There are clients not assigned to a stylist. Please click their names below and assign them to one.</strong></p>
-    <ul>
-      #foreach ($person in $client.all(true))
-        #if ($person.getStylistId() == 0)
-          <li><a href="/clients/$person.getId()">
-            $person.getFullName()</a></li>
-        #end
-      #end
-    </ul>
-  </div>
-#end
-
-
-#if ($duplicatestylistrequested)
-  <div class="row">
-    <div class="col-md-12">
-      <p><strong>That stylist is already in the database. Select the stylist's name to add clients, or enter new information in the Add New Stylist form.</strong></p>
-    </div>
-  </div>
-#end
-
-<div class="row">
-  <div class="col-md-12">
-    <h2>Current Stylists</h2>
-    <div class="table-responsive">
-      <table class="table">
-        <caption>SELECT A STYLIST TO ADD CLIENTS OR UPDATE INFORMATION</caption>
-        <thead>
-          <th>Stylist Name</th>
-          <th>Number of Clients</th>
-          <th>Remove Stylist</th>
-        </thead>
-        <tbody>
-          #foreach ($person in $stylists)
-            <tr>
-              <td><a href="/stylists/$person.getId()">$person.getLastName(), $person.getFirstName()</a></td>
-              <td>$person.getNumberOfClients()</td>
-              <td>
-                <form class="remove-stylist" action="/" method="post">
-                  <input type="hidden" name="removestylist" value="$person.getId()">
-                  <button type="submit" class="btn-link">Remove $person.getFullName()</button>
-                </form>
-              </td>
-            </tr>
-          #end
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+</body>
