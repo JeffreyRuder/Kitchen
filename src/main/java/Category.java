@@ -82,24 +82,12 @@ public class Category {
     }
   }
 
-  public ArrayList<Task> getTasks() {
+  public List<Task> getTasks() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT task_id FROM categories_tasks INNER JOIN tasks ON categories_tasks.task_id = tasks.id WHERE category_id = :category_id ORDER BY tasks.is_done, tasks.due_date";
-      List<Integer> taskIds = con.createQuery(sql)
+      String sql = "SELECT task_id AS mId, description as mDescription, is_done AS mIsDone, due_date AS mDueDate FROM tasks INNER JOIN categories_tasks ON  tasks.id = categories_tasks.task_id WHERE categories_tasks.category_id = :category_id ORDER BY tasks.is_done, tasks.due_date";
+      return con.createQuery(sql)
         .addParameter("category_id", this.mId)
-        .executeAndFetch(Integer.class);
-
-      ArrayList<Task> associatedTasks = new ArrayList<Task>();
-
-      for (Integer taskId : taskIds) {
-        String taskQuery = "SELECT id AS mId, description as mDescription, is_done AS mIsDone, due_date AS mDueDate FROM tasks WHERE id = :taskid";
-        Task task = con.createQuery(taskQuery)
-          .addParameter("taskid", taskId)
-          .executeAndFetchFirst(Task.class);
-        associatedTasks.add(task);
-      }
-
-      return associatedTasks;
+        .executeAndFetch(Task.class);
     }
   }
 }
