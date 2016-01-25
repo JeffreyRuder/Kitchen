@@ -62,8 +62,10 @@ public class App {
     post("/tasks", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String description = request.queryParams("description");
+      String dueDate = request.queryParams("due_date");
       Task newTask = new Task(description);
       newTask.save();
+      newTask.setDueDate(dueDate);
       response.redirect("/tasks");
       return null;
     });
@@ -123,16 +125,17 @@ public class App {
       response.redirect("/tasks/" + thisTask.getId());
       return null;
     });
+    //
+    // put("/tasks/:id", (request, response) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   Task task = Task.find(Integer.parseInt(request.params("id")));
+    //   String description = request.queryParams("description");
+    //   task.update("description");
+    //   model.put("template", "templates/task.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
 
-    put("/tasks/:id", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      Task task = Task.find(Integer.parseInt(request.params("id")));
-      String description = request.queryParams("description");
-      task.update("description");
-      model.put("template", "templates/task.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
+    //REMOVING RESOURCES
     post("/tasks/delete", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Task task = Task.find(Integer.parseInt(request.queryParams("task_id")));

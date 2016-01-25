@@ -1,3 +1,5 @@
+import java.time.format.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.sql2o.*;
@@ -6,6 +8,7 @@ public class Task {
   private int mId;
   private String mDescription;
   private Boolean mIsDone;
+  private String mDueDate;
 
   public int getId() {
     return mId;
@@ -17,6 +20,10 @@ public class Task {
 
   public Boolean isDone() {
     return mIsDone;
+  }
+
+  public String getDueDate() {
+    return mDueDate;
   }
 
   //CONSTRUCTOR
@@ -38,7 +45,7 @@ public class Task {
 
 
   public static List<Task> all() {
-    String sql = "SELECT id AS mId, description AS mDescription, is_done AS mIsDone FROM tasks";
+    String sql = "SELECT id AS mId, description AS mDescription, is_done AS mIsDone, due_date AS mDueDate FROM tasks ORDER BY is_done, due_date";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Task.class);
     }
@@ -46,10 +53,11 @@ public class Task {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO tasks(description, is_done) VALUES (:description, :isdone)";
+      String sql = "INSERT INTO tasks(description, is_done, due_date) VALUES (:description, :isdone, :duedate)";
       mId = (int) con.createQuery(sql, true)
         .addParameter("description", mDescription)
         .addParameter("isdone", mIsDone)
+        .addParameter("duedate", mDueDate)
         .executeUpdate()
         .getKey();
     }
@@ -57,7 +65,7 @@ public class Task {
 
   public static Task find(int number) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, description AS mDescription, is_done AS mIsDone FROM tasks where id=:id";
+      String sql = "SELECT id AS mId, description AS mDescription, is_done AS mIsDone, due_date AS mDueDate FROM tasks where id=:id";
       Task task = con.createQuery(sql)
         .addParameter("id", number)
         .executeAndFetchFirst(Task.class);
@@ -132,4 +140,15 @@ public class Task {
        .executeUpdate();
    }
  }
+
+  public void setDueDate(String dateInput) {
+    mDueDate = dateInput;
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE tasks SET due_date = :datetoset WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("datetoset", this.getDueDate())
+        .addParameter("id", this.mId)
+        .executeUpdate();
+    }
+  }
 }

@@ -90,4 +90,14 @@ public class TaskTest {
     myTask.finish();
     assertTrue(Task.find(myTask.getId()).isDone());
   }
+
+  @Test
+  public void setDueDate_setsDueDateCorrectly() {
+    Task myTask = new Task("Eat breakfast");
+    myTask.save();
+    myTask.setDueDate("2016-12-31");
+    Task savedTask = Task.find(myTask.getId());
+    System.out.println(savedTask.getDueDate());
+    assertEquals("2016-12-31", savedTask.getDueDate());
+  }
 }

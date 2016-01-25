@@ -5,7 +5,7 @@
 <form action="/tasks" method="post">
   <label for="description">Task Description</label>
   <input id="description" name="description" type="text">
-
+  <input id="duedate" name="due_date" type="date">
   <button type="submit">Add task</button>
 </form>
 
@@ -13,7 +13,7 @@
   #if ($task.isDone())
     <li><del><a href="/tasks/$task.getId()">$task.getDescription()</a></del></li>
   #else
-    <li><a href="/tasks/$task.getId()">$task.getDescription()</a></li>
+    <li><a href="/tasks/$task.getId()">$task.getDescription()</a> Due by  $task.getDueDate()</li>
   #end
 #end
 

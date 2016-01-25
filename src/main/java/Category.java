@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import org.sql2o.*;
 
@@ -83,7 +84,7 @@ public class Category {
 
   public ArrayList<Task> getTasks() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT task_id FROM categories_tasks WHERE category_id = :category_id";
+      String sql = "SELECT task_id FROM categories_tasks INNER JOIN tasks ON categories_tasks.task_id = tasks.id WHERE category_id = :category_id ORDER BY tasks.is_done, tasks.due_date";
       List<Integer> taskIds = con.createQuery(sql)
         .addParameter("category_id", this.mId)
         .executeAndFetch(Integer.class);
@@ -91,12 +92,13 @@ public class Category {
       ArrayList<Task> associatedTasks = new ArrayList<Task>();
 
       for (Integer taskId : taskIds) {
-        String taskQuery = "SELECT id AS mId, description as mDescription, is_done AS mIsDone FROM tasks WHERE id = :taskid";
+        String taskQuery = "SELECT id AS mId, description as mDescription, is_done AS mIsDone, due_date AS mDueDate FROM tasks WHERE id = :taskid";
         Task task = con.createQuery(taskQuery)
           .addParameter("taskid", taskId)
           .executeAndFetchFirst(Task.class);
         associatedTasks.add(task);
       }
+
       return associatedTasks;
     }
   }

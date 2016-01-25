@@ -7,7 +7,7 @@
       #if ($task.isDone())
         <li><del>$task.getDescription()</del></li>
       #else
-        <li>$task.getDescription()</li>
+        <li><a href="/tasks/$task.getId()">$task.getDescription()</a> Due by $task.getDueDate()</li>
       #end
     #end
   </ul>
