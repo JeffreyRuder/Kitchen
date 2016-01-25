@@ -10,7 +10,11 @@
 </form>
 
 #foreach ($task in $tasks)
-  <li><a href="/tasks/$task.getId()">$task.getDescription()</a></li>
+  #if ($task.isDone())
+    <li><del><a href="/tasks/$task.getId()">$task.getDescription()</a></del></li>
+  #else
+    <li><a href="/tasks/$task.getId()">$task.getDescription()</a></li>
+  #end
 #end
 
 <p><a href='/'>Home</a></p>

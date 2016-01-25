@@ -58,7 +58,6 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-
     //CHANGING RESOURCES
     post("/tasks", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -109,6 +108,19 @@ public class App {
       thisCategory.addTask(newTask);
 
       response.redirect("/categories/" + thisCategory.getId());
+      return null;
+    });
+
+    post("/tasks/:id/finish", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      Task thisTask = Task.find(
+        Integer.parseInt(
+        request.params("id")));
+
+      thisTask.finish();
+
+      response.redirect("/tasks/" + thisTask.getId());
       return null;
     });
   }

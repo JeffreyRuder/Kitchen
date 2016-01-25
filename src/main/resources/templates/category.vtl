@@ -4,7 +4,11 @@
   <p>Here are the tasks for this category:</p>
   <ul>
     #foreach($task in $category.getTasks())
-      <li>$task.getDescription()</li>
+      #if ($task.isDone())
+        <li><del>$task.getDescription()</del></li>
+      #else
+        <li>$task.getDescription()</li>
+      #end
     #end
   </ul>
 #end
