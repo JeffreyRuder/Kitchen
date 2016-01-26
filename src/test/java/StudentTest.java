@@ -29,15 +29,15 @@ public class StudentTest {
     assertEquals("2016-01-26", Student.find(student.getId()).getEnrollmentDate());
   }
 
-  // @Test
-  // public void students_haveAMajorDepartment() {
-  //   Student student = new Student("Max Power");
-  //   student.save();
-  //   Department department = new Department("History");
-  //   department.save();
-  //   student.setMajor(department.getId());
-  //   assertEquals(department.getId(), student.getDepartment().getId());
-  // }
+  @Test
+  public void students_haveAMajorDepartment() {
+    Student student = new Student("Max Power");
+    student.save();
+    Department department = new Department("History", "HST");
+    department.save();
+    student.setMajor(department.getId());
+    assertEquals(department.getId(), student.getDepartmentId());
+  }
 
   @Test
   public void student_deleteWorksProperly() {
@@ -57,7 +57,7 @@ public class StudentTest {
   }
 
   @Test
-  public void equals_returnsTrueIfSameNameAndID() {
+  public void equals_returnsTrueIfSameNameAndEnrollmentDate() {
     Student firstStudent = new Student("Lil' Jimmy");
     firstStudent.save();
     Student secondStudent = new Student("Lil' Jimmy");

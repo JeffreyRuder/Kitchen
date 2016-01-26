@@ -20,7 +20,7 @@ public class Student {
     return mEnrollmentDate;
   }
 
-  public int getDepartment() {
+  public int getDepartmentId() {
     return mDepartment;
   }
 
