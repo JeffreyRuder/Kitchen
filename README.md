@@ -1,12 +1,11 @@
-# To Do List
+# Registrar
 
-#### January 25, 2016
+#### January 26, 2016
 
-#### By Jeffrey Ruder and Christopher Houghton
+#### By Jeffrey Ruder and Kassidy Douglas
 
 ## Description
 
-This is a to do list app using a database with a many-to-many relationship between tasks and categories.
 
 ## Technologies Used
 
@@ -18,4 +17,4 @@ MIT License. See LICENSE.md for details.
 
 ## Copyright
 
-Copyright (c) 2016 Jeffrey Ruder and Christopher Houghton
+Copyright (c) 2016 Jeffrey Ruder and Kassidy Douglas
