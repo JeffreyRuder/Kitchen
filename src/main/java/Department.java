@@ -120,4 +120,14 @@ public class Department{
       return courses;
     }
   }
+
+  public List<Student> getStudentsWhoHaveNotTakenCourses() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT students.id AS mId, students.name AS mName, students.enrollment_date AS mEnrollmentDate, students.department_id AS mDepartmentId FROM students LEFT OUTER JOIN (SELECT * FROM enrollments INNER JOIN courses ON enrollments.course_id = courses.id WHERE courses.department_id = :id) AS allhistoryenrollments ON students.id = allhistoryenrollments.student_id WHERE allhistoryenrollments.name IS null;";
+      List<Student> students = con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeAndFetch(Student.class);
+      return students;
+    }
+  }
 }

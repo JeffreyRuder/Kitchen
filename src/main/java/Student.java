@@ -6,7 +6,7 @@ public class Student {
   private int mId;
   private String mName;
   private String mEnrollmentDate;
-  private int mDepartment;
+  private int mDepartmentId;
 
   public int getId() {
     return mId;
@@ -21,7 +21,7 @@ public class Student {
   }
 
   public int getDepartmentId() {
-    return mDepartment;
+    return mDepartmentId;
   }
 
   public Student(String name) {
@@ -40,7 +40,7 @@ public class Student {
   }
 
   public static List<Student> all() {
-    String sql = "SELECT id AS mId, name AS mName, enrollment_date AS mEnrollmentDate, department_id AS mDepartment FROM students";
+    String sql = "SELECT id AS mId, name AS mName, enrollment_date AS mEnrollmentDate, department_id AS mDepartmentId FROM students";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Student.class);
     }
@@ -68,7 +68,7 @@ public class Student {
   }
 
   public void setMajor(int department) {
-    this.mDepartment = department;
+    this.mDepartmentId = department;
     String sql = "UPDATE students SET department_id = :departmentId WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
@@ -79,7 +79,7 @@ public class Student {
   }
 
     public static Student find(int id) {
-      String sql = "SELECT id AS mId, name AS mName, enrollment_date AS mEnrollmentDate, department_id AS mDepartment FROM students WHERE id = :id";
+      String sql = "SELECT id AS mId, name AS mName, enrollment_date AS mEnrollmentDate, department_id AS mDepartmentId FROM students WHERE id = :id";
       try(Connection con = DB.sql2o.open()) {
         Student student = con.createQuery(sql)
         .addParameter("id", id)
@@ -132,6 +132,16 @@ public class Student {
         .addParameter("courseid", course_id)
         .addParameter("studentid", this.getId())
         .executeUpdate();
-    }    
+    }
+  }
+
+  public List<Course> getAllCourses() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT courses.id AS mId, courses.name AS mName, courses.department_id AS mDepartmentId, courses.number AS mNumber FROM courses INNER JOIN enrollments ON courses.id = enrollments.course_id WHERE enrollments.student_id = :id";
+      List<Course> courseList = con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeAndFetch(Course.class);
+      return courseList;
+    }
   }
 }

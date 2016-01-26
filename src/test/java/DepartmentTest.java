@@ -56,4 +56,22 @@ public class DepartmentTest {
     course.save();
     assertTrue(department.getAllCourses().contains(course));
   }
+
+  @Test
+  public void getStudentsWhoHaveNotTakenCourses_returnsCorrectList() {
+    Department department = new Department("Computer Science", "CMP");
+    department.save();
+    Course course = new Course(department.getId(), 101, "Programming and You");
+    course.save();
+    Student firstStudent = new Student("Jane Roe");
+    Student secondStudent = new Student("John Doe");
+    firstStudent.save();
+    firstStudent.setEnrollmentDate("1900-01-01");
+    secondStudent.save();
+    secondStudent.setEnrollmentDate("1979-04-04");
+    firstStudent.enrollIn(course.getId());
+    assertTrue(department.getStudentsWhoHaveNotTakenCourses()
+      .contains(secondStudent));
+    assertEquals(1, department.getStudentsWhoHaveNotTakenCourses().size());
+  }
 }

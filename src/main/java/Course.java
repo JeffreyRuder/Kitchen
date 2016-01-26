@@ -105,7 +105,7 @@ public class Course{
 
   public List<Student> getAllStudents() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT students.id AS mId, students.name AS mName, students.enrollment_date AS mEnrollmentDate, students.department_id AS mDepartment FROM students INNER JOIN enrollments ON students.id = enrollments.student_id WHERE enrollments.course_id = :id";
+      String sql = "SELECT students.id AS mId, students.name AS mName, students.enrollment_date AS mEnrollmentDate, students.department_id AS mDepartmentId FROM students INNER JOIN enrollments ON students.id = enrollments.student_id WHERE enrollments.course_id = :id";
       List<Student> studentList = con.createQuery(sql)
         .addParameter("id", mId)
         .executeAndFetch(Student.class);
@@ -115,7 +115,7 @@ public class Course{
 
   public List<Student> getAllStudentsWhoPassed() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT students.id AS mId, students.name AS mName, students.enrollment_date AS mEnrollmentDate, students.department_id AS mDepartment FROM students INNER JOIN enrollments ON students.id = enrollments.student_id WHERE enrollments.course_id = :id AND enrollments.course_completion = true";
+      String sql = "SELECT students.id AS mId, students.name AS mName, students.enrollment_date AS mEnrollmentDate, students.department_id AS mDepartmentId FROM students INNER JOIN enrollments ON students.id = enrollments.student_id WHERE enrollments.course_id = :id AND enrollments.course_completion = true";
       List<Student> studentList = con.createQuery(sql)
         .addParameter("id", mId)
         .executeAndFetch(Student.class);

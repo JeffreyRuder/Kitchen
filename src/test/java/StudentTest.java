@@ -66,4 +66,19 @@ public class StudentTest {
     secondStudent.setEnrollmentDate("2016-01-26");
     assertTrue(firstStudent.equals(secondStudent));
   }
+
+  @Test
+  public void getAllCourses_returnsAllCoursesStudentHasTaken() {
+    Student student = new Student("Bill Coursetaker");
+    student.save();
+    Course firstCourse = new Course(1, 101, "Intro to Programming");
+    Course secondCourse = new Course(1, 102, "Advanced Programming");
+    firstCourse.save();
+    secondCourse.save();
+    student.enrollIn(firstCourse.getId());
+    student.enrollIn(secondCourse.getId());
+    student.passCourse(firstCourse.getId());
+    Course[] courses = new Course[] {firstCourse, secondCourse};
+    assertTrue(student.getAllCourses().containsAll(Arrays.asList(courses)));
+  }
 }
