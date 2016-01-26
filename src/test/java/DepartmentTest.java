@@ -47,4 +47,13 @@ public class DepartmentTest {
     secondDepartment.save();
     assertTrue(firstDepartment.equals(secondDepartment));
   }
+
+  @Test
+  public void allDepartmentCourses_returnsListOfAllCoursesInDepartment() {
+    Department department = new Department("Computer Science", "CMP");
+    department.save();
+    Course course = new Course(department.getId(), 101, "Programming and You");
+    course.save();
+    assertTrue(department.getAllCourses().contains(course));
+  }
 }

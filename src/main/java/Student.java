@@ -114,4 +114,24 @@ public class Student {
         .executeUpdate();
     }
   }
+
+  public void enrollIn(int course_id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO enrollments (course_id, student_id, course_completion) VALUES (:courseid, :studentid, false)";
+      con.createQuery(sql)
+        .addParameter("courseid", course_id)
+        .addParameter("studentid", this.getId())
+        .executeUpdate();
+    }
+  }
+
+  public void passCourse(int course_id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE enrollments SET course_completion = true WHERE course_id = :courseid AND student_id = :studentid";
+      con.createQuery(sql)
+        .addParameter("courseid", course_id)
+        .addParameter("studentid", this.getId())
+        .executeUpdate();
+    }    
+  }
 }

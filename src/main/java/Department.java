@@ -74,6 +74,13 @@ public class Department{
     }
 
     try(Connection con = DB.sql2o.open()) {
+    String deleteCourses = "DELETE FROM courses WHERE department_id = :id;";
+    con.createQuery(deleteCourses)
+      .addParameter("id", mId)
+      .executeUpdate();
+    }
+
+    try(Connection con = DB.sql2o.open()) {
     String deleteDepartment = "DELETE FROM departments WHERE id = :id;";
     con.createQuery(deleteDepartment)
       .addParameter("id", mId)
@@ -91,6 +98,26 @@ public class Department{
         .addParameter("abbreviation", newAbbreviation)
         .addParameter("id", mId)
         .executeUpdate();
+    }
+  }
+
+  public List<Student> getAllStudents() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT id AS mId, name AS mName, enrollment_date AS mEnrollmentDate, department_id AS mDepartment FROM students WHERE department_id = :id";
+      List<Student> studentList = con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeAndFetch(Student.class);
+      return studentList;
+    }
+  }
+
+  public List<Course> getAllCourses() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT id AS mId, name AS mName, department_id AS mDepartmentId, number AS mNumber FROM courses WHERE department_id = :id";
+      List<Course> courses = con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeAndFetch(Course.class);
+      return courses;
     }
   }
 }
