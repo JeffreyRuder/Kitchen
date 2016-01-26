@@ -22,6 +22,12 @@ public class StudentTest {
   }
 
   @Test
+  public void student_lastFirst_works() {
+    Student student = new Student("Max Power");
+    assertEquals("Power, Max", student.getLastFirst());
+  }
+
+  @Test
   public void students_haveEnrollmentDate() {
     Student student = new Student("Max Power");
     student.save();

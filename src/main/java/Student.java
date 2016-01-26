@@ -16,6 +16,14 @@ public class Student {
     return mName;
   }
 
+  public String getLastFirst() {
+    String[] name = mName.split(" ");
+    String newName = "";
+    newName += (name[1] + ", ");
+    newName += name[0];
+    return newName;
+  }
+
   public String getEnrollmentDate() {
     return mEnrollmentDate;
   }

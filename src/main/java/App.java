@@ -12,19 +12,30 @@ public class App {
     String layout = "templates/layout.vtl";
 
     //IDENTIFYING RESOURCES
-    // get("/", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   model.put("template", "templates/index.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
+    get("/students", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("students", Student.all());
+      model.put("departments", Department.all());
+      model.put("department", Department.class);
+      model.put("template", "templates/students.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
     //
-    // get("/tasks", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   model.put("tasks", Task.all());
-    //   model.put("template", "templates/tasks.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
-    //
+    post("/student/new", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String newName = request.queryParams("student-name");
+      String newDate = request.queryParams("student-enrollment");
+      Integer departmentId = Integer.parseInt(request.queryParams("student-department"));
+
+      Student student = new Student(newName);
+      student.save();
+      student.setEnrollmentDate(newDate);
+      student.setMajor(departmentId);
+
+      response.redirect("/students");
+      return null;
+    });
+
     // get("/categories", (request, response) -> {
     //   HashMap<String, Object> model = new HashMap<String, Object>();
     //   model.put("categories", Category.all());
