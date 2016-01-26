@@ -36,6 +36,74 @@ public class App {
       return null;
     });
 
+    get("/courses", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("courses", Course.all());
+      model.put("departments", Department.all());
+      model.put("department", Department.class);
+      model.put("template", "templates/courses.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/course/new", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String newName = request.queryParams("course-name");
+      Integer departmentId = Integer.parseInt(request.queryParams("course-department"));
+      Integer courseNumber = Integer.parseInt(request.queryParams("course-number"));
+
+      Course course = new Course(departmentId, courseNumber, newName);
+      course.save();
+
+      response.redirect("/courses");
+      return null;
+    });
+
+    get("/departments", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("departments", Department.all());
+      model.put("department", Department.class);
+      model.put("template", "templates/departments.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/department/new", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String newName = request.queryParams("department-name");
+      String newAbbreviation = request.queryParams("department-abbreviation");
+
+      Department department = new Department(newName, newAbbreviation);
+      department.save();
+
+      response.redirect("/departments");
+      return null;
+    });
+
+    get("/student/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      Student thisStudent = Student.find(
+        Integer.parseInt(request.params("id")));
+
+      model.put("student", thisStudent);
+      model.put("department", Department.class);
+      model.put("template", "templates/student.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/student/:id/update", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      String newName = request.queryParams("student-name");
+      String newDate = request.queryParams("student-enrollment");
+      Integer departmentId = Integer.parseInt(request.queryParams("student-department"));
+
+      Student thisStudent = Student.find(
+        Integer.parseInt(request.params("id")));
+
+      response.redirect("/student/" + thisStudent.getId());
+      return null;
+    });
+
     // get("/categories", (request, response) -> {
     //   HashMap<String, Object> model = new HashMap<String, Object>();
     //   model.put("categories", Category.all());

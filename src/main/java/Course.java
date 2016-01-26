@@ -43,7 +43,7 @@ public class Course{
   }
 
   public static List<Course> all() {
-    String sql = "SELECT id AS mId, name AS mName, department_id AS mDepartmentId, number AS mNumber FROM courses";
+    String sql = "SELECT courses.id AS mId, courses.name AS mName, courses.department_id AS mDepartmentId, courses.number AS mNumber FROM courses INNER JOIN departments ON courses.department_id = departments.id ORDER BY abbreviation, courses.number";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Course.class);
     }

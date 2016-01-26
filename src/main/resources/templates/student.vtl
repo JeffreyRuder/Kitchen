@@ -1,0 +1,36 @@
+<h1>$student.getName()</h1>
+<h2>Major: $department.find($student.getDepartmentId()).getName()</h2>
+<h2>Enrollment Date: $student.getEnrollmentDate()</h2>
+
+<h2>$student.getName()'s courses:</h2>
+
+#foreach ($course in $student.getAllCourses())
+  <h4><a href="/course/$course.getId()">$department.find($course.getDepartmentId()).getName() $course.getNumber() $course.getName()</a></h4>
+  <p>
+    #if ($student.courseIsCompleted($course.getId()))
+      $student.getName() completed this course successfully.
+    #else
+      $student.getName() has not yet completed this course successfully.
+    #end
+  </p>
+#end
+
+<h3>Update Student Record</h3>
+<form action="/student/$student.getId()/update" method="post">
+  <div class="form-group">
+    <label for="student-name">New student name</label>
+    <input id="student-name" name="student-name" type="text" class="form-control" style="width: 250px;" required>
+  </div>
+
+  <label for="student-department">Select a new Department</label>
+    <select id='student-department' name='student-department' type='text' required>
+    #foreach($specificdepartment in $department.all())
+      <option value="$specificdepartment.getId()">$specificdepartment.getName()</option>
+    #end
+    </select>
+
+    <label for="student-enrollment">Change Enrollment Date</label>
+    <input type="date" name="student-enrollment" required>
+
+  <button type="submit" class="btn btn-success">Update Student</button>
+</form>

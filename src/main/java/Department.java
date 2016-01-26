@@ -37,7 +37,7 @@ public class Department{
   }
 
   public static List<Department> all() {
-    String sql = "SELECT id AS mId, name AS mName, abbreviation AS mAbbreviation FROM departments";
+    String sql = "SELECT id AS mId, name AS mName, abbreviation AS mAbbreviation FROM departments ORDER BY name";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Department.class);
     }
