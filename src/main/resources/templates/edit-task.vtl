@@ -1,0 +1,24 @@
+<h1>$task.getDescription()</h1>
+
+#if ($task.isDone())
+  <p>This task is finished! Good job!</p>
+#end
+
+#if($task.getCategories())
+  <p>Here are the categories for this task:</p>
+  <ul>
+    #foreach($category in $task.getCategories())
+      <li><a href="/categories/$category.getId()">$category.getName()</a></li>
+    #end
+  </ul>
+#end
+
+<h4>Edit this task:</h4>
+
+<form action="/tasks/$task.getId()/change-description" method="post">
+  <label for="newdescription">New Description</label>
+  <input id="newdescription" name="newdescription" type="text">
+  <button type="submit">Change task</button>
+</form>
+
+<p><a href='/'>Home</a></p>

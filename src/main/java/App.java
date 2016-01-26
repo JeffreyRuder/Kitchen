@@ -45,6 +45,19 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("/tasks/:id/edit", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      Task thisTask = Task.find(
+        Integer.parseInt(
+        request.params("id")));
+
+      model.put("task", thisTask);
+      model.put("allCategories", Category.all());
+      model.put("template", "templates/edit-task.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     get("/categories/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
 
@@ -55,6 +68,19 @@ public class App {
       model.put("category", thisCategory);
       model.put("allTasks", Task.all());
       model.put("template", "templates/category.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/categories/:id/edit", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      Category thisCategory = Category.find(
+        Integer.parseInt(
+        request.params("id")));
+
+      model.put("category", thisCategory);
+      model.put("allTasks", Task.all());
+      model.put("template", "templates/edit-category.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
@@ -125,15 +151,32 @@ public class App {
       response.redirect("/tasks/" + thisTask.getId());
       return null;
     });
-    //
-    // put("/tasks/:id", (request, response) -> {
-    //   HashMap<String, Object> model = new HashMap<String, Object>();
-    //   Task task = Task.find(Integer.parseInt(request.params("id")));
-    //   String description = request.queryParams("description");
-    //   task.update("description");
-    //   model.put("template", "templates/task.vtl");
-    //   return new ModelAndView(model, layout);
-    // }, new VelocityTemplateEngine());
+
+    post("/tasks/:id/change-description", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      Task thisTask = Task.find(
+        Integer.parseInt(
+        request.params("id")));
+
+      thisTask.update(request.queryParams("newdescription"));
+
+      response.redirect("/tasks/" + thisTask.getId());
+      return null;
+      });
+
+    post("/categories/:id/change-name", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      Category thisCategory = Category.find(
+        Integer.parseInt(
+        request.params("id")));
+
+      thisCategory.update(request.queryParams("newname"));
+
+      response.redirect("/categories/" + thisCategory.getId());
+      return null;
+      });
 
     //REMOVING RESOURCES
     post("/tasks/delete", (request, response) -> {
