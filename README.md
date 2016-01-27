@@ -1,8 +1,8 @@
-# Registrar
+# Library Catalog
 
-#### January 26, 2016
+#### January 27, 2016
 
-#### By Jeffrey Ruder and Kassidy Douglas
+#### By Jeffrey Ruder and Chris Siems
 
 ## Description
 
@@ -17,4 +17,4 @@ MIT License. See LICENSE.md for details.
 
 ## Copyright
 
-Copyright (c) 2016 Jeffrey Ruder and Kassidy Douglas
+Copyright (c) 2016 Jeffrey Ruder and Chris Siems

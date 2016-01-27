@@ -1,3 +1,0 @@
-I am here to make sure the public directory is created. I have accomplished my task. Hurray for me!
-
-The public directory is where to put stylesheets, JavaScript files, images, etc.
