@@ -112,5 +112,16 @@ public class Patron {
     }
   }
 
+  public void checkout(int copyId, String checkoutDate, String dueDate) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO checkouts (copy_id, patron_id, checkout_date, due_date) VALUES (:copy_id, :patron_id, TO_DATE (:checkout_date, 'yyyy-mm-dd'), TO_DATE (:due_date, 'yyyy-mm-dd'))";
+      con.createQuery(sql)
+        .addParameter("copy_id", copyId)
+        .addParameter("patron_id", mId)
+        .addParameter("checkout_date", checkoutDate)
+        .addParameter("due_date", dueDate)
+        .executeUpdate();
+    }
+  }
 
 }

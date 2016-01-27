@@ -42,7 +42,7 @@ public class PatronTest {
 
   @Test
   public void patron_deleteWorksProperly_0() {
-    Patron patron = new Patron("Mark", "Twain");
+    Patron patron = new Patron("Mark", "Twain", 5551212);
     patron.save();
     patron.delete();
     assertEquals(0, Patron.all().size());
