@@ -10,7 +10,7 @@ public class DatabaseRule extends ExternalResource {
 
   protected void after() {
     try(Connection con = DB.sql2o.open()) {
-      con.createQuery("DELETE FROM * CASCADE").executeUpdate();
+      con.createQuery("TRUNCATE books, authors, genres, patrons, copies, checkouts, authors_books, books_genres").executeUpdate();
 
       // String deleteBooksQuery = "DELETE FROM books CASCADE;";
       // String deleteAuthorsQuery = "DELETE FROM authors CASCADE;";
@@ -20,7 +20,7 @@ public class DatabaseRule extends ExternalResource {
       // String deleteCheckoutsQuery = "DELETE FROM checkouts CASCADE;";
       // String deleteAuthorsBooksQuery = "DELETE FROM authors_books CASCADE;";
       // String deleteBooksGenresQuery = "DELETE FROM books_genres CASCADE;";
-      //
+
       // con.createQuery(deleteBooksQuery).executeUpdate();
       // con.createQuery(deleteAuthorsQuery).executeUpdate();
       // con.createQuery(deleteGenresQuery).executeUpdate();
