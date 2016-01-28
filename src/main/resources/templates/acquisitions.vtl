@@ -27,7 +27,7 @@
 
 <div class="container">
 
-  <h1>Library Acquisitions</h1>
+  <h1>Library Acquisitions and Patron Records</h1>
 
   #if ($duplicateBook)
     <div class="bg-warning">
@@ -49,6 +49,14 @@
     <div class="bg-warning">
       <p>
         Hold on there, Tiger! That author has already been assigned to this book. Use the forms on this page to associate the exisiting author with other books.
+      </p>
+    </div>
+  #end
+
+  #if ($duplicatePatron)
+    <div class="bg-warning">
+      <p>
+        Hold on there, Tiger! That patron is already in the catalog. Try a new name or phone.
       </p>
     </div>
   #end
@@ -128,6 +136,70 @@
         </div>
 
         <button type="submit" class="btn btn-default">Add Author</button>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <h2>Add Copies of an Existing Book</h2>
+
+      <form action="/books/additional-copies" method="post">
+        <div class="form-group">
+          <label for="existing-book">Book</label>
+          <select id="existing-book" name="existing-book" required>
+            #foreach ($uniqueBook in $books)
+              <option value="$uniqueBook.getId()">$uniqueBook.getTitle()</option>
+            #end
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="new-book-copies">Number of Copies</label>
+          <input type="number" name="new-book-copies" id="new-book-copies" min="1" max="10" required>
+        </div>
+
+        <button type="submit" class="btn btn-default">Add Copies</button>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Add a New Patron</h2>
+      <form action="/patrons/add-patron" method="post">
+
+        <div class="form-group">
+          <label for="new-patron-first">First Name</label>
+          <input type="text" name="new-patron-first" id="new-patron-first" required>
+        </div>
+
+        <div class="form-group">
+          <label for="new-patron-last">Last Name</label>
+          <input type="text" name="new-patron-last" id="new-patron-last" required>
+        </div>
+
+        <div class="form-group">
+          <label for="new-patron-phone">Phone</label>
+          <input type="number" name="new-patron-phone" id="new-patron-phone" min="1" max="9999999" required>
+        </div>
+
+        <button type="submit" class="btn btn-default">New Patron</button>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <h2>Remove a Patron</h2>
+      <form action="/patrons/remove-patron" method="post">
+
+        <select id="existing-patron" name="existing-patron" required>
+          #foreach ($uniquePatron in $patrons)
+            #if ($uniquePatron.getCurrentCheckouts().size() == 0)
+            <option value="$uniquePatron.getId()">$uniquePatron.getFullName()</option>
+            #end
+          #end
+        </select>
+        <p class="help-block">You can only delete patrons that have no current copies checked out.</p>
+        <button type="submit" class="btn btn-default">Remove Patron</button>
       </form>
     </div>
   </div>

@@ -53,7 +53,8 @@
 
   <div class="col-md-4">
     <div class="row">
-      <form action="/patrons/:id/checkout" method="post">
+      <form action="/patrons/checkout" method="post">
+        <label>Checkout Book</label>
         <div class="form-group">
           <label for="patrons-book-checkout">Choose Copy</label>
           <select id="patrons-book-checkout" name="patrons-book-checkout" required>
@@ -78,7 +79,8 @@
     </div>
 
     <div class="row">
-      <form action="/patrons/:id/return" method="post">
+      <form action="/patrons/return" method="post">
+        <label>Return Book</label>
         <div class="form-group">
           <label for="patrons-book-return">Choose Checked Out Copy</label>
           <select id="patrons-book-return" name="patrons-book-return" required>

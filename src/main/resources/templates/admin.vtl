@@ -29,32 +29,6 @@
 
   <h1>Library Administration</h1>
 
-  <h2>Current Loans</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>Book</th>
-        <th>Copy ID #</th>
-        <th>Patron</th>
-        <th>Patron Phone</th>
-        <th>Checkout Date</th>
-        <th>Due Date</th>
-      </tr>
-    </thead>
-    <tbody>
-    #foreach ($uniqueCopy in $checkedOutCopies)
-      <tr>
-        <td>$uniqueCopy.getBookTitle()</td>
-        <td>$uniqueCopy.getId()</td>
-        <td>$patron.find($checkout.findCurrentCheckout($uniqueCopy.getId()).getPatronId()).getFullName()</td>
-        <td>$patron.find($checkout.findCurrentCheckout($uniqueCopy.getId()).getPatronId()).getPhone()</td>
-        <td>$checkout.findCurrentCheckout($uniqueCopy.getId()).getCheckoutDate()</td>
-        <td>$checkout.findCurrentCheckout($uniqueCopy.getId()).getDueDate()</td>
-      </tr>
-    #end
-    </tbody>
-  </table>
-
   <h2>Current Overdue Loans</h2>
   <table class="table">
     <thead>
@@ -69,6 +43,32 @@
     </thead>
     <tbody>
     #foreach ($uniqueCopy in $allOverdueCopies)
+      <tr>
+        <td>$uniqueCopy.getBookTitle()</td>
+        <td>$uniqueCopy.getId()</td>
+        <td>$patron.find($checkout.findCurrentCheckout($uniqueCopy.getId()).getPatronId()).getFullName()</td>
+        <td>$patron.find($checkout.findCurrentCheckout($uniqueCopy.getId()).getPatronId()).getPhone()</td>
+        <td>$checkout.findCurrentCheckout($uniqueCopy.getId()).getCheckoutDate()</td>
+        <td>$checkout.findCurrentCheckout($uniqueCopy.getId()).getDueDate()</td>
+      </tr>
+    #end
+    </tbody>
+  </table>
+
+  <h2>Current Loans</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Copy ID #</th>
+        <th>Patron</th>
+        <th>Patron Phone</th>
+        <th>Checkout Date</th>
+        <th>Due Date</th>
+      </tr>
+    </thead>
+    <tbody>
+    #foreach ($uniqueCopy in $checkedOutCopies)
       <tr>
         <td>$uniqueCopy.getBookTitle()</td>
         <td>$uniqueCopy.getId()</td>

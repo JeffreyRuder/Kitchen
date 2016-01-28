@@ -43,7 +43,6 @@ public class Patron {
       Patron newPatron = (Patron) otherPatron;
       return this.getFirstName().equals(newPatron.getFirstName()) &&
              this.getLastName().equals(newPatron.getLastName()) &&
-             this.getId() == newPatron.getId() &&
              this.getPhone() == newPatron.getPhone();
     }
   }
@@ -122,16 +121,6 @@ public class Patron {
         .addParameter("checkout_date", LocalDate.now().toString())
         .addParameter("due_date", LocalDate.now().plusWeeks(2).toString())
         .executeUpdate();
-    }
-  }
-
-  public void returnCopy(int copyId) {
-    try (Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE checkouts SET is_returned = true WHERE copy_id = :copy_id AND patron_id = :patron_id";
-    con.createQuery(sql)
-      .addParameter("copy_id", copyId)
-      .addParameter("patron_id", mId)
-      .executeUpdate();
     }
   }
 

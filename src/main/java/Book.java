@@ -142,6 +142,7 @@ public class Book {
         .executeAndFetch(Copy.class);
     }
   }
+
   public List<Copy> getAvailableCopies() {
     ArrayList<Copy> availableCopies = new ArrayList<Copy>();
     for (Copy copy : this.getAllCopies()) {
@@ -150,6 +151,16 @@ public class Book {
       }
     }
     return availableCopies;
+  }
+
+  public List<Copy> getCheckedOutCopies() {
+    ArrayList<Copy> checkedOutCopies = new ArrayList<Copy>();
+    for (Copy copy : this.getAllCopies()) {
+      if (copy.isCheckedOut()) {
+        checkedOutCopies.add(copy);
+      }
+    }
+    return checkedOutCopies;
   }
 
   public boolean hasCopyAvailable() {

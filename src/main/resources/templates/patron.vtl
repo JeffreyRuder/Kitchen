@@ -1,0 +1,90 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Epicodus Library</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/books">Books</a></li>
+        <li><a href="/authors">Authors</a></li>
+        <li class="active"><a href="/patrons">Patrons</a></li>
+        <li><a href="/admin">Admin</a></li>
+        <li><a href="/acquisitions">Acquisitions</a></li>
+      </ul>
+
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container">
+  <h1>$patron.getFullName()</h1>
+  <h3>$patron.getPhone()</h3>
+
+  <h3>Current Checkouts</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Checkout Date</th>
+        <th>Due Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      #foreach ($checkout in $patron.getCurrentCheckouts())
+        <tr>
+          <td>$copy.find($checkout.getCopyId()).getBookTitle()</td>
+          <td>$checkout.getCheckoutDate()</td>
+          <td>$checkout.getDueDate()</td>
+        </tr>
+      #end
+    </tbody>
+  </table>
+
+  <h3>Checkout History</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Checkout Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      #foreach ($checkout in $patron.getCheckoutHistory())
+        <tr>
+          <td>$copy.find($checkout.getCopyId()).getBookTitle()</td>
+          <td>$checkout.getCheckoutDate()</td>
+        </tr>
+      #end
+    </tbody>
+  </table>
+
+  #if ($duplicatePatron)
+    <div class="bg-warning">
+      <p>
+        Hold on there, Tiger! That patron is already in the catalog. Try a new name or phone.
+      </p>
+    </div>
+  #end
+
+  <h3>Update Patron Info</h3>
+
+  <form action="/patrons/$patron.getId()/update_patron" method="post">
+     <input id="patron_id" name="patron_id" type="hidden" value="$book.getId()">
+     <label for="patron-first-name">First Name:</label>
+     <input id="patron-first-name" name="patron-first-name" type="text">
+     <label for="patron-last-name">Last Name:</label>
+     <input id="patron-last-name" name="patron-last-name" type="text">
+     <label for="patron-phone">Phone:</label>
+     <input id="patron-phone" name="patron-phone" type="text">
+   <button type="submit" id="patron-update" class="btn btn-default">Submit</button>
+  </form>
+</div>

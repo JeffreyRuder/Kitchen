@@ -14,8 +14,8 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/books">Books</a></li>
-        <li><a href="/authors">Authors</a></li>
+        <li><a href="/books">Books</a></li>
+        <li class="active"><a href="/authors">Authors</a></li>
         <li><a href="/patrons">Patrons</a></li>
         <li><a href="/admin">Admin</a></li>
         <li><a href="/acquisitions">Acquisitions</a></li>
@@ -26,30 +26,23 @@
 </nav>
 
 <div class="container">
-  <h1>$book.getTitle()</h1>
-  #foreach ($author in $book.getAllAuthors())
-    <h3>$author.getFullName()</h3>
-  #end
+  <h1>$author.getFullName()</h1>
 
-  <h3>Copies In Collection: $book.getAllCopies().size()</h3>
-
-  <h3>Copies Available: $book.getAvailableCopies().size()</h3>
-
-  <h3>Current Checkouts</h3>
+  <h3>Books by $author.getFullName() in Collection</h3>
   <table class="table">
     <thead>
       <tr>
-        <th>Patron</th>
-        <th>Checkout Date</th>
-        <th>Due Date</th>
+        <th>Book</th>
+        <th>Copies in Collection</th>
+        <th>Copies Available</th>
       </tr>
     </thead>
     <tbody>
-      #foreach ($uniqueCopy in $book.getCheckedOutCopies())
+      #foreach ($uniqueBook in $author.getAllBooks())
         <tr>
-          <td>$patron.find($checkout.findCurrentCheckout($uniqueCopy.getId()).getPatronId()).getFullName()</td>
-          <td>$checkout.findCurrentCheckout($uniqueCopy.getId()).getCheckoutDate()</td>
-          <td>$checkout.findCurrentCheckout($uniqueCopy.getId()).getDueDate()</td>
+          <td><a href="/books/$uniqueBook.getId()">$uniqueBook.getTitle()</a></td>
+          <td>$uniqueBook.getAllCopies().size()</td>
+          <td>$uniqueBook.getAvailableCopies().size()</td>
         </tr>
       #end
     </tbody>
@@ -57,18 +50,21 @@
 
   <hr>
 
-  #if ($duplicateBook)
+  #if ($duplicateAuthor)
     <div class="bg-warning">
       <p>
-        Don't get click-happy, Ace! A book with that title is already in the catalog.
+        Don't get click-happy, Ace! That author is already in the catalog.
       </p>
     </div>
   #end
 
-  <form action="/books/$book.getId()/update_book_title" method="post">
-     <input id="book_id" name="book_id" type="hidden" value="$book.getId()">
-     <label for="book-title">Update this Book's Title:</label>
-     <input id="book-title" name="book-title" type="text">
-   <button type="submit" id="book-title-update" class="btn btn-default">Submit</button>
+  <form action="/authors/$author.getId()/update_author_name" method="post">
+     <label>Update this Author's name here:</label>
+     <input id="author_id" name="author_id" type="hidden" value="$author.getId()">
+     <label for="author-first-name">First Name</label>
+     <input id="author-first-name" name="author-first-name" type="text">
+     <label for="author-last-name">Last Name</label>
+     <input id="author-last-name" name="author-last-name" type="text">
+   <button type="submit" id="author-name-update" class="btn btn-default">Submit</button>
   </form>
 </div>

@@ -66,6 +66,15 @@ public class Copy {
     }
   }
 
+  public void returnCopy() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE checkouts SET is_returned = true WHERE copy_id = :copy_id AND is_returned = false";
+    con.createQuery(sql)
+      .addParameter("copy_id", mId)
+      .executeUpdate();
+    }
+  }
+
   public void delete() {
     try (Connection con = DB.sql2o.open()) {
       String deleteCheckouts = "DELETE FROM checkouts WHERE copy_id = :id;";
