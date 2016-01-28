@@ -1,0 +1,71 @@
+<!-- Model needs:
+model.put("checkedOutCopies", Copy.getAllCheckedOut());
+model.put("allOverdueCopies", Copy.getAllOverdue());
+model.put("patron", Patron.class);
+model.put("checkout", Checkout.class); -->
+
+<!-- TODO: Insert Navbar -->
+
+<h1>Library Administration</h1>
+
+<h2>Current Loans</h2>
+<table class="table">
+  <tr>
+    <th>Book</th>
+    <th>Copy ID #</th>
+    <th>Patron</th>
+    <th>Patron Phone</th>
+    <th>Checkout Date</th>
+    <th>Due Date</th>
+  </tr>
+
+  #foreach ($uniqueCopy in $checkedOutCopies())
+    <tr>
+      <td>$uniqueCopy.getBookTitle()</td>
+      <td>$uniqueCopy.getId()</td>
+      <td>$patron.find(
+            $checkout.findCurrentCheckout($uniqueCopy.getId())
+            .getpatronId())
+          .getFullName()</td>
+      <td>$patron.find($checkout
+            .findCurrentCheckout($uniqueCopy.getId())
+            .getpatronId())
+          .getPhone()</td>
+      <td>$checkout.findCurrentCheckout($uniqueCopy.getId())
+          .getCheckoutDate()</td>
+      <td>$checkout.findCurrentCheckout($uniqueCopy.getId())
+          .getDueDate()</td>
+    </tr>
+  #end
+</table>
+
+<h2>Current Overdue Loans</h2>
+<table class="table">
+  <tr>
+    <th>Book</th>
+    <th>Copy ID #</th>
+    <th>Patron</th>
+    <th>Patron Phone</th>
+    <th>Checkout Date</th>
+    <th>Due Date</th>
+  </tr>
+
+  #foreach ($uniqueCopy in $allOverdueCopies)
+    <tr>
+      <td>$uniqueCopy.getBookTitle()</td>
+      <td>$uniqueCopy.getId()</td>
+      <td>$patron.find(
+            $checkout.findCurrentCheckout($uniqueCopy.getId())
+            .getpatronId())
+          .getFullName()</td>
+      <td>$patron.find($checkout
+            .findCurrentCheckout($uniqueCopy.getId())
+            .getpatronId())
+          .getPhone()</td>
+      <td>$checkout.findCurrentCheckout($uniqueCopy.getId())
+          .getCheckoutDate()</td>
+      <td>$checkout.findCurrentCheckout($uniqueCopy.getId())
+          .getDueDate()</td>
+    </tr>
+  #end
+</table>

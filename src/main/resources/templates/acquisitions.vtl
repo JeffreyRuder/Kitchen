@@ -1,0 +1,103 @@
+<!-- Model needs:
+model.put("duplicateBook", duplicateBook);
+model.put("duplicateAuthor", duplicateAuthor);
+model.put("authors", Author.all());
+model.put("books", Book.all())
+
+TODO: Insert Navbar -->
+
+<h1>Library Acquisitions</h1>
+
+#if ($duplicateBook)
+  <div class="bg-warning">
+    <p>
+      Don't get click-happy, Ace! That book is already in the catalog. Add a new author or navigate to the <a href="/books">Books</a> page to delete it.
+    </p>
+  </div>
+#end
+
+#if (#duplicateAuthor)
+  <div class="bg-warning">
+    <p>
+      Hold on there, Tiger! That author is already in the catalog. Use the forms on this page to associate the exisiting author with new books.
+    </p>
+  </div>
+#end
+
+<div class="row">
+
+  <div class="col-md-6">
+    <h2>Add a New Book to the Catalog</h2>
+    <form action="/books/add-book" method="post">
+
+      <div class="form-group">
+        <label for="new-book-title">Title</label>
+        <input type="text" name="new-book-title" id="new-book-title" required>
+      </div>
+
+      <div class="form-group">
+        <label for="new-book-author">Author</label>
+        <select id="new-book-author" name="new-book-author" required>
+          #foreach ($uniqueAuthor in $authors)
+            <option value="$author.getId()">$author.getLastName(), $author.getFirstName()</option>
+          #end
+        </select>
+        <p class="help-block">All books must have at least one author.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="new-book-copies">Number of Copies</label>
+        <input type="number" name="new-book-copies" id="new-book-copies" min="1" max="10" required>
+      </div>
+
+      <button type="submit" class="btn btn-default">New Book</button>
+    </form>
+  </div>
+
+  <div class="col-md-6">
+    <h2>Add a New Author to the Catalog</h2>
+    <form action="/authors/add-author" method="post">
+
+      <div class="form-group">
+        <label for="new-author-first">First Name</label>
+        <input type="text" name="new-author-first" id="new-author-first" required>
+      </div>
+
+      <div class="form-group">
+        <label for="new-author-last">Last Name</label>
+        <input type="text" name="new-author-last" id="new-author-last" required>
+      </div>
+
+      <button type="submit" class="btn btn-default">New Author</button>
+    </form>
+  </div>
+
+</div>
+
+<div class="row">
+  <h2>Add an Additional Author to an Existing Book</h2>
+
+  <form action="/books/additional-author" method="post">
+    <div class="form-group">
+      <label for="existing-book-author">Book</label>
+      <select id="existing-book-author" name="existing-book-author" required>
+        #foreach ($uniqueBook in $books)
+          <option value="$book.getId()">$book.getTitle()</option>
+        #end
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="existing-book-author">Author</label>
+      <select id="existing-book-author" name="existing-book-author" required>
+        #foreach ($uniqueAuthor in $authors)
+          <option value="$author.getId()">$author.getLastName(), $author.getFirstName()</option>
+        #end
+      </select>
+      <p class="help-block">Make sure you've already added the author to the catalog using the form above.</p>
+    </div>
+
+    <button type="submit" class="btn btn-default">Add Author</button>
+  </form>
+
+</div>
