@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.sql2o.*;
@@ -48,6 +49,17 @@ public class Checkout {
       return con.createQuery(sql)
         .addParameter("id", copyId)
         .executeAndFetchFirst(Checkout.class);
+    }
+  }
+
+  public void updateDueDate(int copyId, LocalDate newDate) {
+    Checkout currentCheckout = findCurrentCheckout(copyId);
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE checkouts SET due_date = TO_DATE (:newdate, 'yyyy-mm-dd') WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("newdate", newDate.toString())
+        .addParameter("id", currentCheckout.getId())
+        .executeUpdate();
     }
   }
 }

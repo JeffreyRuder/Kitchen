@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class CopyTest {
     book.save();
     Copy copy = new Copy(book.getId());
     copy.save();
-    patron.checkout(copy.getId(), "2012-01-01", "2015-03-03");
+    patron.checkout(copy.getId());
     assertTrue(copy.isCheckedOut());
   }
 
@@ -71,8 +72,9 @@ public class CopyTest {
     firstCopy.save();
     Copy secondCopy = new Copy(book.getId());
     secondCopy.save();
-    patron.checkout(firstCopy.getId(), "2016-01-01", "2016-01-20");
-    patron.checkout(secondCopy.getId(), "2016-01-01", "2016-01-30");
+    patron.checkout(firstCopy.getId());
+    patron.checkout(secondCopy.getId());
+    Checkout.findCurrentCheckout(secondCopy.getId()).updateDueDate(secondCopy.getId(), LocalDate.now().minusWeeks(2));
     assertEquals(1, Copy.getAllOverdue().size());
   }
 
@@ -86,8 +88,8 @@ public class CopyTest {
     firstCopy.save();
     Copy secondCopy = new Copy(book.getId());
     secondCopy.save();
-    patron.checkout(firstCopy.getId(), "2016-01-01", "2016-01-20");
-    patron.checkout(secondCopy.getId(), "2016-01-01", "2016-01-30");
+    patron.checkout(firstCopy.getId());
+    patron.checkout(secondCopy.getId());
     assertEquals(2, Copy.getAllCheckedOut().size());
   }
 }
