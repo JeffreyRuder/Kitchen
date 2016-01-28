@@ -56,7 +56,7 @@ public class PatronTest {
     book.save();
     Copy copy = new Copy(book.getId());
     copy.save();
-    patron.checkout(copy.getId(), "2012-01-01", "2012-12-31");
+    patron.checkout(copy.getId());
     patron.returnCopy(copy.getId());
     assertEquals(false, copy.isCheckedOut());
   }
@@ -71,9 +71,9 @@ public class PatronTest {
     firstCopy.save();
     Copy secondCopy = new Copy(book.getId());
     secondCopy.save();
-    patron.checkout(firstCopy.getId(), "2016-01-01", "2016-01-31");
+    patron.checkout(firstCopy.getId());
     patron.returnCopy(firstCopy.getId());
-    patron.checkout(secondCopy.getId(), "2016-01-01", "2016-01-31");
+    patron.checkout(secondCopy.getId());
     assertEquals(1, patron.getCurrentCheckouts().size());
   }
 
@@ -87,8 +87,8 @@ public class PatronTest {
     firstCopy.save();
     Copy secondCopy = new Copy(book.getId());
     secondCopy.save();
-    patron.checkout(firstCopy.getId(), "2016-01-01", "2016-01-31");
-    patron.checkout(secondCopy.getId(), "2016-01-01", "2016-01-31");
+    patron.checkout(firstCopy.getId());
+    patron.checkout(secondCopy.getId());
     assertEquals(2, patron.getCheckoutHistory().size());
   }
 }

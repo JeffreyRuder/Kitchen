@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.sql2o.*;
@@ -112,14 +113,14 @@ public class Patron {
     }
   }
 
-  public void checkout(int copyId, String checkoutDate, String dueDate) {
+  public void checkout(int copyId) {
     try (Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO checkouts (copy_id, patron_id, checkout_date, due_date, is_returned) VALUES (:copy_id, :patron_id, TO_DATE (:checkout_date, 'yyyy-mm-dd'), TO_DATE (:due_date, 'yyyy-mm-dd'), false)";
       con.createQuery(sql)
         .addParameter("copy_id", copyId)
         .addParameter("patron_id", mId)
-        .addParameter("checkout_date", checkoutDate)
-        .addParameter("due_date", dueDate)
+        .addParameter("checkout_date", LocalDate.now().toString())
+        .addParameter("due_date", LocalDate.now().plusWeeks(2).toString())
         .executeUpdate();
     }
   }

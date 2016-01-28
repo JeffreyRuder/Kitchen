@@ -17,12 +17,12 @@ public class CheckoutTest {
     book.save();
     Copy copy = new Copy(book.getId());
     copy.save();
-    patron.checkout(copy.getId(), "2016-01-27", "2016-02-15");
+    patron.checkout(copy.getId());
     Checkout firstItemCheckedOut = Checkout.all().get(0);
     Copy copyCheckedOut = Copy.find(firstItemCheckedOut.getCopyId());
     assertEquals("Huckleberry Finn", copyCheckedOut.getBookTitle());
     assertTrue(copy.equals(copyCheckedOut));
   }
 
-  
+
 }
