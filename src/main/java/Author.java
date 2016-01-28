@@ -35,8 +35,7 @@ public class Author {
     } else {
       Author newAuthor = (Author) otherAuthor;
       return this.getFirstName().equals(newAuthor.getFirstName()) &&
-             this.getLastName().equals(newAuthor.getLastName()) &&
-             this.getId() == newAuthor.getId();
+             this.getLastName().equals(newAuthor.getLastName());
     }
   }
 

@@ -107,7 +107,7 @@ public class Copy {
     for (Copy copy : Copy.getAllCheckedOut()) {
       Checkout currentStatus = Checkout.findCurrentCheckout(copy.getId());
       LocalDate dueDate = LocalDate.parse(currentStatus.getDueDate());
-      if (dueDate.compareTo(LocalDate.now()) > 0) {
+      if (dueDate.compareTo(LocalDate.now()) < 0) {
         overdueCopies.add(copy);
       }
     }

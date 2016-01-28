@@ -1,0 +1,42 @@
+<h1>$book.getTitle()</h1>
+#foreach ($author in $book.getAllAuthors())
+  <h3>$author.getFullName()</h3>
+#end
+
+<h3>Copies In Collection: $book.getAllCopies().size()</h3>
+
+<h3>Copies Available: $book.getAvailableCopies().size()</h3>
+
+<form action='/add_courses' method='post'>
+   <input id="book_id" name="book_id" type="hidden" value="$book.getId()">
+   <label for="course_id">Select a course:</label>
+   <select id='course_id' name='course_id' type='text'>
+     #foreach($course in $courses)
+       <option value="$course.getId()">$course.getName()</option>
+     #end
+   </select>
+   <button type='submit' class='btn btn-default'>Add course</button>
+</form>
+<hr>
+
+<form action="/update_book_name" method="post">
+   <input id="book_id" name="book_id" type="hidden" value="$book.getId()">
+   <label for="name">Update this Student's Name:</label>
+   <input id="name" name="name" type="text">
+ <button type="submit" id="name-update" class="btn btn-default">Submit</button>
+</form>
+<hr>
+
+<form action="/update_book_enrollment_date" method="post">
+   <input id="book_id" name="book_id" type="hidden" value="$book.getId()">
+   <label for="enrollment-date">Update this Student's Enrollment Date:</label>
+   <input id="enrollment-date" name="enrollment-date" type="date">
+ <button type="submit" id="date-update" class="btn btn-default">Submit</button>
+</form>
+<hr>
+
+<form action='/delete_book' method='post'>
+   <input id="book_id" name="book_id" type="hidden" value="$book.getId()">
+   <label for="delete_book">Remove this book:</label>
+   <button type='submit' id="delete_book" class="btn btn-danger">DELETE </button>
+</form>

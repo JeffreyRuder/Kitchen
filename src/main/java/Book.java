@@ -24,8 +24,7 @@ public class Book {
       return false;
     } else {
       Book book = (Book) otherBook;
-      return this.getTitle().equals(book.getTitle()) &&
-        this.getId() == book.getId();
+      return this.getTitle().equals(book.getTitle());
     }
   }
 
@@ -41,7 +40,7 @@ public class Book {
 
   public static List<Book> all() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, title AS mTitle FROM books";
+      String sql = "SELECT id AS mId, title AS mTitle FROM books ORDER BY title";
       List<Book> books = con.createQuery(sql).executeAndFetch(Book.class);
       return books;
     }
@@ -94,6 +93,16 @@ public class Book {
     }
   }
 
+  public String getAuthorsString() {
+    List<Author> authors = this.getAllAuthors();
+    String results = "|";
+    for ( Author author : authors ) {
+      String newAuthor = author.getFullName();
+      results += (" " + newAuthor + " |");
+    }
+    return results;
+  }
+
   public boolean assignAuthor(int authorId) {
     boolean isNotDuplicate = true;
     for (Author author : this.getAllAuthors()) {
@@ -131,6 +140,23 @@ public class Book {
       return con.createQuery(sql)
         .addParameter("id", mId)
         .executeAndFetch(Copy.class);
+    }
+  }
+  public List<Copy> getAvailableCopies() {
+    ArrayList<Copy> availableCopies = new ArrayList<Copy>();
+    for (Copy copy : this.getAllCopies()) {
+      if (!(copy.isCheckedOut())) {
+        availableCopies.add(copy);
+      }
+    }
+    return availableCopies;
+  }
+
+  public boolean hasCopyAvailable() {
+    if (this.getAvailableCopies().size() >= 1) {
+      return true;
+    } else {
+      return false;
     }
   }
 
