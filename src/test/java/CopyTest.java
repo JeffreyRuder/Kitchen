@@ -48,4 +48,46 @@ public class CopyTest {
     Copy.find(copy.getId()).delete();
     assertEquals(0, book.getAllCopies().size());
   }
+
+  @Test
+  public void isCheckedOut_returnsTrueIfCopyIsCheckedOut() {
+    Patron patron = new Patron("Mark", "Twain", 5551212);
+    patron.save();
+    Book book = new Book("Huckleberry Finn");
+    book.save();
+    Copy copy = new Copy(book.getId());
+    copy.save();
+    patron.checkout(copy.getId(), "2012-01-01", "2015-03-03");
+    assertTrue(copy.isCheckedOut());
+  }
+
+  @Test
+  public void getAllOverdue_returnsAllOverdueCopies() {
+    Patron patron = new Patron("Mark", "Twain", 5551212);
+    patron.save();
+    Book book = new Book("Huckleberry Finn");
+    book.save();
+    Copy firstCopy = new Copy(book.getId());
+    firstCopy.save();
+    Copy secondCopy = new Copy(book.getId());
+    secondCopy.save();
+    patron.checkout(firstCopy.getId(), "2016-01-01", "2016-01-20");
+    patron.checkout(secondCopy.getId(), "2016-01-01", "2016-01-30");
+    assertEquals(1, Copy.getAllOverdue().size());
+  }
+
+  @Test
+  public void getAllCheckedOut_returnsAllCheckedOutCopies() {
+    Patron patron = new Patron("Mark", "Twain", 5551212);
+    patron.save();
+    Book book = new Book("Huckleberry Finn");
+    book.save();
+    Copy firstCopy = new Copy(book.getId());
+    firstCopy.save();
+    Copy secondCopy = new Copy(book.getId());
+    secondCopy.save();
+    patron.checkout(firstCopy.getId(), "2016-01-01", "2016-01-20");
+    patron.checkout(secondCopy.getId(), "2016-01-01", "2016-01-30");
+    assertEquals(2, Copy.getAllCheckedOut().size());
+  }
 }

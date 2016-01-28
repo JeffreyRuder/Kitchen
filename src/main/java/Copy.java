@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.sql2o.*;
@@ -74,5 +75,52 @@ public class Copy {
         .addParameter("id", mId)
         .executeUpdate();
     }
+  }
+
+  public static List<Copy> all() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT id AS mId, book_id AS mBookId " +
+                   "FROM copies";
+      return con.createQuery(sql)
+        .executeAndFetch(Copy.class);
+    }
+  }
+
+  public boolean isCheckedOut() {
+    boolean isCheckedOut = false;
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT id AS mId, copy_id AS mCopyId, patron_id AS mPatronId, checkout_date AS mCheckoutDate, due_date AS mDueDate, is_returned AS mIsReturned FROM checkouts WHERE copy_id = :id";
+      List<Checkout> checkouts = con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeAndFetch(Checkout.class);
+      for (Checkout checkout : checkouts) {
+        if (!(checkout.getIsReturned())) {
+          isCheckedOut = true;
+        }
+      }
+    }
+    return isCheckedOut;
+  }
+
+  public static List<Copy> getAllOverdue() {
+    ArrayList<Copy> overdueCopies = new ArrayList<Copy>();
+    for (Copy copy : Copy.getAllCheckedOut()) {
+      Checkout currentStatus = Checkout.findCurrentCheckout(copy.getId());
+      LocalDate dueDate = LocalDate.parse(currentStatus.getDueDate());
+      if (dueDate.compareTo(LocalDate.now()) > 0) {
+        overdueCopies.add(copy);
+      }
+    }
+    return overdueCopies;
+  }
+
+  public static List<Copy> getAllCheckedOut() {
+    ArrayList<Copy> checkedOutCopies = new ArrayList<Copy>();
+    for (Copy copy : Copy.all()) {
+      if (copy.isCheckedOut()) {
+        checkedOutCopies.add(copy);
+      }
+    }
+    return checkedOutCopies;
   }
 }

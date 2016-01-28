@@ -23,4 +23,6 @@ public class CheckoutTest {
     assertEquals("Huckleberry Finn", copyCheckedOut.getBookTitle());
     assertTrue(copy.equals(copyCheckedOut));
   }
+
+  
 }

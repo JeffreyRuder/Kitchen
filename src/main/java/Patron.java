@@ -114,7 +114,7 @@ public class Patron {
 
   public void checkout(int copyId, String checkoutDate, String dueDate) {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO checkouts (copy_id, patron_id, checkout_date, due_date) VALUES (:copy_id, :patron_id, TO_DATE (:checkout_date, 'yyyy-mm-dd'), TO_DATE (:due_date, 'yyyy-mm-dd'))";
+      String sql = "INSERT INTO checkouts (copy_id, patron_id, checkout_date, due_date, is_returned) VALUES (:copy_id, :patron_id, TO_DATE (:checkout_date, 'yyyy-mm-dd'), TO_DATE (:due_date, 'yyyy-mm-dd'), false)";
       con.createQuery(sql)
         .addParameter("copy_id", copyId)
         .addParameter("patron_id", mId)
@@ -124,4 +124,31 @@ public class Patron {
     }
   }
 
+  public void returnCopy(int copyId) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE checkouts SET is_returned = true WHERE copy_id = :copy_id AND patron_id = :patron_id";
+    con.createQuery(sql)
+      .addParameter("copy_id", copyId)
+      .addParameter("patron_id", mId)
+      .executeUpdate();
+    }
+  }
+
+  public List<Checkout> getCurrentCheckouts() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT id AS mId, copy_id AS mCopyId, patron_id AS mPatronId, checkout_date AS mCheckoutDate, due_date AS mDueDate, is_returned AS mIsReturned FROM checkouts WHERE patron_id = :patron_id AND is_returned = false";
+      return con.createQuery(sql)
+        .addParameter("patron_id", mId)
+        .executeAndFetch(Checkout.class);
+    }
+  }
+
+  public List<Checkout> getCheckoutHistory() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT id AS mId, copy_id AS mCopyId, patron_id AS mPatronId, checkout_date AS mCheckoutDate, due_date AS mDueDate, is_returned AS mIsReturned FROM checkouts WHERE patron_id = :patron_id";
+      return con.createQuery(sql)
+        .addParameter("patron_id", mId)
+        .executeAndFetch(Checkout.class);
+    }
+  }
 }

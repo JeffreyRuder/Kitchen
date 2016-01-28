@@ -47,4 +47,48 @@ public class PatronTest {
     patron.delete();
     assertEquals(0, Patron.all().size());
   }
+
+  @Test
+  public void return_returnsCopy() {
+    Patron patron = new Patron("Mark", "Twain", 5551212);
+    patron.save();
+    Book book = new Book("Huckleberry Finn");
+    book.save();
+    Copy copy = new Copy(book.getId());
+    copy.save();
+    patron.checkout(copy.getId(), "2012-01-01", "2012-12-31");
+    patron.returnCopy(copy.getId());
+    assertEquals(false, copy.isCheckedOut());
+  }
+
+  @Test
+  public void getCurrentCheckouts_returnsCurrentCheckouts_1() {
+    Patron patron = new Patron("Mark", "Twain", 5551212);
+    patron.save();
+    Book book = new Book("Huckleberry Finn");
+    book.save();
+    Copy firstCopy = new Copy(book.getId());
+    firstCopy.save();
+    Copy secondCopy = new Copy(book.getId());
+    secondCopy.save();
+    patron.checkout(firstCopy.getId(), "2016-01-01", "2016-01-31");
+    patron.returnCopy(firstCopy.getId());
+    patron.checkout(secondCopy.getId(), "2016-01-01", "2016-01-31");
+    assertEquals(1, patron.getCurrentCheckouts().size());
+  }
+
+  @Test
+  public void getCheckoutHistory_returnsCompleteHistory() {
+    Patron patron = new Patron("Mark", "Twain", 5551212);
+    patron.save();
+    Book book = new Book("Huckleberry Finn");
+    book.save();
+    Copy firstCopy = new Copy(book.getId());
+    firstCopy.save();
+    Copy secondCopy = new Copy(book.getId());
+    secondCopy.save();
+    patron.checkout(firstCopy.getId(), "2016-01-01", "2016-01-31");
+    patron.checkout(secondCopy.getId(), "2016-01-01", "2016-01-31");
+    assertEquals(2, patron.getCheckoutHistory().size());
+  }
 }
