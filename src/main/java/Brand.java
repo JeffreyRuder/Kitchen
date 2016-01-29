@@ -32,7 +32,7 @@ public class Brand {
 
   public static List<Brand> all() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, name AS mName FROM brands";
+      String sql = "SELECT id AS mId, name AS mName FROM brands ORDER BY name";
       return con.createQuery(sql)
         .executeAndFetch(Brand.class);
     }
@@ -90,10 +90,20 @@ public class Brand {
 
   public List<Store> getAllStores() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT stores.id AS mId, stores.name AS mName FROM carries INNER JOIN stores ON carries.store_id = stores.id WHERE carries.brand_id = :id";
+      String sql = "SELECT stores.id AS mId, stores.name AS mName FROM carries INNER JOIN stores ON carries.store_id = stores.id WHERE carries.brand_id = :id ORDER BY stores.name";
       return con.createQuery(sql)
         .addParameter("id", mId)
         .executeAndFetch(Store.class);
+    }
+  }
+
+  public void removeStore(int storeId) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM carries WHERE store_id = :store_id AND brand_id = :brand_id";
+      con.createQuery(sql)
+        .addParameter("store_id", storeId)
+        .addParameter("brand_id", mId)
+        .executeUpdate();
     }
   }
 }

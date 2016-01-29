@@ -32,7 +32,7 @@ public class Store {
 
   public static List<Store> all() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, name AS mName FROM stores";
+      String sql = "SELECT id AS mId, name AS mName FROM stores ORDER BY name";
       return con.createQuery(sql)
         .executeAndFetch(Store.class);
     }
@@ -90,7 +90,7 @@ public class Store {
 
   public List<Brand> getAllBrands() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT brands.id AS mId, brands.name AS mName FROM carries INNER JOIN brands ON carries.brand_id = brands.id WHERE carries.store_id = :id";
+      String sql = "SELECT brands.id AS mId, brands.name AS mName FROM carries INNER JOIN brands ON carries.brand_id = brands.id WHERE carries.store_id = :id ORDER BY brands.name";
       return con.createQuery(sql)
         .addParameter("id", mId)
         .executeAndFetch(Brand.class);
