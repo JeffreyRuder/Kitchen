@@ -58,4 +58,15 @@ public class StoreTest {
     store.addBrand(brand.getId());
     assertTrue(store.getAllBrands().contains(brand));
   }
+
+  @Test
+  public void removeBrand_removesBrandFromStoreInDatabase() {
+    Store store = new Store("Nike Store");
+    store.save();
+    Brand brand = new Brand("Nike");
+    brand.save();
+    store.addBrand(brand.getId());
+    store.removeBrand(brand.getId());
+    assertEquals(0, store.getAllBrands().size());
+  }
 }

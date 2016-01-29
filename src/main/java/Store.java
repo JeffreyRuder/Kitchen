@@ -96,4 +96,14 @@ public class Store {
         .executeAndFetch(Brand.class);
     }
   }
+
+  public void removeBrand(int brandId) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM carries WHERE store_id = :store_id AND brand_id = :brand_id";
+      con.createQuery(sql)
+        .addParameter("store_id", mId)
+        .addParameter("brand_id", brandId)
+        .executeUpdate();
+    }
+  }
 }
