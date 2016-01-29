@@ -27,32 +27,26 @@
   </tbody>
 </table>
 
-<div class="row">
-  <div class="col-md-5 formblock">
-    <h3>Add a Brand to this Store</h3>
-    <form action="/stores/$store.getId()/add-brand" method="post">
-      <div class="form-group">
-        <label for="store-add-brand">Select a Brand</label>
-        <select id="store-add-brand" name="store-add-brand">
-          #foreach ($uniqueBrand in $brands)
-            #if (!($store.getAllBrands().contains($uniqueBrand)))
-              <option value="$uniqueBrand.getId()">$uniqueBrand.getName()</option>
-            #end
-          #end
-        </select>
-      </div>
-      <button type="submit" class="btn btn-default">Add Brand</button>
-    </form>
+<h3>Add a Brand to this Store</h3>
+<form class="form-inline" action="/stores/$store.getId()/add-brand" method="post">
+  <div class="form-group">
+    <label for="store-add-brand">Select a Brand</label>
+    <select id="store-add-brand" name="store-add-brand">
+      #foreach ($uniqueBrand in $brands)
+        #if (!($store.getAllBrands().contains($uniqueBrand)))
+          <option value="$uniqueBrand.getId()">$uniqueBrand.getName()</option>
+        #end
+      #end
+    </select>
+    <button type="submit" class="btn btn-default">Add Brand</button>
   </div>
+</form>
 
-  <div class="col-md-5 col-md-offset-2 formblock">
-    <h3>Change this Store's Name</h3>
-    <form action="/stores/$store.getId()/change-name" method="post">
-      <div class="form-group">
-        <label for="store-new-name">New Name</label>
-        <input type="text" name="store-new-name" id="store-new-name" required>
-      </div>
-      <button type="submit" class="btn btn-default">Change Name</button>
-    </form>
+<h3>Change this Store's Name</h3>
+<form class="form-inline" action="/stores/$store.getId()/change-name" method="post">
+  <div class="form-group">
+    <label for="store-new-name">New Name</label>
+    <input type="text" name="store-new-name" id="store-new-name" required>
   </div>
-</div>
+  <button type="submit" class="btn btn-default">Change Name</button>
+</form>

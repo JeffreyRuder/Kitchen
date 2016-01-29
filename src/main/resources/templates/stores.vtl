@@ -28,15 +28,11 @@
   </tbody>
 </table>
 
-<div class="row">
-  <div class="col-md-5 formblock">
-    <h3>Add a Brand</h3>
-    <form action="/stores/add-new-store" method="post">
-      <div class="form-group">
-        <label for="add-new-store">Store Name</label>
-        <input type="text" name="add-new-store" id="add-new-store" required>
-      </div>
-      <button type="submit" class="btn btn-default">New Store</button>
-    </form>
+<h3>Add a New Store</h3>
+<form class="form-inline" action="/stores/add-new-store" method="post">
+  <div class="form-group">
+    <label for="add-new-store">Name</label>
+    <input type="text" name="add-new-store" id="add-new-store" placeholder="New Store" required>
+    <button type="submit" class="btn btn-default">Add Store</button>
   </div>
-</div>
+</form>
