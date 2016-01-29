@@ -1,4 +1,4 @@
-# Local Stores
+# Local Shoes
 
 #### January 29, 2016
 
@@ -6,9 +6,9 @@
 
 ## Description
 
-Local Stores tracks the availability of different brands at different shoe stores. Each brand is sold at many stores, and each store carries many brands. Thus, there is a many-to-many relationship between brands and stores.
+Local Shoes tracks the availability of different brands at different shoe stores. Each brand is sold at many stores, and each store carries many brands. Thus, there is a many-to-many relationship between brands and stores.
 
-Local Stores demonstrates using Spark routes to perform CRUD operations on a PostgreSQL database. It also demonstrates the use of a join table and JOIN statements to manage a many-to-many relationship.
+Local Shoes demonstrates using Spark routes to perform CRUD operations on a PostgreSQL database. It also demonstrates the use of a join table and JOIN statements to manage a many-to-many relationship.
 
 ## Technologies Used
 
