@@ -8,7 +8,7 @@ public class Store {
 
   //CONSTRUCTOR
   public Store(String name) {
-    mName = name;
+    mName = name.trim();
   }
 
   //GETTERS
@@ -63,7 +63,7 @@ public class Store {
     try (Connection con = DB.sql2o.open()) {
       String sql = "UPDATE stores SET name = :newname WHERE id = :id";
       con.createQuery(sql, true)
-        .addParameter("newname", newName)
+        .addParameter("newname", newName.trim())
         .addParameter("id", mId)
         .executeUpdate();
     }
@@ -71,8 +71,9 @@ public class Store {
 
   public void delete() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM stores WHERE id = :id";
-      con.createQuery(sql, true)
+      String deleteCarries = "DELETE FROM carries WHERE store_id = :id;";
+      String deleteStore = "DELETE FROM stores WHERE id = :id;";
+      con.createQuery(deleteCarries + deleteStore)
         .addParameter("id", mId)
         .executeUpdate();
     }

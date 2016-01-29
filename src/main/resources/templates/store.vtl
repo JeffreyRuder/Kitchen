@@ -1,0 +1,63 @@
+<h1><a href="/">Local Shoes</a></h1>
+<h2>$store.getName()</h2>
+
+<h3>Brands Carried:</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Brand</th>
+      <th>Remove Brand from Store</th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach ($uniqueBrand in $store.getAllBrands())
+      <tr>
+        <td><a href="brands/$uniqueBrand.getId()">$uniqueBrand.getName()</a></td>
+        <td>
+          <form action="/stores/$store.getId()/remove-brand" method="post">
+            <input type="hidden" name="brand-to-remove" value="$uniqueBrand.getId()">
+            <button type="submit" class="btn-link">Remove</button>
+          </form>
+        </td>
+      </tr>
+    #end
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-md-4 formblock">
+    <h3>Add a Brand to this Store</h3>
+    <form action="/stores/$store.getId()/add-brand" method="post">
+      <div class="form-group">
+        <label for="store-add-brand">Select a Brand</label>
+        <select id="store-add-brand" name="store-add-brand">
+          #foreach ($uniqueBrand in $brands)
+            #if (!($store.getAllBrands().contains($uniqueBrand)))
+              <option value="$uniqueBrand.getId()">$uniqueBrand.getName()</option>
+            #end
+          #end
+        </select>
+      </div>
+      <button type="submit" class="btn btn-default">Add Brand</button>
+    </form>
+  </div>
+
+  <div class="col-md-4 formblock">
+    <h3>Change this Store's Name</h3>
+    <form action="/stores/$store.getId()/change-name" method="post">
+      <div class="form-group">
+        <label for="store-new-name">New Name</label>
+        <input type="text" name="store-new-name" id="store-new-name" required>
+      </div>
+      <button type="submit" class="btn btn-default">Change Name</button>
+    </form>
+  </div>
+
+  <div class="col-md-4 formblock">
+    <h3>Delete this Store</h3>
+    <form action="/stores/$store.getId()/delete-store" method="post">
+      <button type="submit" class="btn btn-default">Delete Store</button>
+    </form>
+  </div>
+
+</div>

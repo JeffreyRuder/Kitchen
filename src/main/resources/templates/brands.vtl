@@ -1,0 +1,23 @@
+<h1><a href="/">Local Shoes</a></h1>
+<h2>All Brands</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Brand Name</th>
+      <th>Stores Where Carried</th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach ($brand in $brands)
+      <tr>
+        <td><a href="/brands/$brand.getId()">$brand.getName()</a></td>
+        <td>
+          #foreach ($store in $brand.getAllStores())
+            <a href="/stores/$store.getId()">$store.getName()</a><br>
+          #end
+        </td>
+      </tr>
+    #end
+  </tbody>
+</table>
