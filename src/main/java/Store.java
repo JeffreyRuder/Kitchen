@@ -30,6 +30,14 @@ public class Store {
     }
   }
 
+  public static List<Store> all() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT id AS mId, name AS mName FROM stores";
+      return con.createQuery(sql)
+        .executeAndFetch(Store.class);
+    }
+  }
+
   //INSTANCE METHODS
   @Override
   public boolean equals(Object otherStore) {
@@ -50,4 +58,25 @@ public class Store {
         .getKey();
     }
   }
+
+  public void update(String newName) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE stores SET name = :newname WHERE id = :id";
+      con.createQuery(sql, true)
+        .addParameter("newname", newName)
+        .addParameter("id", mId)
+        .executeUpdate();
+    }
+  }
+
+  public void delete() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM stores WHERE id = :id";
+      con.createQuery(sql, true)
+        .addParameter("id", mId)
+        .executeUpdate();
+    }
+  }
+
+
 }
