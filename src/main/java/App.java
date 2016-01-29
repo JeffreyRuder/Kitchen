@@ -11,7 +11,7 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
-    //GETTING
+    //GET
 
     get("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -42,9 +42,19 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    //CHANGING
+    get("/brands/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Brand thisBrand = Brand.find(Integer.parseInt(request.params("id")));
+      model.put("brand", thisBrand);
+      model.put("stores", Store.all());
+      model.put("template", "templates/brand.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
-    post("stores/add-new-store", (request, response) -> {
+    //MODIFY
+
+    //Stores
+    post("/stores/add-new-store", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Store newStore = new Store(request.queryParams("add-new-store"));
       boolean duplicateStoreRequested = Store.all().contains(newStore);
@@ -76,12 +86,52 @@ public class App {
       return null;
     });
 
-    //DELETING
+    //Brands
+    post("/brands/add-new-brand", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Brand newBrand = new Brand(request.queryParams("add-new-brand"));
+      boolean duplicateBrandRequested = Brand.all().contains(newBrand);
+      if (!duplicateBrandRequested) { newBrand.save(); }
+      model.put("duplicateBrandRequested", duplicateBrandRequested);
+      model.put("brands", Brand.all());
+      model.put("template", "templates/brands.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/brands/:id/add-store", (request, response) -> {
+      Brand thisBrand = Brand.find(Integer.parseInt(request.params("id")));
+      thisBrand.addStore(Integer.parseInt(request.queryParams("brand-add-store")));
+      response.redirect("/brands/" + thisBrand.getId());
+      return null;
+    });
+
+    post("/brands/:id/remove-store", (request, response) -> {
+      Brand thisBrand = Brand.find(Integer.parseInt(request.params("id")));
+      thisBrand.removeStore(Integer.parseInt(request.queryParams("store-to-remove")));
+      response.redirect("/brands/" + thisBrand.getId());
+      return null;
+    });
+
+    post("/brands/:id/change-name", (request, response) -> {
+      Brand thisBrand = Brand.find(Integer.parseInt(request.params("id")));
+      thisBrand.update(request.queryParams("brand-new-name"));
+      response.redirect("/brands/" + thisBrand.getId());
+      return null;
+    });
+
+    //DELETE
 
     post("/stores/:id/delete-store", (request, response) -> {
       Store thisStore = Store.find(Integer.parseInt(request.params("id")));
       thisStore.delete();
       response.redirect("/stores");
+      return null;
+    });
+
+    post("/brands/:id/delete-brand", (request, response) -> {
+      Brand thisBrand = Brand.find(Integer.parseInt(request.params("id")));
+      thisBrand.delete();
+      response.redirect("/brands");
       return null;
     });
   }

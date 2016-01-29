@@ -45,6 +45,7 @@ public class IntegrationTest extends FluentTest {
     assertThat(pageSource()).contains("Nike");
   }
 
+  //STORES
   @Test
   public void newStoreFormAddsNewStore() {
     goTo("http://localhost:4567/stores");
@@ -89,11 +90,62 @@ public class IntegrationTest extends FluentTest {
   }
 
   @Test
-  public void deleteForm_redirectsCorrectly() {
+  public void deleteStoreForm_redirectsCorrectly() {
     Store store = new Store("Nike Factory Store");
     store.save();
     goTo("http://localhost:4567/stores/" + store.getId());
-    submit(".btn", withText("Delete Store"));
-    assertThat(pageSource().contains("All Stores"));
+    submit(".btn-link", withText("Delete Store"));
+    assertThat(pageSource()).contains("All Stores");
+  }
+
+  //BRANDS
+  @Test
+  public void newBrandFormAddsNewBrand() {
+    goTo("http://localhost:4567/brands");
+    fill("#add-new-brand").with("Nike");
+    submit(".btn");
+    assertThat(pageSource()).contains("Nike");
+  }
+
+  @Test
+  public void newBrandFrom_preventsDuplicates() {
+    Brand brand = new Brand("Nike");
+    brand.save();
+    goTo("http://localhost:4567/brands");
+    fill("#add-new-brand").with("Nike");
+    submit(".btn");
+    assertThat(pageSource()).contains("That brand is already in the database");
+  }
+
+  @Test
+  public void addStoreForm_addsStoreToBrand() {
+    Brand brand = new Brand("Nike");
+    brand.save();
+    Store store = new Store("Nike Factory Store");
+    store.save();
+    goTo("http://localhost:4567/brands/" + brand.getId());
+    fillSelect("#brand-add-store").withText("Nike Factory Store");
+    submit(".btn", withText("Add Store"));
+    goTo("http://localhost:4567/brands");
+    assertThat(pageSource()).contains("Nike Factory Store");
+  }
+
+  @Test
+  public void updateForm_changesBrandName() {
+    Brand brand = new Brand("OopsWrong");
+    brand.save();
+    goTo("http://localhost:4567/brands/" + brand.getId());
+    fill("#brand-new-name").with("Nike");
+    submit(".btn", withText("Change Name"));
+    assertThat(pageSource()).contains("Nike");
+  }
+
+  @Test
+  public void deleteBrandForm_redirectsCorrectly() {
+    Brand brand = new Brand("Nike");
+    brand.save();
+    goTo("http://localhost:4567/brands/" + brand.getId());
+    submit(".btn-link", withText("Delete Brand"));
+    assertThat(pageSource()).contains("All Brands");
   }
 }

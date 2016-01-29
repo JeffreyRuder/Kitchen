@@ -1,5 +1,8 @@
 <h1><a href="/">Local Shoes</a></h1>
 <h2>$store.getName()</h2>
+<form action="/stores/$store.getId()/delete-store" method="post">
+  <button type="submit" class="btn-link">Delete Store</button>
+</form>
 
 <h3>Brands Carried:</h3>
 <table class="table">
@@ -12,7 +15,7 @@
   <tbody>
     #foreach ($uniqueBrand in $store.getAllBrands())
       <tr>
-        <td><a href="brands/$uniqueBrand.getId()">$uniqueBrand.getName()</a></td>
+        <td><a href="/brands/$uniqueBrand.getId()">$uniqueBrand.getName()</a></td>
         <td>
           <form action="/stores/$store.getId()/remove-brand" method="post">
             <input type="hidden" name="brand-to-remove" value="$uniqueBrand.getId()">
@@ -25,7 +28,7 @@
 </table>
 
 <div class="row">
-  <div class="col-md-4 formblock">
+  <div class="col-md-5 formblock">
     <h3>Add a Brand to this Store</h3>
     <form action="/stores/$store.getId()/add-brand" method="post">
       <div class="form-group">
@@ -42,7 +45,7 @@
     </form>
   </div>
 
-  <div class="col-md-4 formblock">
+  <div class="col-md-5 col-md-offset-2 formblock">
     <h3>Change this Store's Name</h3>
     <form action="/stores/$store.getId()/change-name" method="post">
       <div class="form-group">
@@ -52,12 +55,4 @@
       <button type="submit" class="btn btn-default">Change Name</button>
     </form>
   </div>
-
-  <div class="col-md-4 formblock">
-    <h3>Delete this Store</h3>
-    <form action="/stores/$store.getId()/delete-store" method="post">
-      <button type="submit" class="btn btn-default">Delete Store</button>
-    </form>
-  </div>
-
 </div>

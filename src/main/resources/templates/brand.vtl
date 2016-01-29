@@ -1,0 +1,58 @@
+<h1><a href="/">Local Shoes</a></h1>
+<h2>$brand.getName()</h2>
+<form action="/brands/$brand.getId()/delete-brand" method="post">
+  <button type="submit" class="btn-link">Delete Brand</button>
+</form>
+
+<h3>Stores where $brand.getName() is Carried:</h3>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Store</th>
+      <th>Remove Store from Brand</th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach ($uniqueStore in $brand.getAllStores())
+      <tr>
+        <td><a href="/stores/$uniqueStore.getId()">$uniqueStore.getName()</a></td>
+        <td>
+          <form action="/brands/$brand.getId()/remove-store" method="post">
+            <input type="hidden" name="store-to-remove" value="$uniqueStore.getId()">
+            <button type="submit" class="btn-link">Remove</button>
+          </form>
+        </td>
+      </tr>
+    #end
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-md-5 formblock">
+    <h3>Add a Store to this Brand</h3>
+    <form action="/brands/$brand.getId()/add-store" method="post">
+      <div class="form-group">
+        <label for="brand-add-store">Select a Brand</label>
+        <select id="brand-add-store" name="brand-add-store">
+          #foreach ($uniqueStore in $stores)
+            #if (!($brand.getAllStores().contains($uniqueStore)))
+              <option value="$uniqueStore.getId()">$uniqueStore.getName()</option>
+            #end
+          #end
+        </select>
+      </div>
+      <button type="submit" class="btn btn-default">Add Store</button>
+    </form>
+  </div>
+
+  <div class="col-md-5 col-md-offset-2 formblock">
+    <h3>Change this Brand's Name</h3>
+    <form action="/brands/$brand.getId()/change-name" method="post">
+      <div class="form-group">
+        <label for="brand-new-name">New Name</label>
+        <input type="text" name="brand-new-name" id="brand-new-name" required>
+        <button type="submit" class="btn btn-default">Change Name</button>
+      </div>
+    </form>
+  </div>
+</div>

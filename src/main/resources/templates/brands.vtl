@@ -1,6 +1,12 @@
 <h1><a href="/">Local Shoes</a></h1>
 <h2>All Brands</h2>
 
+#if ($duplicateBrandRequested)
+  <div class="bg-warning">
+    <p>That brand is already in the database. Enter a new name to try again.</p>
+  </div>
+#end
+
 <table class="table">
   <thead>
     <tr>
@@ -21,3 +27,16 @@
     #end
   </tbody>
 </table>
+
+<div class="row">
+  <div class="col-md-5 formblock">
+    <h3>Add a Store</h3>
+    <form action="/brands/add-new-brand" method="post">
+      <div class="form-group">
+        <label for="add-new-brand">Brand Name</label>
+        <input type="text" name="add-new-brand" id="add-new-brand" required>
+      </div>
+      <button type="submit" class="btn btn-default">New Brands</button>
+    </form>
+  </div>
+</div>

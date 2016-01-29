@@ -17,5 +17,4 @@ dependencies {
   testCompile group: 'junit', name: 'junit', version: '4.+'
   testCompile group: 'org.fluentlenium', name: 'fluentlenium-core', version: '0.10.3'
   testCompile group: 'org.fluentlenium', name: 'fluentlenium-assertj', version: '0.10.3'
-  testCompile group: 'org.assertj', name: 'assertj-core', version: '3.3.0'
 }

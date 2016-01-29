@@ -71,7 +71,7 @@ public class Brand {
 
   public void delete() {
     try (Connection con = DB.sql2o.open()) {
-      String deleteCarries = "DELETE FROM carries WHERE id = :id;";
+      String deleteCarries = "DELETE FROM carries WHERE brand_id = :id;";
       String deleteBrands = "DELETE FROM brands WHERE id = :id;";
       con.createQuery(deleteCarries + deleteBrands)
         .addParameter("id", mId)
