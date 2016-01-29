@@ -95,6 +95,7 @@ public class App {
       model.put("books", Book.all());
       model.put("successfulAdd", successfulAdd);
       model.put("patrons", Patron.all());
+      model.put("copy", Copy.class);
       model.put("template", "templates/acquisitions.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -139,6 +140,7 @@ public class App {
       model.put("duplicateBook", duplicateBook);
       model.put("successfulAdd", successfulAdd);
       model.put("patrons", Patron.all());
+      model.put("copy", Copy.class);
       model.put("template", "templates/acquisitions.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -162,6 +164,7 @@ public class App {
       model.put("duplicateAuthor", duplicateAuthor);
       model.put("successfulAdd", successfulAdd);
       model.put("patrons", Patron.all());
+      model.put("copy", Copy.class);
       model.put("template", "templates/acquisitions.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -185,6 +188,7 @@ public class App {
       model.put("duplicatePatron", duplicatePatron);
       model.put("successfulAdd", successfulAdd);
       model.put("patrons", Patron.all());
+      model.put("copy", Copy.class);
       model.put("template", "templates/acquisitions.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -198,6 +202,7 @@ public class App {
       model.put("books", Book.all());
       model.put("authors", Author.all());
       model.put("patrons", Patron.all());
+      model.put("copy", Copy.class);
       model.put("template", "templates/acquisitions.vtl");
 
       return new ModelAndView(model, layout);
@@ -292,6 +297,16 @@ public class App {
       patron.delete();
 
       response.redirect("/patrons");
+      return null;
+    });
+
+    post("/books/remove-copy", (request, response) -> {
+
+      Copy copy = Copy.find(Integer.parseInt(request.queryParams("delete-copy")));
+      int bookId = copy.getBookId();
+      copy.delete();
+
+      response.redirect("/books/" + bookId);
       return null;
     });
 

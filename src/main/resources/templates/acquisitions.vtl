@@ -91,6 +91,10 @@
       </form>
     </div>
 
+
+  </div>
+
+  <div class="row">
     <div class="col-md-6">
       <h2>Add a New Author to the Catalog</h2>
       <form action="/authors/add-author" method="post">
@@ -109,9 +113,6 @@
       </form>
     </div>
 
-  </div>
-
-  <div class="row">
     <div class="col-md-6">
       <h2>Add an Author to an Existing Book</h2>
 
@@ -139,27 +140,7 @@
       </form>
     </div>
 
-    <div class="col-md-6">
-      <h2>Add Copies of an Existing Book</h2>
 
-      <form action="/books/additional-copies" method="post">
-        <div class="form-group">
-          <label for="existing-book">Book</label>
-          <select id="existing-book" name="existing-book" required>
-            #foreach ($uniqueBook in $books)
-              <option value="$uniqueBook.getId()">$uniqueBook.getTitle()</option>
-            #end
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="new-book-copies">Number of Copies</label>
-          <input type="number" name="new-book-copies" id="new-book-copies" min="1" max="10" required>
-        </div>
-
-        <button type="submit" class="btn btn-default">Add Copies</button>
-      </form>
-    </div>
   </div>
 
 
@@ -200,6 +181,46 @@
         </select>
         <p class="help-block">You can only delete patrons that have no current copies checked out.</p>
         <button type="submit" class="btn btn-default">Remove Patron</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Add Copies of an Existing Book</h2>
+
+      <form action="/books/additional-copies" method="post">
+        <div class="form-group">
+          <label for="existing-book">Book</label>
+          <select id="existing-book" name="existing-book" required>
+            #foreach ($uniqueBook in $books)
+              <option value="$uniqueBook.getId()">$uniqueBook.getTitle()</option>
+            #end
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="new-book-copies">Number of Copies</label>
+          <input type="number" name="new-book-copies" id="new-book-copies" min="1" max="10" required>
+        </div>
+
+        <button type="submit" class="btn btn-default">Add Copies</button>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+    <h2>Delete a Copy</h2>
+      <form action="/books/remove-copy" method="post">
+        <div class="form-group">
+          <label for="delete-copy">Choose Copy</label>
+          <select id="delete-copy" name="delete-copy" required>
+            #foreach ($uniqueCopy in $copy.all())
+              <option value="$uniqueCopy.getId()">$uniqueCopy.getBookTitle() $uniqueCopy.getId()</option>
+            #end
+          </select>
+          <p class="help-block">Warning! Make sure you double-check copy ID before deleting.<p>
+          <button type="submit" class="btn btn-default">Delete Copy</button>
+        </div>
       </form>
     </div>
   </div>
