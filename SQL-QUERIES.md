@@ -1,9 +1,10 @@
 ## Setup Production Database
 
-`CREATE DATABASE salon;`
-`CREATE TABLE stylists(id serial PRIMARY KEY, first_name varchar, last_name varchar);`
-`CREATE TABLE clients(id serial PRIMARY KEY, first_name varchar, last_name varchar, stylist_id int references stylists(id));`
+`CREATE DATABASE shoe_stores`
+`CREATE TABLE stores (id serial PRIMARY KEY, name varchar);`
+`CREATE TABLE brands (id serial PRIMARY KEY, name varchar);`
+`CREATE TABLE carries (id serial PRIMARY KEY, store_id int references stores(id), brand_id int references brands(id))`
 
 ## Setup Test Database
 
-`CREATE DATABASE salon_test WITH TEMPLATE salon;`
+`CREATE DATABASE shoe_stores_test WITH TEMPLATE shoe_stores;`
