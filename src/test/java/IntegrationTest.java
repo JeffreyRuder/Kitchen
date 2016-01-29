@@ -32,7 +32,7 @@ public class IntegrationTest extends FluentTest {
     Store store = new Store("Nike Store");
     store.save();
     goTo("http://localhost:4567");
-    click("a", withText("Manage Stores"));
+    click("a", withText("View Stores"));
     assertThat(pageSource()).contains("Nike Store");
   }
 
@@ -41,7 +41,7 @@ public class IntegrationTest extends FluentTest {
     Brand brand = new Brand("Nike");
     brand.save();
     goTo("http://localhost:4567");
-    click("a", withText("Manage Brands"));
+    click("a", withText("View Brands"));
     assertThat(pageSource()).contains("Nike");
   }
 
@@ -96,6 +96,7 @@ public class IntegrationTest extends FluentTest {
     goTo("http://localhost:4567/stores/" + store.getId());
     submit(".btn-link", withText("Delete Store"));
     assertThat(pageSource()).contains("All Stores");
+    assertThat(pageSource()).doesNotContain("Nike Factory Store");
   }
 
   //BRANDS
@@ -138,6 +139,7 @@ public class IntegrationTest extends FluentTest {
     fill("#brand-new-name").with("Nike");
     submit(".btn", withText("Change Name"));
     assertThat(pageSource()).contains("Nike");
+    assertThat(pageSource()).doesNotContain("OopsWrong");
   }
 
   @Test
@@ -147,5 +149,6 @@ public class IntegrationTest extends FluentTest {
     goTo("http://localhost:4567/brands/" + brand.getId());
     submit(".btn-link", withText("Delete Brand"));
     assertThat(pageSource()).contains("All Brands");
+    assertThat(pageSource()).doesNotContain("Nike");
   }
 }
