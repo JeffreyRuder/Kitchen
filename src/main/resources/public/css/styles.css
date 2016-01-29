@@ -13,8 +13,18 @@ body {
   padding: 1.25em;
 }
 
-.index-title, .navigation-box {
+.index-title, .index-subhead, .navigation-box {
   text-align: center;
+}
+
+.index-title {
+  margin-bottom: 0;
+}
+
+.index-subhead {
+  margin-top: 0;
+  margin-bottom: 15px;
+  text-transform: lowercase;
 }
 
 h1 {
@@ -45,6 +55,21 @@ a:hover {
   color: #C98536;
 }
 
+.breadcrumb {
+  background: none;
+  padding: 0;
+}
+
+.breadcrumb>.active {
+    color: black;
+}
+
+.breadcrumb>li+li:before {
+    padding: 0 5px;
+    color: black;
+    content: "/\00a0";
+}
+
 .form-inline {
   vertical-align: top;
 }
@@ -70,4 +95,30 @@ select {
 
 .bg-warning {
   padding: 0.5em;
+}
+
+#stores-nav {
+  height: 300px;
+  background: linear-gradient(#F2C796, transparent 90%),
+    linear-gradient(0deg, #E09D51, transparent),
+    url("/img/shoe_store.jpg");
+  background-size: cover;
+  border: 1px solid black;
+}
+
+#brands-nav {
+  height: 300px;
+  background: linear-gradient(#F2C796, transparent 90%),
+    linear-gradient(0deg, #E09D51, transparent),
+    url("/img/shoes.jpg");
+  background-size: cover;
+  border: 1px solid black;
+}
+
+#stores-nav, #brands-nav {
+  margin-bottom: 15px;
+}
+
+#stores-nav h2, #brands-nav h2 {
+  padding: 131px 0;
 }
