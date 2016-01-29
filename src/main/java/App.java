@@ -14,9 +14,16 @@ public class App {
     //GETTING RESOURCES
 
     get("/", (request, response) -> {
-      response.redirect("/books");
-      return null;
-    });
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
+    get("/stores", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("stores", Store.all());
+      model.put("template", "templates/stores.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
   }
 }
