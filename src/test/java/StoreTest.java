@@ -48,4 +48,14 @@ public class StoreTest {
     store.delete();
     assertEquals(0, Store.all().size());
   }
+
+  @Test
+  public void addBrand_assignsBrandToStoreInDatabase() {
+    Store store = new Store("Nike Store");
+    store.save();
+    Brand brand = new Brand("Nike");
+    brand.save();
+    store.addBrand(brand.getId());
+    assertTrue(store.getAllBrands().contains(brand));
+  }
 }

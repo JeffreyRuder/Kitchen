@@ -77,4 +77,23 @@ public class Store {
         .executeUpdate();
     }
   }
+
+  public void addBrand(int brandId) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO carries (store_id, brand_id) VALUES (:store_id, :brand_id)";
+      con.createQuery(sql)
+        .addParameter("store_id", mId)
+        .addParameter("brand_id", brandId)
+        .executeUpdate();
+    }
+  }
+
+  public List<Brand> getAllBrands() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT brands.id AS mId, brands.name AS mName FROM carries INNER JOIN brands ON carries.brand_id = brands.id WHERE carries.store_id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeAndFetch(Brand.class);
+    }
+  }
 }
