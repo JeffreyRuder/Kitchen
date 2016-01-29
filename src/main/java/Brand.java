@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 import org.sql2o.*;
 
-public class Store {
+public class Brand {
   private int mId;
   private String mName;
 
   //CONSTRUCTOR
-  public Store(String name) {
+  public Brand(String name) {
     mName = name;
   }
 
@@ -21,37 +21,37 @@ public class Store {
   }
 
   //STATIC METHODS
-  public static Store find(int searchId) {
+  public static Brand find(int searchId) {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, name AS mName FROM stores WHERE id = :id";
+      String sql = "SELECT id AS mId, name AS mName FROM brands WHERE id = :id";
       return con.createQuery(sql)
         .addParameter("id", searchId)
-        .executeAndFetchFirst(Store.class);
+        .executeAndFetchFirst(Brand.class);
     }
   }
 
-  public static List<Store> all() {
+  public static List<Brand> all() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, name AS mName FROM stores";
+      String sql = "SELECT id AS mId, name AS mName FROM brands";
       return con.createQuery(sql)
-        .executeAndFetch(Store.class);
+        .executeAndFetch(Brand.class);
     }
   }
 
   //INSTANCE METHODS
   @Override
-  public boolean equals(Object otherStore) {
-    if (!(otherStore instanceof Store)) {
+  public boolean equals(Object otherBrand) {
+    if (!(otherBrand instanceof Brand)) {
       return false;
     } else {
-      Store store = (Store) otherStore;
+      Brand store = (Brand) otherBrand;
       return mName.equals(store.getName());
     }
   }
 
   public void save() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO stores (name) VALUES (:name)";
+      String sql = "INSERT INTO brands (name) VALUES (:name)";
       mId = (int) con.createQuery(sql, true)
         .addParameter("name", mName)
         .executeUpdate()
@@ -61,7 +61,7 @@ public class Store {
 
   public void update(String newName) {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE stores SET name = :newname WHERE id = :id";
+      String sql = "UPDATE brands SET name = :newname WHERE id = :id";
       con.createQuery(sql, true)
         .addParameter("newname", newName)
         .addParameter("id", mId)
@@ -71,7 +71,7 @@ public class Store {
 
   public void delete() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM stores WHERE id = :id";
+      String sql = "DELETE FROM brands WHERE id = :id";
       con.createQuery(sql, true)
         .addParameter("id", mId)
         .executeUpdate();
