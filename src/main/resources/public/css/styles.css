@@ -50,7 +50,7 @@ a, a:visited, .btn-link {
   color: #635545;
 }
 
-a:hover {
+a:hover, .btn-link:hover {
   text-decoration: none;
   color: #BA6E16;
 }
