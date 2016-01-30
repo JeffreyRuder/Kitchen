@@ -26,7 +26,11 @@
         <td><a href="/brands/$brand.getId()">$brand.getName()</a></td>
         <td>
           #foreach ($store in $brand.getAllStores())
-            <a href="/stores/$store.getId()">$store.getName()</a><br>
+            #if ($velocityCount < $brand.getAllStores().size())
+              <a href="/stores/$store.getId()">$store.getName()</a>,
+            #else
+              <a href="/stores/$store.getId()">$store.getName()</a>
+            #end
           #end
         </td>
       </tr>

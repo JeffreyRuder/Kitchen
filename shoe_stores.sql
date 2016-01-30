@@ -178,6 +178,9 @@ COPY carries (id, store_id, brand_id) FROM stdin;
 12	4	1
 13	4	3
 15	5	3
+16	6	1
+17	6	2
+18	6	3
 \.
 
 
@@ -185,7 +188,7 @@ COPY carries (id, store_id, brand_id) FROM stdin;
 -- Name: carries_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('carries_id_seq', 15, true);
+SELECT pg_catalog.setval('carries_id_seq', 18, true);
 
 
 --
@@ -196,6 +199,7 @@ COPY stores (id, name) FROM stdin;
 3	Nike Factory Store
 4	Foot Locker
 5	Reebok Store
+6	DSW
 \.
 
 
@@ -203,7 +207,7 @@ COPY stores (id, name) FROM stdin;
 -- Name: stores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('stores_id_seq', 5, true);
+SELECT pg_catalog.setval('stores_id_seq', 6, true);
 
 
 --
