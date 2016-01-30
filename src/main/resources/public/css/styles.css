@@ -117,6 +117,7 @@ select {
 
 #stores-nav, #brands-nav {
   margin-bottom: 15px;
+  border-radius: 4px;
 }
 
 #stores-nav h2, #brands-nav h2 {
