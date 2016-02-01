@@ -86,6 +86,16 @@ public class Ingredient {
     }
   }
 
+  public void delete() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM ingredients WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeUpdate();
+    }
+  }
+
+
 
 
 }

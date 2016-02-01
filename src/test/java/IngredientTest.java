@@ -23,6 +23,20 @@ public class IngredientTest {
     assert(ingredient.equals(savedIngredient));
   }
 
+  @Test
+  public void delete_ingredientIsDeleted() {
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    ingredient.delete();
+    assertEquals(0, Ingredient.all().size());
+
+  }
+
+  // @Test
+  // public void update_ingredientIsUpdated() {
+  //
+  // }
+
 
 
 }
