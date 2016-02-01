@@ -156,7 +156,7 @@ public class Order {
         mSeat == order.getSeat() &&
         mDishId == order.getDishId() &&
         mCreationDate.equals(order.getCreationDate()) &&
-        mCreationTime.substring(0, 4).equals(order.getCreationTime().substring(0, 4));
+        mCreationTime.substring(0, 5).equals(order.getCreationTime().substring(0, 5));
     }
   }
 
