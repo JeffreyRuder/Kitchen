@@ -88,9 +88,16 @@ public class Ingredient {
 
   public void delete() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM ingredients WHERE id = :id";
-      con.createQuery(sql)
+      String ingredientDelete = "DELETE FROM ingredients WHERE id = :id";
+      con.createQuery(ingredientDelete)
         .addParameter("id", mId)
+        .executeUpdate();
+    }
+    try (Connection con = DB.sql2o.open()) {
+      String joinDelete = "DELETE FROM dishes_ingredients " +
+                          "WHERE ingredient_id = :id";
+      con.createQuery(ingredientDelete)
+        .addParameter("ingredient_id", mId)
         .executeUpdate();
     }
   }
@@ -108,6 +115,6 @@ public class Ingredient {
         .executeUpdate();
     }
   }
-  
+
 
 }
