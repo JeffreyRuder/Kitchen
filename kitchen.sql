@@ -175,13 +175,16 @@ ALTER SEQUENCE inventories_id_seq OWNED BY inventories.id;
 
 CREATE TABLE orders (
     id integer NOT NULL,
-    patron_id integer,
     dish_id integer,
-    creation_datetime timestamp without time zone,
-    completion_datetime timestamp without time zone,
     table_num integer,
     seat_num integer,
-    comments character varying
+    comments character varying,
+    is_paid boolean,
+    patron_id integer,
+    creation_date date,
+    completion_date date,
+    creation_time character varying,
+    completion_time character varying
 );
 
 
@@ -350,7 +353,7 @@ SELECT pg_catalog.setval('inventories_id_seq', 1, false);
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY orders (id, patron_id, dish_id, creation_datetime, completion_datetime, table_num, seat_num, comments) FROM stdin;
+COPY orders (id, dish_id, table_num, seat_num, comments, is_paid, patron_id, creation_date, completion_date, creation_time, completion_time) FROM stdin;
 \.
 
 
@@ -454,14 +457,6 @@ ALTER TABLE ONLY inventories
 
 ALTER TABLE ONLY orders
     ADD CONSTRAINT orders_dish_id_fkey FOREIGN KEY (dish_id) REFERENCES dishes(id);
-
-
---
--- Name: orders_patron_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: Guest
---
-
-ALTER TABLE ONLY orders
-    ADD CONSTRAINT orders_patron_id_fkey FOREIGN KEY (patron_id) REFERENCES patrons(id);
 
 
 --
