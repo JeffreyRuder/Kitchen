@@ -212,7 +212,9 @@ ALTER SEQUENCE orders_id_seq OWNED BY orders.id;
 CREATE TABLE patrons (
     id integer NOT NULL,
     first_name character varying,
-    last_name character varying
+    last_name character varying,
+    phone character varying(12),
+    is_active boolean
 );
 
 
@@ -360,7 +362,7 @@ SELECT pg_catalog.setval('orders_id_seq', 1, false);
 -- Data for Name: patrons; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY patrons (id, first_name, last_name) FROM stdin;
+COPY patrons (id, first_name, last_name, phone, is_active) FROM stdin;
 \.
 
 
@@ -368,7 +370,7 @@ COPY patrons (id, first_name, last_name) FROM stdin;
 -- Name: patrons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('patrons_id_seq', 1, false);
+SELECT pg_catalog.setval('patrons_id_seq', 37, true);
 
 
 --
