@@ -9,6 +9,8 @@ public class DatabaseRule extends ExternalResource {
   }
 
   protected void after() {
-
+    try(Connection con = DB.sql2o.open()) {
+      con.createQuery("TRUNCATE patrons, orders, dishes, dishes_ingredients, ingredients, inventories").executeUpdate();
+    }
   }
 }
