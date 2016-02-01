@@ -178,7 +178,10 @@ CREATE TABLE orders (
     patron_id integer,
     dish_id integer,
     creation_datetime timestamp without time zone,
-    completion_datetime timestamp without time zone
+    completion_datetime timestamp without time zone,
+    table_num integer,
+    seat_num integer,
+    comments character varying
 );
 
 
@@ -212,7 +215,9 @@ ALTER SEQUENCE orders_id_seq OWNED BY orders.id;
 CREATE TABLE patrons (
     id integer NOT NULL,
     first_name character varying,
-    last_name character varying
+    last_name character varying,
+    phone character varying(12),
+    is_active boolean
 );
 
 
@@ -345,7 +350,7 @@ SELECT pg_catalog.setval('inventories_id_seq', 1, false);
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY orders (id, patron_id, dish_id, creation_datetime, completion_datetime) FROM stdin;
+COPY orders (id, patron_id, dish_id, creation_datetime, completion_datetime, table_num, seat_num, comments) FROM stdin;
 \.
 
 
@@ -360,7 +365,7 @@ SELECT pg_catalog.setval('orders_id_seq', 1, false);
 -- Data for Name: patrons; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY patrons (id, first_name, last_name) FROM stdin;
+COPY patrons (id, first_name, last_name, phone, is_active) FROM stdin;
 \.
 
 
