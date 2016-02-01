@@ -18,4 +18,16 @@ public class DishTest {
     assertTrue(firstDish.equals(secondDish));
   }
 
+  @Test
+  public void all_emptyAtFirst() {
+    assertEquals(Dish.all().size(), 0);
+  }
+
+  @Test
+  public void dish_instantiatesNameAndFindsItInListOfDishes() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    assertEquals("Cheeseburger", Dish.find(dish.getId()).getName());
+  }
+
 }

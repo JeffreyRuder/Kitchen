@@ -47,5 +47,15 @@ public class Dish {
     }
   }
 
+  public static Dish find(int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT id AS mId, name AS mName FROM dishes WHERE id = :id";
+      Dish dish = con.createQuery(sql)
+                     .addParameter("id", id)
+                     .executeAndFetchFirst(Dish.class);
+      return dish;
+    }
+  }
+
 
 }
