@@ -1,21 +1,15 @@
-# Local Shoes
+# Kitchen
 
 #### January 29, 2016
 
-#### By Jeffrey Ruder
+#### By Jeffrey Ruder, Midori Bowen, and Chris Siems
 
 ## Description
 
-Local Shoes tracks the availability of different brands at different shoe stores. Each brand is sold at many stores, and each store carries many brands. Thus, there is a many-to-many relationship between brands and stores.
-
-Local Shoes demonstrates using Spark routes to perform CRUD operations on a PostgreSQL database. It also demonstrates the use of a join table and SQL JOIN clauses to manage a many-to-many relationship.
 
 ## Features
 
-* Create, read, update, and delete information from the database about both brands and stores.
-* Warning messages display if users attempt to enter duplicate brands or stores.
-* Uses Bootstrap's breadcrumb component for easy navigation.
-* Linear gradients overlaying background images on the index page.
+*
 
 ## Setup
 
