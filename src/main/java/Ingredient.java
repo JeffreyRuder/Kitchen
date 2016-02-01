@@ -33,7 +33,7 @@ public class Ingredient {
     return mDesiredOnHand;
   }
 
-  public int getShelfLife() {
+  public int getShelfLifeDays() {
     return mShelfLifeDays;
   }
 
@@ -47,7 +47,7 @@ public class Ingredient {
              this.getName().equals(newIngredient.getName()) &&
              this.getUnit().equals(newIngredient.getUnit()) &&
              this.getDesiredOnHand() == newIngredient.getDesiredOnHand() &&
-             this.getShelfLife() == newIngredient.getShelfLife();
+             this.getShelfLifeDays() == newIngredient.getShelfLifeDays();
     }
   }
 
@@ -88,16 +88,16 @@ public class Ingredient {
 
   public void delete() {
     try (Connection con = DB.sql2o.open()) {
-      String ingredientDelete = "DELETE FROM ingredients WHERE id = :id";
-      con.createQuery(ingredientDelete)
+      String sql = "DELETE FROM ingredients WHERE id = :id";
+      con.createQuery(sql)
         .addParameter("id", mId)
         .executeUpdate();
     }
     try (Connection con = DB.sql2o.open()) {
-      String joinDelete = "DELETE FROM dishes_ingredients " +
+      String sql = "DELETE FROM dishes_ingredients " +
                           "WHERE ingredient_id = :id";
-      con.createQuery(ingredientDelete)
-        .addParameter("ingredient_id", mId)
+      con.createQuery(sql)
+        .addParameter("id", mId)
         .executeUpdate();
     }
   }
@@ -108,13 +108,16 @@ public class Ingredient {
                    "desired_on_hand = :desiredOnHand, shelf_life_days = " +
                    ":shelfLifeDays WHERE id = :id";
       con.createQuery(sql)
+        .addParameter("id", mId)
         .addParameter("name", name)
         .addParameter("unit", unit)
-        .addParameter("desired_on_hand", desiredOnHand)
-        .addParameter("shelf_life_days", shelfLifeDays)
+        .addParameter("desiredOnHand", desiredOnHand)
+        .addParameter("shelfLifeDays", shelfLifeDays)
         .executeUpdate();
     }
   }
+
+
 
 
 }
