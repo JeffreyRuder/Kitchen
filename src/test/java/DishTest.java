@@ -30,4 +30,14 @@ public class DishTest {
     assertEquals("Cheeseburger", Dish.find(dish.getId()).getName());
   }
 
+  @Test
+  public void delete_deletesADish() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    Dish anotherDish = new Dish("Turkey Burger");
+    anotherDish.save();
+    dish.delete();
+    assertEquals(1, Dish.all().size());
+  }
+
 }
