@@ -29,13 +29,15 @@ public class IngredientTest {
     ingredient.save();
     ingredient.delete();
     assertEquals(0, Ingredient.all().size());
-
   }
 
-  // @Test
-  // public void update_ingredientIsUpdated() {
-  //
-  // }
+  @Test
+  public void update_ingredientIsUpdated() {
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    ingredient.update("Apple", "apple", 50, "21");
+    assertEquals("Apple", Ingredient.find(ingredient.getId()).getName());
+  }
 
 
 

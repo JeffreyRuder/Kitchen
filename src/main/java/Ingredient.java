@@ -95,7 +95,19 @@ public class Ingredient {
     }
   }
 
-
-
+  public void update(String name, String unit, int desiredOnHand, int shelfLifeDays) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE ingredients SET name = :name, unit = :unit, " +
+                   "desired_on_hand = :desiredOnHand, shelf_life_days = " +
+                   ":shelfLifeDays WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("name", name)
+        .addParameter("unit", unit)
+        .addParameter("desired_on_hand", desiredOnHand)
+        .addParameter("shelf_life_days", shelfLifeDays)
+        .executeUpdate();
+    }
+  }
+  
 
 }
