@@ -59,8 +59,27 @@ public class Dish {
 
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "DELETE FROM dishes WHERE id = :id";
+      String sqlDeleteDishConnection = "DELETE FROM dishes_ingredients WHERE dishes_ingredients.dish_id = :id";
+      con.createQuery(sqlDeleteDishConnection)
+         .addParameter("id", mId)
+         .executeUpdate();
+    }
+
+
+    try(Connection con = DB.sql2o.open()) {
+      String sqlDeleteDish = "DELETE FROM dishes WHERE id = :id";
+      con.createQuery(sqlDeleteDish)
+         .addParameter("id", mId)
+         .executeUpdate();
+    }
+  }
+
+  public void update(String newName) {
+    mName = newName;
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE dishes SET name = :name WHERE id = :id";
       con.createQuery(sql)
+         .addParameter("name", newName)
          .addParameter("id", mId)
          .executeUpdate();
     }

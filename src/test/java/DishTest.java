@@ -40,4 +40,12 @@ public class DishTest {
     assertEquals(1, Dish.all().size());
   }
 
+  @Test
+  public void update_updateWorksProperly() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    dish.update("Turkey Burger");
+    assertEquals(dish.getName(), "Turkey Burger");
+  }
+
 }
