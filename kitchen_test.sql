@@ -141,8 +141,8 @@ CREATE TABLE inventories (
     id integer NOT NULL,
     ingredient_id integer,
     current_on_hand numeric(6,2),
-    delivery_datetime timestamp without time zone,
-    expiration_datetime timestamp without time zone
+    delivery_date date,
+    expiration_date date
 );
 
 
@@ -301,7 +301,7 @@ COPY dishes (id, name) FROM stdin;
 -- Name: dishes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('dishes_id_seq', 67, true);
+SELECT pg_catalog.setval('dishes_id_seq', 1, false);
 
 
 --
@@ -331,14 +331,14 @@ COPY ingredients (id, name, unit, desired_on_hand, shelf_life_days) FROM stdin;
 -- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('ingredients_id_seq', 24, true);
+SELECT pg_catalog.setval('ingredients_id_seq', 1, false);
 
 
 --
 -- Data for Name: inventories; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY inventories (id, ingredient_id, current_on_hand, delivery_datetime, expiration_datetime) FROM stdin;
+COPY inventories (id, ingredient_id, current_on_hand, delivery_date, expiration_date) FROM stdin;
 \.
 
 
@@ -361,7 +361,7 @@ COPY orders (id, dish_id, table_num, seat_num, comments, is_paid, patron_id, cre
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('orders_id_seq', 30, true);
+SELECT pg_catalog.setval('orders_id_seq', 1, false);
 
 
 --
@@ -376,7 +376,7 @@ COPY patrons (id, first_name, last_name, phone, is_active) FROM stdin;
 -- Name: patrons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('patrons_id_seq', 64, true);
+SELECT pg_catalog.setval('patrons_id_seq', 1, false);
 
 
 --

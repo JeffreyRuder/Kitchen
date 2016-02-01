@@ -141,8 +141,8 @@ CREATE TABLE inventories (
     id integer NOT NULL,
     ingredient_id integer,
     current_on_hand numeric(6,2),
-    delivery_datetime timestamp without time zone,
-    expiration_datetime timestamp without time zone
+    delivery_date date,
+    expiration_date date
 );
 
 
@@ -338,7 +338,7 @@ SELECT pg_catalog.setval('ingredients_id_seq', 1, false);
 -- Data for Name: inventories; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY inventories (id, ingredient_id, current_on_hand, delivery_datetime, expiration_datetime) FROM stdin;
+COPY inventories (id, ingredient_id, current_on_hand, delivery_date, expiration_date) FROM stdin;
 \.
 
 
