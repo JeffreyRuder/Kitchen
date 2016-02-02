@@ -35,7 +35,7 @@ public class IngredientTest {
   public void update_ingredientIsUpdated() {
     Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
     ingredient.save();
-    ingredient.update("Apple", "apple", 50, "21");
+    ingredient.update("Apple", "apple", 50, 21);
     assertEquals("Apple", Ingredient.find(ingredient.getId()).getName());
   }
 

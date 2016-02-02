@@ -96,7 +96,7 @@ public class Ingredient {
     try (Connection con = DB.sql2o.open()) {
       String joinDelete = "DELETE FROM dishes_ingredients " +
                           "WHERE ingredient_id = :id";
-      con.createQuery(ingredientDelete)
+      con.createQuery(joinDelete)
         .addParameter("ingredient_id", mId)
         .executeUpdate();
     }

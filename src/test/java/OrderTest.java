@@ -22,6 +22,21 @@ public class OrderTest {
   }
 
   @Test
+  public void order_instantiatesAndSavesCorrectlyWithPatron() {
+    Dish dish = new Dish("Hamburger");
+    dish.save();
+    Patron patron = new Patron("Jon", "Snow");
+    patron.save();
+    Order order = new Order(1, 1, dish.getId(), patron.getId());
+    order.save();
+    Order savedOrder = Order.find(order.getId());
+    assertEquals("Hamburger", savedOrder.getDishName());
+    assertEquals(order.getCreationDate(), savedOrder.getCreationDate());
+    assertEquals(order.getCreationTime(), savedOrder.getCreationTime());
+    assertEquals(order.getPatronId(), savedOrder.getPatronId());
+  }
+
+  @Test
   public void complete_completesOrderCorrectly() {
     Dish dish = new Dish("Hamburger");
     dish.save();
@@ -88,9 +103,24 @@ public class OrderTest {
     firstOrder.save();
     Order secondOrder = new Order(1, 1, dish.getId());
     secondOrder.save();
+    Order thirdOrder = new Order(1, 1, dish.getId());
+    thirdOrder.save();
     firstOrder.pay();
     firstOrder.complete();
+    Order check = Order.find(thirdOrder.getId());
     assertTrue(Order.getAllActive().contains(secondOrder));
+    assertTrue(Order.getAllActive().contains(firstOrder));
+    assertEquals(2, Order.getAllActive().size());
+  }
+
+  @Test
+  public void completeAndStartDuplicate_endsAndRestartsOrder() {
+    Dish dish = new Dish("Hamburger");
+    dish.save();
+    Order order = new Order(1, 1, dish.getId());
+    order.save();
+    order.completeAndStartDuplicate();
     assertEquals(1, Order.getAllActive().size());
+    assertEquals(2, Order.all().size());
   }
 }
