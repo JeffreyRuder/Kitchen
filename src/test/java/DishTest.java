@@ -40,4 +40,23 @@ public class DishTest {
     assertEquals(1, Dish.all().size());
   }
 
+  @Test
+  public void update_updateWorksProperly() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    dish.update("Turkey Burger");
+    assertEquals(dish.getName(), "Turkey Burger");
+  }
+
+  @Test
+  public void addIngredient_addsIngredientToDishesIngredientsTable() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
+    ingredient.save();
+    dish.addIngredient(ingredient.getId(), 8);
+    Ingredient[] ingredients = new Ingredient[] {ingredient};
+    assertTrue(dish.getAllIngredients().containsAll(Arrays.asList(ingredients)));
+  }
+
 }
