@@ -42,4 +42,13 @@ public class InventoryTest {
     inventory.update(100);
     assertEquals(100, Inventory.find(inventory.getId()).getCurrentOnHand());
   }
+
+  @Test
+  public void getIngredients_ingredientsAttachedToInventoryAreReturned() {
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    Inventory inventory = new Inventory(ingredient.getId(), 50);
+    inventory.save();
+    assertEquals(1, inventory.getIngredients().size());
+  }
 }
