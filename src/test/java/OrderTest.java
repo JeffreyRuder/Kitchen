@@ -79,4 +79,18 @@ public class OrderTest {
     Order[] orders = new Order[] {firstOrder, secondOrder};
     assertTrue(Order.all().containsAll(Arrays.asList(orders)));
   }
+
+  @Test
+  public void getAllActive_returnsAllActiveOrders() {
+    Dish dish = new Dish("Hamburger");
+    dish.save();
+    Order firstOrder = new Order(1, 1, dish.getId());
+    firstOrder.save();
+    Order secondOrder = new Order(1, 1, dish.getId());
+    secondOrder.save();
+    firstOrder.pay();
+    firstOrder.complete();
+    assertTrue(Order.getAllActive().contains(secondOrder));
+    assertEquals(1, Order.getAllActive().size());
+  }
 }
