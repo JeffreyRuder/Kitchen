@@ -78,4 +78,25 @@ public class Dish {
     }
   }
 
+  public void addIngredient(int ingredientId, int ingredientAmount) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO dishes_ingredients (dish_id, ingredient_id, ingredient_amount) VALUES (:dishId, :ingredientId, :ingredientAmount)";
+      con.createQuery(sql)
+         .addParameter("dishId", this.getId())
+         .addParameter("ingredientId", ingredientId)
+         .addParameter("ingredientAmount", ingredientAmount)
+         .executeUpdate();
+    }
+  }
+
+  public List<Ingredient> getAllIngredients() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT ingredients.id AS mId, ingredients.name AS mName, ingredients.unit AS mUnit, ingredients.desired_on_hand as mDesiredOnHand, ingredients.shelf_life_days AS mShelfLifeDays FROM dishes_ingredients INNER JOIN ingredients ON dishes_ingredients.ingredient_id = ingredients.id WHERE dishes_ingredients.dish_id = :dishid";
+      return con.createQuery(sql)
+         .addParameter("dishid", mId)
+         .executeAndFetch(Ingredient.class);
+    }
+  }
+
+
 }

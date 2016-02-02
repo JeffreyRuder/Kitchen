@@ -48,4 +48,15 @@ public class DishTest {
     assertEquals(dish.getName(), "Turkey Burger");
   }
 
+  @Test
+  public void addIngredient_addsIngredientToDishesIngredientsTable() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
+    ingredient.save();
+    dish.addIngredient(ingredient.getId(), 8);
+    Ingredient[] ingredients = new Ingredient[] {ingredient};
+    assertTrue(dish.getAllIngredients().containsAll(Arrays.asList(ingredients)));
+  }
+
 }
