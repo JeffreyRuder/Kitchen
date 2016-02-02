@@ -90,6 +90,21 @@ public class AppTest extends FluentTest {
   //   assertThat(pageSource()).contains("20");
   // }
 
-
+  @Test
+  public void dishesByTimesOrderedToday_displaysCorrectly() {
+    Dish dishOne = new Dish("Cheezeburger");
+    dishOne.save();
+    Dish dishTwo = new Dish("Hamburg Burger");
+    dishTwo.save();
+    Order orderOne = new Order(1, 1, dishOne.getId());
+    orderOne.save();
+    Order orderTwo = new Order(1, 2, dishOne.getId());
+    orderTwo.save();
+    Order orderThree = new Order(1, 3, dishTwo.getId());
+    orderThree.save();
+    goTo("http://localhost:4567/manager/orders/dishes");
+    assertThat(pageSource()).contains("Hamburg");
+    assertThat(pageSource()).contains("2");
+  }
 
 }

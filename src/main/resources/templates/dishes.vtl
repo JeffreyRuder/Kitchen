@@ -1,0 +1,20 @@
+<h4>All Dishes Ordered Today</h4>
+
+<table class="table hover-table sortable" id="dishes-table">
+  <thead>
+    <tr>
+      <th>Dish Name</th>
+      <th>Number of Times Ordered</th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach ($dish in $dishes)
+      <tr>
+        <td><a href="/manager/dishes/$dish.getId()">$dish.getName()</a></td>
+        <td><a href="/manager/dishes/$dish.getId()">$dish.getTimesOrdered()</a></td>
+      </tr>
+    #end
+  </tbody>
+</table>
+<br>
+<a href="/manager/dishes/new" class="btn btn-default"></a>

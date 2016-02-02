@@ -63,6 +63,23 @@ public class App {
       return null;
     });
 
+// TO-DO: GET DISHES
+    get("/manager/orders/dishes", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("dishes", Dish.all());
+      model.put("template", "templates/dishes.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+// TO-DO: POST NEW DISH
+
+// TO-DO: GET DISH
+
+// TO-DO: POST DISH:UPDATE DISH
+
+// TO-DO: POST DISH:ADD INGREDIENT TO LIST
+
+// TO-DO: POST DISH:DELETE INGREDIENT FROM LIST
 
   }
 }
