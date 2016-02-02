@@ -20,19 +20,26 @@ public class App {
     }, new VelocityTemplateEngine());
 
     //Orders
-
-    get("/orders/active", (request, response) -> {
+    get("/servers/orders/active", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
       model.put("template", "templates/orders-active.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/orders/new", (request, response) -> {
+    get("servers/orders/new", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
       model.put("dishes", Dish.all());
       model.put("template", "templates/orders-new.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("kitchen/orders/active", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("orders", Order.getAllActiveOrderByTime());
+      model.put("dishes", Dish.all());
+      model.put("template", "templates/orders-active.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
@@ -43,13 +50,16 @@ public class App {
       int table = Integer.parseInt(request.queryParams("table"));
       int seat = Integer.parseInt(request.queryParams("seat"));
       for (Dish dish : Dish.all()) {
-        if (request.queryParams(dish.getName()) != null) {
-          Integer dishId = Integer.parseInt(request.queryParams(dish.getName()));
-          Order order = new Order(table, seat, dishId);
-          order.save();
+        Integer dishQuantity = Integer.parseInt(request.queryParams(dish.getName()));
+        System.out.println(dishQuantity);
+        if (dishQuantity > 0) {
+          for (Integer i = dishQuantity; i > 0; i--) {
+            Order order = new Order (table, seat, dish.getId());
+            order.save();
+          }
         }
       }
-      response.redirect("/orders/active");
+      response.redirect("/servers/orders/active");
       return null;
     });
 
