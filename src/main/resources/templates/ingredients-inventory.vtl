@@ -1,13 +1,14 @@
-<!--Add ("ingredients", Ingredient.all()) to model-->
 <!--Add ("dishes", Dish.all()) to model-->
+<!--Add ("ingredients", Ingredient.all()) to model-->
 
 <h2>Dishes that are out of ingredients</h2>
+<ul>
 #foreach ($dish in $dishes)
   if ($dish.hasMissingIngredient())
-    $dish.getName()
+    <li>$dish.getName()</li>
   #end
 #end
-
+</ul>
 
 <h2>Ingredients in the Inventory</h2>
 <table class="table">
