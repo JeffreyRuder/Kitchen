@@ -37,6 +37,29 @@ public class RecipeTest {
     Recipe recipe = new Recipe(dish.getId(), ingredient.getId(), 1);
     recipe.save();
     assertEquals(Recipe.find(recipe.getId()).getDishId(), dish.getId());
+    assertEquals(Recipe.find(recipe.getId()).getIngredientId(), ingredient.getId());
+  }
+
+  @Test
+  public void getDishName_returnsDishName() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
+    ingredient.save();
+    Recipe recipe = new Recipe(dish.getId(), ingredient.getId(), 1);
+    recipe.save();
+    assertEquals("Cheeseburger", recipe.getDishName());
+  }
+
+  @Test
+  public void getIngredientName_returnsIngredientName() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
+    ingredient.save();
+    Recipe recipe = new Recipe(dish.getId(), ingredient.getId(), 1);
+    recipe.save();
+    assertEquals("Ground Beef", recipe.getIngredientName());
   }
 
 }
