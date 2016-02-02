@@ -1,8 +1,8 @@
 <h1>Active Orders</h1>
 <a href="/orders/new">New Order</a>
-<div class="orders-box">
+<div class="orders">
   #foreach ($order in $orders)
-    <div class="order-box col-md-4">
+    <div class="order col-md-3">
       <ul>
         <li>Table: $order.getTable()</li>
         <li>Seat: $order.getSeat()</li>

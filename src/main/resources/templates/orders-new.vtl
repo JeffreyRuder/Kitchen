@@ -1,30 +1,10 @@
-<!-- Style tag necessary to avoid redoing layout template -->
-<style media="screen">
-  .overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-  }
-
-  .lightbox {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: turquoise;
-    padding: 1em;
-  }
-</style>
-
 <div class="overlay"></div>
-  <h1>Active Orders</h1>
-  <a href="/orders/new">New Order</a>
+
+<h1>Active Orders</h1>
+<a href="/orders/new">New Order</a>
+<div class="orders">
   #foreach ($order in $orders)
-    <div class="order-box col-md-4">
+    <div class="order col-md-3">
       <ul>
         <li>Table: $order.getTable()</li>
         <li>Seat: $order.getSeat()</li>
@@ -36,6 +16,7 @@
       <a href="/order/$order.getId()/complete">Complete</a>
     </div>
   #end
+</div>
 
 <div class="lightbox">
   <h2>New Order</h2>
