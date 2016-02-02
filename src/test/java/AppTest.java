@@ -110,7 +110,7 @@ public class AppTest extends FluentTest {
   public void managerIngredients_rendersCorrectly() {
     Ingredient ingredient = new Ingredient("Ground Beef", "Pounds", 100, 5);
     ingredient.save();
-    goTo("http://localhost:4567/manager/ingredients/inventory");
+    goTo("http://localhost:4567/manager/inventory");
     assertThat(pageSource()).contains("Ground Beef");
   }
 
@@ -118,7 +118,7 @@ public class AppTest extends FluentTest {
   public void managerDeliveryPage_rendersCorrectly() {
     Ingredient ingredient = new Ingredient("Ground Beef", "Pounds", 100, 5);
     ingredient.save();
-    goTo("http://localhost:4567/manager/ingredients/delivery");
+    goTo("http://localhost:4567/manager/delivery");
     assertThat(pageSource()).contains("Ground Beef");
   }
 }
