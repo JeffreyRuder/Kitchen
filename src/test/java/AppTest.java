@@ -39,7 +39,22 @@ public class AppTest extends FluentTest {
     firstOrder.save();
     Order secondOrder = new Order(1, 2, secondDish.getId());
     secondOrder.save();
-    goTo("http://localhost:4567/orders/active");
+    goTo("http://localhost:4567/servers/orders/active");
+    assertThat(pageSource()).contains("Tofu Dog");
+    assertThat(pageSource()).contains("Penne Alfredo");
+  }
+
+  @Test
+  public void activeOrdersPageKitchen_rendersActiveOrders() {
+    Dish firstDish = new Dish("Tofu Dog");
+    Dish secondDish = new Dish("Penne Alfredo");
+    firstDish.save();
+    secondDish.save();
+    Order firstOrder = new Order(1, 1, firstDish.getId());
+    firstOrder.save();
+    Order secondOrder = new Order(1, 2, secondDish.getId());
+    secondOrder.save();
+    goTo("http://localhost:4567/kitchen/orders/active");
     assertThat(pageSource()).contains("Tofu Dog");
     assertThat(pageSource()).contains("Penne Alfredo");
   }
@@ -54,7 +69,7 @@ public class AppTest extends FluentTest {
     firstOrder.save();
     Order secondOrder = new Order(1, 2, secondDish.getId());
     secondOrder.save();
-    goTo("http://localhost:4567/orders/new");
+    goTo("http://localhost:4567/servers/orders/new");
     assertThat(pageSource()).contains("Tofu Dog");
     assertThat(pageSource()).contains("Penne Alfredo");
   }

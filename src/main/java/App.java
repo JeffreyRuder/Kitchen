@@ -20,19 +20,26 @@ public class App {
     }, new VelocityTemplateEngine());
 
     //Orders
-
-    get("/orders/active", (request, response) -> {
+    get("/servers/orders/active", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
       model.put("template", "templates/orders-active.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/orders/new", (request, response) -> {
+    get("servers/orders/new", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
       model.put("dishes", Dish.all());
       model.put("template", "templates/orders-new.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("kitchen/orders/active", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("orders", Order.getAllActiveOrderByTime());
+      model.put("dishes", Dish.all());
+      model.put("template", "templates/orders-active.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
