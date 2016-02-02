@@ -67,4 +67,16 @@ public class OrderTest {
     order.changeDish(secondDish.getId());
     assertEquals("Cheeseburger", Order.find(order.getId()).getDishName());
   }
+
+  @Test
+  public void all_returnsAllOrders_true() {
+    Dish dish = new Dish("Hamburger");
+    dish.save();
+    Order firstOrder = new Order(1, 1, dish.getId());
+    firstOrder.save();
+    Order secondOrder = new Order(1, 1, dish.getId());
+    secondOrder.save();
+    Order[] orders = new Order[] {firstOrder, secondOrder};
+    assertTrue(Order.all().containsAll(Arrays.asList(orders)));
+  }
 }
