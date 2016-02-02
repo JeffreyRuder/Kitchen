@@ -1,66 +1,54 @@
-<!-- Style tag necessary to avoid redoing layout template -->
-<style media="screen">
-  .overlay {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.8);
-  }
-
-  .lightbox {
-    position: absolute;
-    z-index: 1;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: turquoise;
-    padding: 1em;
-  }
-</style>
-
 <div class="overlay"></div>
-  <h1>Active Orders</h1>
-  <a href="/orders/new">New Order</a>
+<h1>Active Orders</h1>
+<a href="/servers/orders/new">New Order</a>
+<div class="orders col-md-12">
   #foreach ($order in $orders)
-    <div class="order-box col-md-4">
+    <div class="order col-md-3 col-md-offset-2">
       <ul>
         <li>Table: $order.getTable()</li>
         <li>Seat: $order.getSeat()</li>
         <li>Dish: $order.getDishName()</li>
-        <li>Placed: $order.getCreationTime()</li>
+        <li>Placed: $order.getCreationTime().substring(0, 5)</li>
+        #if ($order.checkPaid())
+          <li>Paid: Yes</li>
+        #else
+          <li>Paid: No</li>
+        #end
       </ul>
-      <a href="/order/$order.getId()/modify">Modify</a>
-      <a href="/order/$order.getId()/pay">Pay</a>
-      <a href="/order/$order.getId()/complete">Complete</a>
+      <ul class="list-inline">
+        <li>Modify</li>
+        <li>Pay</li>
+        <li>Complete</li>
+      </ul>
     </div>
   #end
+</div>
 
-<div class="lightbox">
-  <h2>New Order</h2>
-  <form action="/orders/new" class="form-horizontal" method="post">
+<div class="lightbox col-sm-4">
+  <form action="/orders/new" class="form-horizontal col-sm-12" method="post">
+    <h2>New Order</h2>
     <div class="form-group">
-      <label for="table" class="control-label col-sm-2">Table</label>
-      <div class="col-sm-8">
+      <label for="table" class="control-label col-sm-3">Table</label>
+      <div class="col-sm-9">
         <input name="table" id="table" min="1" required>
       </div>
     </div>
     <div class="form-group">
-      <label for="seat" class="control-label col-sm-2">Seat</label>
+      <label for="seat" class="control-label col-sm-3">Seat</label>
       <div class="col-sm-8">
         <input name="seat" id="seat" min="1" required>
       </div>
     </div>
       #foreach ($dish in $dishes)
         <div class="form-group">
-          <div class="col-sm-8 col-sm-offset-2">
-            <input type="checkbox" name="$dish.getName()" id="$dish.getId" value="$dish.getId()">$dish.getName()<br>
+          <label for="$dish.getId()" class="control-label col-sm-3">$dish.getName()</label>
+          <div class="col-sm-9">
+            <input type="number" name="$dish.getName()" id="$dish.getId()" value="0" max="10" min="0"><br>
           </div>
         </div>
       #end
       <div class="form-group">
-        <div class="col-sm-8 col-sm-offset-2">
+        <div class="col-sm-9 col-sm-offset-3">
           <button type="submit" class="btn btn-default">Submit Order</button>
         </div>
       </div>
