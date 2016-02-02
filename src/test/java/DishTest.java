@@ -59,4 +59,20 @@ public class DishTest {
     assertTrue(dish.getAllIngredients().containsAll(Arrays.asList(ingredients)));
   }
 
+  @Test
+  public void removeIngredient_removesAnIngredientFromDishesIngredientsTable() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
+    ingredient.save();
+    dish.addIngredient(ingredient.getId(), 8);
+    Ingredient ingredientTwo = new Ingredient("Ground Beef", "Ounce", 20, 5);
+    ingredientTwo.save();
+    dish.addIngredient(ingredientTwo.getId(), 8);
+    dish.removeIngredient(ingredient.getId());
+    Ingredient[] ingredients = new Ingredient[] {ingredientTwo};
+    assertTrue(dish.getAllIngredients().containsAll(Arrays.asList(ingredients)));
+    assertEquals(dish.getAllIngredients().size(), 1);
+  }
+
 }
