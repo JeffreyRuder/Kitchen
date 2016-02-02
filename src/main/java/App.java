@@ -50,13 +50,16 @@ public class App {
       int table = Integer.parseInt(request.queryParams("table"));
       int seat = Integer.parseInt(request.queryParams("seat"));
       for (Dish dish : Dish.all()) {
-        if (request.queryParams(dish.getName()) != null) {
-          Integer dishId = Integer.parseInt(request.queryParams(dish.getName()));
-          Order order = new Order(table, seat, dishId);
-          order.save();
+        Integer dishQuantity = Integer.parseInt(request.queryParams(dish.getName()));
+        System.out.println(dishQuantity);
+        if (dishQuantity > 0) {
+          for (Integer i = dishQuantity; i > 0; i--) {
+            Order order = new Order (table, seat, dish.getId());
+            order.save();
+          }
         }
       }
-      response.redirect("/orders/active");
+      response.redirect("/servers/orders/active");
       return null;
     });
 

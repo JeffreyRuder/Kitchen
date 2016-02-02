@@ -40,6 +40,8 @@ body {
   transform: translate(-50%, -50%);
   background: turquoise;
   padding: 1em;
+  border: 2px solid #111;
+  border-radius: 5px;
 }
 
 .orders {
@@ -60,4 +62,8 @@ body {
 
 .order ul li {
   font-size: 1.25em;
+}
+
+form h2 {
+  text-align: center;
 }
