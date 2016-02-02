@@ -100,7 +100,7 @@ public class Order {
 
   public static List<Order> all() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid FROM orders";
+      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid FROM orders ORDER BY creation_date, creation_time";
       return con.createQuery(sql)
         .executeAndFetch(Order.class);
     }
@@ -108,7 +108,7 @@ public class Order {
 
   public static List<Order> getAllActive() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid FROM orders WHERE completion_time IS NULL";
+      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid FROM orders WHERE completion_time IS NULL ORDER BY table_num, creation_date, creation_time";
       return con.createQuery(sql)
         .executeAndFetch(Order.class);
     }

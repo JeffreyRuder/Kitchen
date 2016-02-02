@@ -1,0 +1,17 @@
+<h1>Active Orders</h1>
+<a href="/orders/new">New Order</a>
+<div class="orders-box">
+  #foreach ($order in $orders)
+    <div class="order-box col-md-4">
+      <ul>
+        <li>Table: $order.getTable()</li>
+        <li>Seat: $order.getSeat()</li>
+        <li>Dish: $order.getDishName()</li>
+        <li>Placed: $order.getCreationTime()</li>
+      </ul>
+      <a href="/order/$order.getId()/modify">Modify</a>
+      <a href="/order/$order.getId()/pay">Pay</a>
+      <a href="/order/$order.getId()/complete">Complete</a>
+    </div>
+  #end
+</div>
