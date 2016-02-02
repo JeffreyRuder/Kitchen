@@ -11,7 +11,7 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
-    //GET
+    //GET RESOURCES
 
     get("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -59,14 +59,14 @@ public class App {
       return new ModelAndView(model, layout);
       }, new VelocityTemplateEngine());
 
-    get("/manager/ingredients/new" (request, response) -> {
+    get("/manager/new-ingredient", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("template", "templates/ingredient-new.vtl");
       return new ModelAndView(model, layout);
       }, new VelocityTemplateEngine());
 
     //Inventory
-    get("/manager/ingredients/inventory", (request, response) -> {
+    get("/manager/inventory", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("ingredients", Ingredient.all());
       model.put("dishes", Dish.all());
@@ -74,14 +74,14 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/manager/ingredients/delivery", (request, response) -> {
+    get("/manager/delivery", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("ingredients", Ingredient.all());
       model.put("template", "templates/ingredients-delivery.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    //POST
+    //MODIFY RESOURCES
 
     //TODO: update ALL order routes to decrement inventory as needed
 
