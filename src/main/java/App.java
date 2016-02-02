@@ -27,7 +27,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("servers/orders/new", (request, response) -> {
+    get("/servers/orders/new", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
       model.put("dishes", Dish.all());
@@ -35,7 +35,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("kitchen/orders/active", (request, response) -> {
+    get("/kitchen/orders/active", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActiveOrderByTime());
       model.put("dishes", Dish.all());
@@ -43,7 +43,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("servers/orders/:id", (request, response) -> {
+    get("/servers/orders/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("order", Order.find(Integer.parseInt(request.params("id"))));
       model.put("dishes", Dish.all());
@@ -51,9 +51,39 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //Ingredients
+    get("/manager/ingredients/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("ingredient", Ingredient.find(Integer.parseInt(request.params("id"))));
+      model.put("template", "templates/ingredient.vtl");
+      return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+    get("/manager/ingredients/new" (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/ingredient-new.vtl");
+      return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+    //Inventory
+    get("/manager/ingredients/inventory", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("ingredients", Ingredient.all());
+      model.put("dishes", Dish.all());
+      model.put("template", "templates/ingredients-inventory.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/manager/ingredients/delivery", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("ingredients", Ingredient.all());
+      model.put("template", "templates/ingredients-delivery.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     //POST
 
-    //TODO: update order routes to decrement inventory
+    //TODO: update ALL order routes to decrement inventory as needed
 
     //Order - take a new order
     post("/orders/new", (request, response) -> {

@@ -106,5 +106,19 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).doesNotContain("Tofu Dog");
   }
 
+  @Test
+  public void managerIngredients_rendersCorrectly() {
+    Ingredient ingredient = new Ingredient("Ground Beef", "Pounds", 100, 5);
+    ingredient.save();
+    goTo("http://localhost:4567/manager/ingredients/inventory");
+    assertThat(pageSource()).contains("Ground Beef");
+  }
 
+  @Test
+  public void managerDeliveryPage_rendersCorrectly() {
+    Ingredient ingredient = new Ingredient("Ground Beef", "Pounds", 100, 5);
+    ingredient.save();
+    goTo("http://localhost:4567/manager/ingredients/delivery");
+    assertThat(pageSource()).contains("Ground Beef");
+  }
 }
