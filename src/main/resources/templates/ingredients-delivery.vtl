@@ -1,0 +1,44 @@
+<!--Add ("ingredients", Ingredient.all()) to model-->
+
+<h2>Delivery</h2>
+<form action="/manager/ingredients/inventory" method="post">
+  <div class="form-group">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            Ingredient
+          </th>
+          <th>
+            Desired On Hand
+          </th>
+          <th>
+            In Stock
+          </th>
+          <th>
+            Amount Received
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        #foreach ($ingredient in $ingredients)
+          <tr>
+            <td>
+              <a href="/manager/ingredients/$ingredient.getId()">$ingredient.getName()</a>
+            </td>
+            <td>
+              $ingredient.getDesiredOnHand()
+            </td>
+            <td>
+              $ingredient.getTotalOnHand()
+            </td>
+            <td>
+              <input type="number" name="$ingredient.getName()" id="$ingredient.getId()" min="0" value="0">
+            </td>
+          </tr>
+        #end
+      </tbody>
+    </table>
+  </div>
+  <button type="submit" class="btn btn-default">Post Delivery</button>
+<form>

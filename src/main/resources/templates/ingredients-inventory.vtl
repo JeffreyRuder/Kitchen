@@ -1,0 +1,51 @@
+<!--Add ("ingredients", Ingredient.all()) to model-->
+<!--Add ("dishes", Dish.all()) to model-->
+
+<h2>Dishes that are out of ingredients</h2>
+#foreach ($dish in $dishes)
+  if ($dish.hasMissingIngredient())
+    $dish.getName()
+  #end
+#end
+
+
+<h2>Ingredients in the Inventory</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        Ingredient
+      </th>
+      <th>
+        Desired On Hand
+      </th>
+      <th>
+        In Stock
+      </th>
+      <th>
+        Expiration Date
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach ($ingredient in $ingredients)
+      <tr>
+        <td>
+          <a href="/manager/ingredients/$ingredient.getId()">$ingredient.getName()</a>
+        </td>
+        <td>
+          $ingredient.getDesiredOnHand()
+        </td>
+        <td>
+          $ingredient.getTotalOnHand()
+        </td>
+        <td>
+          $ingredient.getMostRecentExpiration();
+        </td>
+      </tr>
+    #end
+  </tbody>
+</table>
+
+<a href="/manager/ingredients/delivery" class="btn btn-default">New Delivery</a>
+<a href="/manager/ingredients/new" class="btn btn-default">Add New Ingredient</a>

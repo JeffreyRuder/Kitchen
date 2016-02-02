@@ -110,11 +110,22 @@ public class Inventory {
     }
   }
 
+  public void updateExpiration(String newExpirationDate) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE inventories SET expiration_date = TO_DATE(:expiration_date, 'yyyy-mm-dd') WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("expiration_date", newExpirationDate)
+        .addParameter("id", mId)
+        .executeUpdate();
+    }
+  }
+
   public List<Ingredient> getIngredients() {
     try (Connection con = DB.sql2o.open()) {
       String sql = "SELECT ingredients.id AS mId, ingredients.name AS mName, ingredients.unit AS mUnit, ingredients.desired_on_hand AS mDesiredOnHand, ingredients.shelf_life_days AS mShelfLifeDays FROM ingredients INNER JOIN inventories ON (ingredients.id = inventories.ingredient_id) ORDER BY ingredients.name";
       return con.createQuery(sql).executeAndFetch(Ingredient.class);
     }
   }
+
 
 }

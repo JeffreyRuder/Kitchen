@@ -120,5 +120,15 @@ public class Dish {
     }
   }
 
+  public boolean hasMissingIngredient() {
+    boolean hasMissingIngredient = false;
+    for (Ingredient ingredient : this.getAllIngredients()) {
+      if (ingredient.getTotalOnHand() <= 0) {
+        hasMissingIngredient = true;
+      }
+    }
+    return hasMissingIngredient;
+  }
+
 
 }

@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,6 +123,27 @@ public class Ingredient {
       String sql = "SELECT inventories.id AS mId, inventories.ingredient_id AS mIngredientId, inventories.current_on_hand AS mCurrentOnHand, inventories.delivery_date AS mDeliveryDate, inventories.expiration_date AS mExpirationDate FROM inventories INNER JOIN ingredients ON (ingredients.id = inventories.ingredient_id) ORDER BY inventories.expiration_date ASC";
       return con.createQuery(sql).executeAndFetch(Inventory.class);
     }
-
   }
+
+  public String getMostRecentExpiration() {
+    String expirationDate = "3000-12-31";
+    for (Inventory inventory : this.getInventories()) {
+      if (LocalDate.parse(inventory.getExpirationDate()).isBefore(LocalDate.parse(expirationDate)) && inventory.getCurrentOnHand() > 0) {
+        expirationDate = inventory.getExpirationDate();
+      }
+    }
+    return expirationDate;
+  }
+
+  public int getTotalOnHand() {
+    int totalOnHand = 0;
+    for (Inventory inventory : this.getInventories()) {
+      totalOnHand += inventory.getCurrentOnHand();
+    }
+    return totalOnHand;
+  }
+
+
+
+
 }
