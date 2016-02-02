@@ -96,6 +96,33 @@ public class AppTest extends FluentTest {
   }
 
   @Test
+  public void dishesByTimesOrderedToday_displaysCorrectly() {
+    Dish dishOne = new Dish("Cheezeburger");
+    dishOne.save();
+    Dish dishTwo = new Dish("Hamburg Burger");
+    dishTwo.save();
+    Order orderOne = new Order(1, 1, dishOne.getId());
+    orderOne.save();
+    Order orderTwo = new Order(1, 2, dishOne.getId());
+    orderTwo.save();
+    Order orderThree = new Order(1, 3, dishTwo.getId());
+    orderThree.save();
+    goTo("http://localhost:4567/manager/orders/dishes");
+    assertThat(pageSource()).contains("Hamburg");
+    assertThat(pageSource()).contains("1");
+    assertThat(pageSource()).contains("Cheezeburger");
+    assertThat(pageSource()).contains("2");
+  }
+
+  @Test
+  public void newDishesForm_createsANewDish() {
+    goTo("http://localhost:4567/manager/orders/dishes");
+    fill("#dish-name").with("Cheezeburger");
+    submit(".btn");
+    assertThat(pageSource()).contains("Cheezeburger");
+  }
+
+  @Test
   public void completeButton_completesOrder() {
     Dish firstDish = new Dish("Tofu Dog");
     firstDish.save();
@@ -121,4 +148,5 @@ public class AppTest extends FluentTest {
     goTo("http://localhost:4567/manager/delivery");
     assertThat(pageSource()).contains("Ground Beef");
   }
+  
 }

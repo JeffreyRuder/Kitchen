@@ -103,6 +103,38 @@ public class App {
       return null;
     });
 
+// TO-DO: GET DISHES
+    get("/manager/orders/dishes", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("dishes", Dish.all());
+      model.put("template", "templates/dishes.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+// TO-DO: GET DISH
+
+    get("/manager/dishes/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("dish", Dish.find(Integer.parseInt(request.params(":id"))));
+      model.put("recipes", Recipe.all());
+      model.put("template", "templates/dish.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+// TO-DO: POST NEW DISH
+    post("/manager/dishes/:id", (request, response) -> {
+      Dish dish = new Dish(request.queryParams("dish-name"));
+      dish.save();
+      response.redirect("/manager/orders/dishes");
+      return null;
+    });
+
+// TO-DO: POST DISH:UPDATE DISH
+
+// TO-DO: POST DISH:ADD INGREDIENT TO LIST
+
+// TO-DO: POST DISH:DELETE INGREDIENT FROM LIST
+
     //Order - pay for an order
     post("/servers/orders/:id/pay", (request, response) -> {
       Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
@@ -127,6 +159,7 @@ public class App {
       response.redirect("/servers/orders/" + thisOrder.getId());
       return null;
     });
+
 
     //Order - cancel and lost ingredients i.e diner walked out
     post("/servers/orders/active/remove", (request, response) -> {
