@@ -132,7 +132,12 @@ public class Ingredient {
         expirationDate = inventory.getExpirationDate();
       }
     }
-    return expirationDate;
+    if (LocalDate.parse(expirationDate).isBefore(LocalDate.parse("3000-12-31")))
+    {
+      return expirationDate;
+    } else {
+      return "";
+    }
   }
 
   public int getTotalOnHand() {
@@ -143,7 +148,16 @@ public class Ingredient {
     return totalOnHand;
   }
 
-
-
+  public void decrement(int amount) {
+    int totalUsed = 0;
+    while (totalUsed < amount) {
+      for (Inventory inventory : this.getInventories()) {
+        for (int i = inventory.getCurrentOnHand(); i > 0 && totalUsed < amount; i--) {
+          totalUsed++;
+          inventory.update(inventory.getCurrentOnHand() - 1);
+        }
+      }
+    }
+  }
 
 }
