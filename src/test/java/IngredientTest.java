@@ -39,6 +39,4 @@ public class IngredientTest {
     assertEquals("Apple", Ingredient.find(ingredient.getId()).getName());
   }
 
-
-
 }

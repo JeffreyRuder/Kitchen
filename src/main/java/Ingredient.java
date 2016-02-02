@@ -117,7 +117,5 @@ public class Ingredient {
     }
   }
 
-
-
-
+  //TODO: create getAllInventories method
 }

@@ -91,10 +91,30 @@ public class Inventory {
     }
   }
 
+  public void delete() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM inventories WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeUpdate();
+    }
+  }
+
+  public void update(int currentOnHand) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE inventories SET current_on_hand = :current_on_hand WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("current_on_hand", currentOnHand)
+        .addParameter("id", mId)
+        .executeUpdate();
+    }
+  }
+
   public List<Ingredient> getIngredients() {
     try (Connection con = DB.sql2o.open()) {
       String sql = "SELECT ingredients.id AS mId, ingredients.name AS mName, ingredients.unit AS mUnit, ingredients.desired_on_hand AS mDesiredOnHand, ingredients.shelf_life_days AS mShelfLifeDays FROM ingredients INNER JOIN inventories ON (ingredients.id = inventories.ingredient_id) ORDER BY ingredients.name.";
     return con.createQuery(sql).executeAndFetch(Ingredient.class);
     }
   }
+
 }

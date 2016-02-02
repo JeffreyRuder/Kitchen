@@ -22,4 +22,24 @@ public class InventoryTest {
     inventory.save();
     assertEquals(1, inventory.all().size());
   }
+
+  @Test
+  public void delete_inventoryIsDeleted() {
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    Inventory inventory = new Inventory(ingredient.getId(), 50);
+    inventory.save();
+    inventory.delete();
+    assertEquals(0, Inventory.all().size());
+  }
+
+  @Test
+  public void update_inventoryIsUpdated() {
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    Inventory inventory = new Inventory(ingredient.getId(), 50);
+    inventory.save();
+    inventory.update(100);
+    assertEquals(100, Inventory.find(inventory.getId()).getCurrentOnHand());
+  }
 }
