@@ -11,7 +11,7 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
-    //GET
+    //GET RESOURCES
 
     get("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -27,7 +27,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("servers/orders/new", (request, response) -> {
+    get("/servers/orders/new", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
       model.put("dishes", Dish.all());
@@ -35,7 +35,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("kitchen/orders/active", (request, response) -> {
+    get("/kitchen/orders/active", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActiveOrderByTime());
       model.put("dishes", Dish.all());
@@ -43,9 +43,49 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    //POST
+    get("/servers/orders/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("order", Order.find(Integer.parseInt(request.params("id"))));
+      model.put("dishes", Dish.all());
+      model.put("template", "templates/order.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
-    // Orders
+    //Ingredients
+    get("/manager/ingredients/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("ingredient", Ingredient.find(Integer.parseInt(request.params("id"))));
+      model.put("template", "templates/ingredient.vtl");
+      return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+    get("/manager/new-ingredient", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/ingredient-new.vtl");
+      return new ModelAndView(model, layout);
+      }, new VelocityTemplateEngine());
+
+    //Inventory
+    get("/manager/inventory", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("ingredients", Ingredient.all());
+      model.put("dishes", Dish.all());
+      model.put("template", "templates/ingredients-inventory.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/manager/delivery", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("ingredients", Ingredient.all());
+      model.put("template", "templates/ingredients-delivery.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    //MODIFY RESOURCES
+
+    //TODO: update ALL order routes to decrement inventory as needed
+
+    //Order - take a new order
     post("/orders/new", (request, response) -> {
       int table = Integer.parseInt(request.queryParams("table"));
       int seat = Integer.parseInt(request.queryParams("seat"));
@@ -88,12 +128,57 @@ public class App {
       response.redirect("/manager/orders/dishes");
       return null;
     });
-    
+
 // TO-DO: POST DISH:UPDATE DISH
 
 // TO-DO: POST DISH:ADD INGREDIENT TO LIST
 
 // TO-DO: POST DISH:DELETE INGREDIENT FROM LIST
 
+    //Order - pay for an order
+    post("/servers/orders/:id/pay", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      thisOrder.pay();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - complete an order and make it no longer active
+    post("/servers/orders/:id/complete", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      thisOrder.complete();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - change dish i.e. diner changed mind
+    post("/servers/orders/:id/modify", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      Dish requestedDish = Dish.find(Integer.parseInt(request.queryParams("select-dish")));
+      thisOrder.changeDish(requestedDish.getId());
+      response.redirect("/servers/orders/" + thisOrder.getId());
+      return null;
+    });
+
+
+    //Order - cancel and lost ingredients i.e diner walked out
+    post("/servers/orders/active/remove", (request, response) -> {
+      Order thisOrder = Order.find(
+        Integer.parseInt(request.queryParams("order-remove")));
+      thisOrder.complete();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - lost ingredients, cancel and restart i.e. diner sent it back
+    post("/servers/orders/active/restart", (request, response) -> {
+      Order thisOrder = Order.find(
+        Integer.parseInt(request.queryParams("order-restart")));
+      thisOrder.complete();
+      Order newOrder = new Order(thisOrder.getTable(), thisOrder.getSeat(), thisOrder.getDishId());
+      newOrder.save();
+      response.redirect("/servers/orders/" + newOrder.getId());
+      return null;
+    });
   }
 }
