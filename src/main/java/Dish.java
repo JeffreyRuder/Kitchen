@@ -89,6 +89,16 @@ public class Dish {
     }
   }
 
+  public void removeIngredient(int ingredientId) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM dishes_ingredients WHERE dishes_ingredients.ingredient_id = :id AND dishes_ingredients.dish_id = :dishId";
+      con.createQuery(sql)
+         .addParameter("id", ingredientId)
+         .addParameter("dishId", mId)
+         .executeUpdate();
+    }
+  }
+
   public List<Ingredient> getAllIngredients() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT ingredients.id AS mId, ingredients.name AS mName, ingredients.unit AS mUnit, ingredients.desired_on_hand as mDesiredOnHand, ingredients.shelf_life_days AS mShelfLifeDays FROM dishes_ingredients INNER JOIN ingredients ON dishes_ingredients.ingredient_id = ingredients.id WHERE dishes_ingredients.dish_id = :dishid";
