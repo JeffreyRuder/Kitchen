@@ -1,23 +1,9 @@
 body {
-  background-image:
-        -moz-linear-gradient(45deg, #222 25%, transparent 25%),
-        -moz-linear-gradient(-45deg, #222 25%, transparent 25%),
-        -moz-linear-gradient(45deg, transparent 75%, #222 75%),
-        -moz-linear-gradient(-45deg, transparent 75%, #222 75%);
-      background-image:
-        -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.25, #222), color-stop(.25, transparent)),
-        -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.25, #222), color-stop(.25, transparent)),
-        -webkit-gradient(linear, 0 100%, 100% 0, color-stop(.75, transparent), color-stop(.75, #222)),
-        -webkit-gradient(linear, 0 0, 100% 100%, color-stop(.75, transparent), color-stop(.75, #222));
-
-      -moz-background-size:100px 100px;
-      background-size:100px 100px;
-
-      background-position:0 0, 50px 0, 50px -50px, 0px 50px;
+  background: #C2CBCF;
 }
 
 .container {
-  background: #FBBCD7;
+  background: #E6AA73;
   margin-top: 50px;
   border: 2px solid #111;
   border-radius: 5px;
@@ -49,6 +35,7 @@ body {
 }
 
 .order {
+  background: #EEE;
   padding: 10px;
   border: 1px solid #111;
   border-radius: 5px;

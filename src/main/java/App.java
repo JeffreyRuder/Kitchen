@@ -27,7 +27,6 @@ public class App {
       int seat = Integer.parseInt(request.queryParams("seat"));
       for (Dish dish : Dish.all()) {
         Integer dishQuantity = Integer.parseInt(request.queryParams(dish.getName()));
-        System.out.println(dishQuantity);
         if (dishQuantity > 0) {
           for (Integer i = dishQuantity; i > 0; i--) {
             Order order = new Order (table, seat, dish.getId());
