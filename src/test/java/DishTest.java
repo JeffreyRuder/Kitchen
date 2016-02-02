@@ -89,4 +89,16 @@ public class DishTest {
     orderThree.save();
     assertEquals(dishOne.getTimesOrderedToday(), 2);
   }
+
+  @Test
+  public void hasMissingIngredient_indicatesDishMissingIngredient_true() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
+    ingredient.save();
+    dish.addIngredient(ingredient.getId(), 8);
+    Inventory inventory = new Inventory(ingredient.getId(), 0);
+    inventory.save();
+    assertEquals(true, Dish.find(dish.getId()).hasMissingIngredient());
+  }
 }
