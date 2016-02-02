@@ -1,6 +1,8 @@
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDate;
+
 import org.sql2o.*;
 
 public class Dish {
@@ -105,6 +107,16 @@ public class Dish {
       return con.createQuery(sql)
          .addParameter("dishid", mId)
          .executeAndFetch(Ingredient.class);
+    }
+  }
+
+  public int getTimesOrderedToday() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT COUNT(orders.id) FROM orders WHERE dish_id = :dishid AND orders.creation_date = to_date(:creationdate, 'YYYY-MM-DD')";
+      return con.createQuery(sql)
+        .addParameter("dishid", mId)
+        .addParameter("creationdate", LocalDate.now().toString())
+        .executeScalar(Integer.class);
     }
   }
 

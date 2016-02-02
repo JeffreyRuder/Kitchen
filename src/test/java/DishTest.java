@@ -75,4 +75,18 @@ public class DishTest {
     assertEquals(dish.getAllIngredients().size(), 1);
   }
 
+  @Test
+  public void getTimesOrderedToday_getsACountOfDishOrderedToday_2() {
+    Dish dishOne = new Dish("Cheeseburger");
+    dishOne.save();
+    Dish dishTwo = new Dish("Hamburger");
+    dishTwo.save();
+    Order orderOne = new Order(1, 1, dishOne.getId());
+    orderOne.save();
+    Order orderTwo = new Order(1, 2, dishOne.getId());
+    orderTwo.save();
+    Order orderThree = new Order(1, 3, dishTwo.getId());
+    orderThree.save();
+    assertEquals(dishOne.getTimesOrderedToday(), 2);
+  }
 }
