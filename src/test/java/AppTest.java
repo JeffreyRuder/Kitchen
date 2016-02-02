@@ -104,7 +104,17 @@ public class AppTest extends FluentTest {
     orderThree.save();
     goTo("http://localhost:4567/manager/orders/dishes");
     assertThat(pageSource()).contains("Hamburg");
+    assertThat(pageSource()).contains("1");
+    assertThat(pageSource()).contains("Cheezeburger");
     assertThat(pageSource()).contains("2");
+  }
+
+  @Test
+  public void newDishesForm_createsANewDish() {
+  goTo("http://localhost:4567/manager/orders/dishes");
+  fill("#dish-name").with("Cheezeburger");
+  submit(".btn");
+  assertThat(pageSource()).contains("Cheezeburger");
   }
 
 }
