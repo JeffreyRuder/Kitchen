@@ -1,0 +1,42 @@
+<h2>Ingredients in the Inventory</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            Ingredient
+          </th>
+          <th>
+            Desired On Hand
+          </th>
+          <th>
+            In Stock
+          </th>
+          <th>
+            Expiration Date
+          </th>
+          <th>
+            Delete
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        #foreach ($ingredient in $ingredients) <!--Ingredient.all() -->
+          <tr>
+            <td>
+              #foreach ($author in $uniqueBook.getAllAuthors())
+                <a href="/authors/$author.getId()">$author.getFullName()</a><br>
+              #end
+            <td>
+
+            </td>
+            #if ($uniqueBook.hasCopyAvailable())
+              <td><a href="/books/$uniqueBook.getId()">Yes</a></td>
+            #else
+              <td><a href="/books/$uniqueBook.getId()">No</a></td>
+            #end
+          </tr>
+        #end
+      </tbody>
+    </table>
+
+    <!-- ingredient.getInventories() -->

@@ -48,5 +48,33 @@ public class IngredientTest {
     assertEquals(1, ingredient.getInventories().size());
   }
 
+  @Test
+  public void getMostRecentExpiration_returnsMostRecentExpiration() {
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    Inventory firstInventory = new Inventory(ingredient.getId(), 50);
+    firstInventory.save();
+    Inventory secondInventory = new Inventory(ingredient.getId(), 40);
+    secondInventory.save();
+    Inventory thirdInventory = new Inventory(ingredient.getId(), 2);
+    thirdInventory.save();
+    thirdInventory.updateExpiration("2000-01-01");
+    assertEquals(Inventory.find(thirdInventory.getId()).getExpirationDate(), Ingredient.find(ingredient.getId()).getMostRecentExpiration());
+  }
+
+  @Test
+  public void getTotalAmountOnHand_returnsCorrectAmount() {
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    Inventory firstInventory = new Inventory(ingredient.getId(), 50);
+    firstInventory.save();
+    Inventory secondInventory = new Inventory(ingredient.getId(), 40);
+    secondInventory.save();
+    Inventory thirdInventory = new Inventory(ingredient.getId(), 2);
+    thirdInventory.save();
+    thirdInventory.updateExpiration("2000-01-01");
+    assertEquals(92, ingredient.getTotalOnHand());
+  }
+
 
 }
