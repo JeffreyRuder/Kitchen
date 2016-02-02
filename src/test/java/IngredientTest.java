@@ -76,5 +76,22 @@ public class IngredientTest {
     assertEquals(92, ingredient.getTotalOnHand());
   }
 
+  @Test
+  public void decrement_reducesInventoriesCorrectly() {
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    Inventory firstInventory = new Inventory(ingredient.getId(), 50);
+    firstInventory.save();
+    Inventory secondInventory = new Inventory(ingredient.getId(), 50);
+    secondInventory.save();
+    secondInventory.updateExpiration("2016-03-04");
+    Inventory thirdInventory = new Inventory(ingredient.getId(), 15);
+    thirdInventory.save();
+    thirdInventory.updateExpiration("2016-04-04");
+    ingredient.decrement(75);
+    assertEquals(40, Inventory.find(firstInventory.getId()).getCurrentOnHand());
+  }
+
+
 
 }

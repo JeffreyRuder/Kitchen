@@ -28,7 +28,12 @@ public class Inventory {
   }
 
   public int getCurrentOnHand() {
-    return mCurrentOnHand;
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT current_on_hand FROM inventories WHERE id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeScalar(Integer.class);
+    }
   }
 
   public String getDeliveryDate() {
@@ -36,7 +41,12 @@ public class Inventory {
   }
 
   public String getExpirationDate() {
-    return mExpirationDate;
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT expiration_date FROM inventories WHERE id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeScalar(String.class);
+    }
   }
 
   public int getShelfLifeDays() {
@@ -101,12 +111,15 @@ public class Inventory {
   }
 
   public void update(int currentOnHand) {
+    System.out.println("In inventory update, modifying current on hand to " + currentOnHand);
     try (Connection con = DB.sql2o.open()) {
       String sql = "UPDATE inventories SET current_on_hand = :current_on_hand WHERE id = :id";
+      System.out.println("In try block, executing query");
       con.createQuery(sql)
         .addParameter("current_on_hand", currentOnHand)
         .addParameter("id", mId)
         .executeUpdate();
+      System.out.println("In try block, current is " + this.getCurrentOnHand());
     }
   }
 
