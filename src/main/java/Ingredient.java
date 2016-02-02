@@ -117,7 +117,11 @@ public class Ingredient {
     }
   }
 
-  // public List<Inventory> getInventories() {
-  //
-  // }
+  public List<Inventory> getInventories() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT inventories.id AS mId, inventories.ingredient_id AS mIngredientId, inventories.current_on_hand AS mCurrentOnHand, inventories.delivery_date AS mDeliveryDate, inventories.expiration_date AS mExpirationDate FROM inventories INNER JOIN ingredients ON (ingredients.id = inventories.ingredient_id) ORDER BY inventories.expiration_date ASC";
+      return con.createQuery(sql).executeAndFetch(Inventory.class);
+    }
+
+  }
 }

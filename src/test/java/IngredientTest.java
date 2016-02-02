@@ -39,4 +39,14 @@ public class IngredientTest {
     assertEquals("Apple", Ingredient.find(ingredient.getId()).getName());
   }
 
+  @Test
+  public void getInventories_inventoriesAttachedToIngredientAreReturned() {
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    Inventory inventory = new Inventory(ingredient.getId(), 50);
+    inventory.save();
+    assertEquals(1, ingredient.getInventories().size());
+  }
+
+
 }
