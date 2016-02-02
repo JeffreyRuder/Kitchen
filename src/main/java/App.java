@@ -43,9 +43,19 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("servers/orders/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("order", Order.find(Integer.parseInt(request.params("id"))));
+      model.put("dishes", Dish.all());
+      model.put("template", "templates/order.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     //POST
 
-    // Orders
+    //TODO: update order routes to decrement inventory
+
+    //Order - take a new order
     post("/orders/new", (request, response) -> {
       int table = Integer.parseInt(request.queryParams("table"));
       int seat = Integer.parseInt(request.queryParams("seat"));
@@ -63,6 +73,49 @@ public class App {
       return null;
     });
 
+    //Order - pay for an order
+    post("/servers/orders/:id/pay", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      thisOrder.pay();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
 
+    //Order - complete an order and make it no longer active
+    post("/servers/orders/:id/complete", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      thisOrder.complete();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - change dish i.e. diner changed mind
+    post("/servers/orders/:id/modify", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      Dish requestedDish = Dish.find(Integer.parseInt(request.queryParams("select-dish")));
+      thisOrder.changeDish(requestedDish.getId());
+      response.redirect("/servers/orders/" + thisOrder.getId());
+      return null;
+    });
+
+    //Order - cancel and lost ingredients i.e diner walked out
+    post("/servers/orders/active/remove", (request, response) -> {
+      Order thisOrder = Order.find(
+        Integer.parseInt(request.queryParams("order-remove")));
+      thisOrder.complete();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - lost ingredients, cancel and restart i.e. diner sent it back
+    post("/servers/orders/active/restart", (request, response) -> {
+      Order thisOrder = Order.find(
+        Integer.parseInt(request.queryParams("order-restart")));
+      thisOrder.complete();
+      Order newOrder = new Order(thisOrder.getTable(), thisOrder.getSeat(), thisOrder.getDishId());
+      newOrder.save();
+      response.redirect("/servers/orders/" + newOrder.getId());
+      return null;
+    });
   }
 }

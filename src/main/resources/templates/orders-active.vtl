@@ -15,9 +15,17 @@
         #end
       </ul>
       <ul class="list-inline">
-        <li><a href="/order/$order.getId()/modify">Modify</a></li>
-        <li><a href="/order/$order.getId()/pay">Pay</a></li>
-        <li><a href="/order/$order.getId()/complete">Complete</a></li>
+        <li><a href="/servers/orders/$order.getId()">Modify</a></li>
+        <li>
+          <form action="/servers/orders/$order.getId()/pay" method="post">
+            <button type="submit" class="btn-link">Pay</button>
+          </form>
+        </li>
+        <li>
+          <form action="/servers/orders/$order.getId()/complete" method="post">
+            <button type="submit" class="btn-link">Complete</button>
+          </form>
+        </li>
       </ul>
     </div>
   #end
