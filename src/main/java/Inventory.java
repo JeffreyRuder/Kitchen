@@ -9,14 +9,14 @@ public class Inventory {
   private int mId;
   private int mIngredientId;
   private int mCurrentOnHand;
-  private LocalDate mDeliveryDate;
-  private LocalDate mExpirationDate;
+  private String mDeliveryDate;
+  private String mExpirationDate;
 
   public Inventory(int ingredientId, int currentOnHand) {
     mIngredientId = ingredientId;
     mCurrentOnHand = currentOnHand;
-    mDeliveryDate = LocalDate.now();
-    mExpirationDate = mDeliveryDate.plusDays(Ingredient.find(ingredientId).getShelfLifeDays());
+    mDeliveryDate = LocalDate.now().toString();
+    mExpirationDate = LocalDate.now().plusDays(Ingredient.find(ingredientId).getShelfLifeDays()).toString();
   }
 
   public int getId() {
@@ -31,11 +31,11 @@ public class Inventory {
     return mCurrentOnHand;
   }
 
-  public LocalDate getDeliveryDate() {
+  public String getDeliveryDate() {
     return mDeliveryDate;
   }
 
-  public LocalDate getExpirationDate() {
+  public String getExpirationDate() {
     return mExpirationDate;
   }
 
@@ -64,12 +64,12 @@ public class Inventory {
 
   public void save() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO inventories (ingredient_id, current_on_hand, TO_DATE (delivery_date, 'YYYY-MM-DD'), TO_DATE(expiration_date, 'YYYY-MM-DD')) VALUES (:ingredientId, :currentOnHand, :deliveryDate, :expirationDate)";
+      String sql = "INSERT INTO inventories (ingredient_id, current_on_hand, delivery_date, expiration_date) VALUES (:ingredient_id, :current_on_hand, TO_DATE(:delivery_date, 'yyyy-mm-dd'), TO_DATE(:expiration_date, 'yyyy-mm-dd'))";
       mId = (int) con.createQuery(sql, true)
-        .addParameter("ingredientId", mIngredientId)
-        .addParameter("currentOnHand", mCurrentOnHand)
-        .addParameter("deliveryDate", mDeliveryDate)
-        .addParameter("expirationDate", mExpirationDate)
+        .addParameter("ingredient_id", mIngredientId)
+        .addParameter("current_on_hand", mCurrentOnHand)
+        .addParameter("delivery_date", mDeliveryDate)
+        .addParameter("expiration_date", mExpirationDate)
         .executeUpdate()
         .getKey();
     }
@@ -78,7 +78,7 @@ public class Inventory {
   public static Inventory find(int inventoryId) {
     try (Connection con = DB.sql2o.open()) {
       String sql = "SELECT id AS mId, ingredient_id AS mIngredientId, current_on_hand AS mCurrentOnHand, delivery_date AS mDeliveryDate, expiration_date AS mExpirationDate FROM inventories WHERE id = :id";
-      Inventory inventory = con.createQuery(sql)
+      return con.createQuery(sql)
         .addParameter("id", inventoryId)
         .executeAndFetchFirst(Inventory.class);
     }
