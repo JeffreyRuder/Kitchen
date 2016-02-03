@@ -21,12 +21,6 @@ public class AppTest extends FluentTest {
   @ClassRule
   public static ServerRule server = new ServerRule();
 
-  // @Test
-  // public void rootTest() {
-  //   goTo("http://localhost:4567");
-  //   assertThat(pageSource()).contains("Kitchen");
-  // }
-
   //GETTING RESOURCES
 
   @Test
@@ -148,5 +142,24 @@ public class AppTest extends FluentTest {
     goTo("http://localhost:4567/manager/delivery");
     assertThat(pageSource()).contains("Ground Beef");
   }
-  
+
+  @Test
+  public void ingredientPage_rendersCorrectly() {
+    Ingredient ingredient = new Ingredient("Ground Beef", "Pounds", 100, 5);
+    ingredient.save();
+    goTo("http://localhost:4567/manager/ingredients/" + ingredient.getId());
+    assertThat(pageSource()).contains("Ground Beef");
+  }
+
+  @Test
+  public void takeDeliveryForm_addsToInventory() {
+    Ingredient ingredient = new Ingredient("Ground Beef", "Pounds", 100, 5);
+    ingredient.save();
+    goTo("http://localhost:4567/manager/delivery");
+    fill("#" + ingredient.getId()).with("13");
+    submit(".btn");
+    assertThat(pageSource()).contains("13");
+    assertThat(pageSource()).contains("Ground Beef");
+  }
+
 }
