@@ -1,0 +1,20 @@
+<h1>Add a new ingredient:</h1>
+
+
+<form action="/manager/inventory" method="post">
+  <div class="input-group">
+    <label for="new-name">Add a new ingredient:</label>
+    <input id="new-name" class="form-control" name="new-name" type="text" placeholder="Ingredient Name" required>
+    <label for="new-unit">Unit of measurement</label>
+    <input id="new-unit" class="form-control" name="new-unit" type="text" placeholder="Measurement" required>
+    <label for="new-desired">Amount Desired In Stock</label>
+    <input id="new-desired" class="form-control" name="new-desired" type="text" placeholder="Amount Desired" required>
+    <label for="current-on-hand">Currently in Stock</label>
+    <input id="current-on-hand" class="form-control" name="current-on-hand" type="text" placeholder="Amount In Stock" required>
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-success">Submit</button>
+    </span>
+  </div>
+</form>
+
+<a href="/manager/inventory" class="btn btn-default">Back to Inventory</a>
