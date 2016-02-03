@@ -131,5 +131,15 @@ public class Dish {
     return hasMissingIngredient;
   }
 
+  public boolean hasEnoughIngredients() {
+    boolean hasEnoughIngredients = false;
+    for (Ingredient ingredient : this.getAllIngredients()) {
+      if (ingredient.getIngredientAmountForDish(this.getId()) <= ingredient.getTotalOnHand()) {
+        hasEnoughIngredients = true;
+      }
+    }
+    return hasEnoughIngredients;
+  }
+
 
 }
