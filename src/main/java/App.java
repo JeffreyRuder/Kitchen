@@ -124,9 +124,9 @@ public class App {
 
     post("/manager/new-ingredient", (request, response) -> {
       Ingredient newIngredient = new Ingredient(
-        request.queryParams("name"),
-        request.queryParams("unit"),
-        Integer.parseInt(request.queryParams("desired-on-hand")),
+        request.queryParams("new-name"),
+        request.queryParams("new-unit"),
+        Integer.parseInt(request.queryParams("new-desired")),
         Integer.parseInt(request.queryParams("shelf-life-days")));
       newIngredient.save();
       response.redirect("/manager/ingredients/" + newIngredient.getId());
