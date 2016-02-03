@@ -40,7 +40,7 @@
       </div>
     </div>
       #foreach ($dish in $dishes)
-        #if (!($dish.hasMissingIngredient()))
+        #if (!($dish.hasEnoughIngredients()))
           <div class="form-group">
             <label for="$dish.getId()" class="control-label col-sm-3">$dish.getName()</label>
             <div class="col-sm-9">
