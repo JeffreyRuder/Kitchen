@@ -103,6 +103,21 @@ public class DishTest {
   }
 
   @Test
+  public void getAllRecipes_getsAllRecipesForDish() {
+    Dish dish = new Dish("Hot Dog");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Sausage", "Unit", 20, 5);
+    ingredient.save();
+    Ingredient secondIngredient = new Ingredient("Buns", "Pair", 20, 10);
+    secondIngredient.save();
+    dish.addIngredient(ingredient.getId(), 1);
+    dish.addIngredient(secondIngredient.getId(), 1);
+    assertEquals(2, dish.getAllRecipes().size());
+    assertTrue(dish.getAllRecipes().get(1) instanceof Recipe);
+    assertEquals(1, dish.getAllRecipes().get(1).getIngredientAmount());
+  }
+
+  @Test
   public void hasEnoughIngredients_indicatesDishHasEnoughIngredients_true() {
     Dish dish = new Dish("Cheeseburger");
     dish.save();
@@ -113,4 +128,5 @@ public class DishTest {
     inventory.save();
     assertEquals(true, Dish.find(dish.getId()).hasEnoughIngredients());
   }
+
 }

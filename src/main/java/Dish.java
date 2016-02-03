@@ -111,6 +111,18 @@ public class Dish {
     }
   }
 
+  public List<Recipe> getAllRecipes() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT id AS mId, dish_id AS mDishId, ingredient_id AS mIngredientId, ingredient_amount AS mIngredientAmount "
+                  + "FROM dishes_ingredients "
+                  + "WHERE dish_id = :dishid";
+      return con.createQuery(sql)
+                .addParameter("dishid", mId)
+                .executeAndFetch(Recipe.class);
+    }
+  }
+
+
   public int getTimesOrderedToday() {
     try (Connection con = DB.sql2o.open()) {
       String sql = "SELECT COUNT(orders.id) FROM orders WHERE dish_id = :dishid AND orders.creation_date = to_date(:creationdate, 'YYYY-MM-DD')";
