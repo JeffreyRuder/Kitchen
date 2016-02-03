@@ -133,6 +133,18 @@ public class AppTest extends FluentTest {
   }
 
   @Test
+  public void dish_addIngredientToList() {
+    Dish dish = new Dish("Cheezeburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Bunz", "pair(s)", 300, 14);
+    ingredient.save();
+    goTo("http://localhost:4567/manager/dishes/" + Integer.toString(dish.getId()));
+    click("option", withText("Bunz"));
+    submit(".btn");
+    assertThat(pageSource()).contains("Bunz");
+  }
+
+  @Test
   public void completeButton_completesOrder() {
     Dish firstDish = new Dish("Tofu Dog");
     firstDish.save();

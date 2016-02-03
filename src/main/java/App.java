@@ -103,7 +103,7 @@ public class App {
       return null;
     });
 
-// TO-DO: GET DISHES
+// GET DISHES
     get("/manager/orders/dishes", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("dishes", Dish.all());
@@ -111,7 +111,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-// TO-DO: POST NEW DISH
+// POST NEW DISH
     post("/manager/orders/dishes", (request, response) -> {
       Dish dish = new Dish(request.queryParams("dish-name"));
       dish.save();
@@ -119,17 +119,18 @@ public class App {
       return null;
     });
 
-// TO-DO: GET DISH
+// GET DISH
 
     get("/manager/dishes/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("dish", Dish.find(Integer.parseInt(request.params(":id"))));
       model.put("recipes", Recipe.all());
+      model.put("ingredients", Ingredient.all());
       model.put("template", "templates/dish.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-// TO-DO: POST DISH:UPDATE DISH
+// UPDATE DISH
 
     post("/manager/dishes/:id/update", (request, response) -> {
       Dish dish = Dish.find(Integer.parseInt(request.params("id")));
@@ -139,9 +140,18 @@ public class App {
       return null;
     });
 
-// TO-DO: POST DISH:ADD INGREDIENT TO LIST
+// TO-DO: POST DISH:ADD INGREDIENT TO LIST --> to make this work, create another method to getAllRecipes in Dish so that Ingredient Amount will render on page.
+
+    post("/manager/dishes/:id/add-ingredient", (request, response) -> {
+      Dish dish = Dish.find(Integer.parseInt(request.queryParams("dish-id")));
+      dish.addIngredient(Integer.parseInt(request.queryParams("add-ingredient")), Integer.parseInt(request.queryParams("amount")));
+      response.redirect("/manager/dishes/" + dish.getId());
+      return null;
+    });
 
 // TO-DO: POST DISH:DELETE INGREDIENT FROM LIST
+
+
 
     //Order - pay for an order
     post("/servers/orders/:id/pay", (request, response) -> {
