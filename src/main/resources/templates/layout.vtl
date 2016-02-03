@@ -2,12 +2,46 @@
 <html>
   <head>
     <title>Kitchen</title>
-    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
-    <link href='https://fonts.googleapis.com/css?family=Carrois+Gothic+SC|Carrois+Gothic' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://cdn.rawgit.com/olton/Metro-UI-CSS/master/build/css/metro.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/olton/Metro-UI-CSS/master/build/css/metro-responsive.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/olton/Metro-UI-CSS/master/build/css/metro-schemes.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/olton/Metro-UI-CSS/master/build/css/metro-rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/olton/Metro-UI-CSS/master/build/css/metro-icons.min.css">
+
     <link rel="stylesheet" href="/css/styles.css">
+
+    <script src="https://cdn.rawgit.com/olton/Metro-UI-CSS/master/build/js/metro.min.js">
+    </script>
   </head>
-  <body>
-    <div class="container">
+  <body class="bg-steel">
+    <div class="app-bar">
+        <a class="app-bar-element" href="/">Home</a>
+        <span class="app-bar-divider"></span>
+        <ul class="app-bar-menu">
+            <li><a href="/">Home</a></li>
+            <li>
+                <a href="" class="dropdown-toggle">Products</a>
+                <ul class="d-menu" data-role="dropdown">
+                    <li><a href="">Windows 10</a></li>
+                    <li><a href="">Spartan</a></li>
+                    <li><a href="">Outlook</a></li>
+                    <li><a href="">Office 2015</a></li>
+                    <li class="divider"></li>
+                    <li><a href="" class="dropdown-toggle">Other Products</a>
+                        <ul class="d-menu" data-role="dropdown">
+                            <li><a href="">Internet Explorer 10</a></li>
+                            <li><a href="">Skype</a></li>
+                            <li><a href="">Surface</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="">Support</a></li>
+            <li><a href="">Help</a></li>
+        </ul>
+    </div>
+    <div class="container page-content">
       #parse( $template )
     </div>
   </body>
