@@ -1,20 +1,39 @@
 <h1>Add a new ingredient:</h1>
 
 
-<form action="/manager/inventory" method="post">
-  <div class="input-group">
-    <label for="new-name">Add a new ingredient:</label>
-    <input id="new-name" class="form-control" name="new-name" type="text" placeholder="Ingredient Name" required>
-    <label for="new-unit">Unit of measurement</label>
-    <input id="new-unit" class="form-control" name="new-unit" type="text" placeholder="Measurement" required>
-    <label for="new-desired">Amount Desired In Stock</label>
-    <input id="new-desired" class="form-control" name="new-desired" type="text" placeholder="Amount Desired" required>
-    <label for="current-on-hand">Currently in Stock</label>
-    <input id="current-on-hand" class="form-control" name="current-on-hand" type="text" placeholder="Amount In Stock" required>
-    <span class="input-group-btn">
-      <button type="submit" class="btn btn-success">Submit</button>
-    </span>
+<form class="form-horizontal" action="/manager/new-ingredient" method="post">
+  <div class="form-group">
+    <label for="new-name" class="control-label col-xs-2">Add a new ingredient:</label>
+    <div class="col-xs-10">
+      <input id="new-name" class="form-control" name="new-name" type="text" placeholder="Ingredient Name" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="new-unit" class="control-label col-xs-2">Unit of measurement</label>
+    <div class="col-xs-10">
+      <input id="new-unit" class="form-control" name="new-unit" type="text" placeholder="Measurement" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="new-desired" class="control-label col-xs-2">Desired In Stock</label>
+    <div class="col-xs-10">
+      <input id="new-desired" class="form-control" name="new-desired" type="number" placeholder="0" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="current-on-hand" class="control-label col-xs-2">Shelf Life Days</label>
+    <div class="col-xs-10">
+      <input id="shelf-life-days" class="form-control" name="shelf-life-days" type="number" placeholder="0" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-offset-2 col-xs-10">
+      <button type="submit" class="btn btn-default btn-lg">Submit</button>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-xs-offset-2 col-xs-10">
+      <a href="/manager/inventory" class="btn btn-default btn-lg">Back to Inventory</a>
+    </div>
   </div>
 </form>
-
-<a href="/manager/inventory" class="btn btn-default">Back to Inventory</a>
