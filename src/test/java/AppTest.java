@@ -123,6 +123,16 @@ public class AppTest extends FluentTest {
   }
 
   @Test
+  public void dish_updatesDishName() {
+    Dish dish = new Dish("Cheezeburger");
+    dish.save();
+    goTo("http://localhost:4567/manager/dishes/" + Integer.toString(dish.getId()));
+    fill("#new-name").with("Hamburg Burger");
+    submit(".btn");
+    assertThat(pageSource()).contains("Hamburg Burger");
+  }
+
+  @Test
   public void completeButton_completesOrder() {
     Dish firstDish = new Dish("Tofu Dog");
     firstDish.save();
@@ -148,5 +158,5 @@ public class AppTest extends FluentTest {
     goTo("http://localhost:4567/manager/delivery");
     assertThat(pageSource()).contains("Ground Beef");
   }
-  
+
 }

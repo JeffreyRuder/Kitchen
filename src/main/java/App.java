@@ -111,6 +111,14 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+// TO-DO: POST NEW DISH
+    post("/manager/orders/dishes", (request, response) -> {
+      Dish dish = new Dish(request.queryParams("dish-name"));
+      dish.save();
+      response.redirect("/manager/orders/dishes");
+      return null;
+    });
+
 // TO-DO: GET DISH
 
     get("/manager/dishes/:id", (request, response) -> {
@@ -121,15 +129,15 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-// TO-DO: POST NEW DISH
-    post("/manager/dishes/:id", (request, response) -> {
-      Dish dish = new Dish(request.queryParams("dish-name"));
-      dish.save();
-      response.redirect("/manager/orders/dishes");
+// TO-DO: POST DISH:UPDATE DISH
+
+    post("/manager/dishes/:id/update", (request, response) -> {
+      Dish dish = Dish.find(Integer.parseInt(request.params("id")));
+      String newName = request.queryParams("new-name");
+      dish.update(newName);
+      response.redirect("/manager/dishes/" + dish.getId());
       return null;
     });
-
-// TO-DO: POST DISH:UPDATE DISH
 
 // TO-DO: POST DISH:ADD INGREDIENT TO LIST
 
