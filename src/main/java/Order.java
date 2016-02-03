@@ -211,4 +211,19 @@ public class Order {
     }
   }
 
+  public void make() {
+    Dish thisDish = Dish.find(this.getDishId());
+    List<Ingredient> theseIngredients = thisDish.getAllIngredients();
+    for (Ingredient ingredient : theseIngredients) {
+      try (Connection con = DB.sql2o.open()) {
+        String sql = "SELECT ingredient_amount FROM dishes_ingredients WHERE dish_id = :dishid AND ingredient_id = :ingredientid";
+        int amountNeeded = con.createQuery(sql)
+          .addParameter("dishid", thisDish.getId())
+          .addParameter("ingredientid", ingredient.getId())
+          .executeScalar(Integer.class);
+        ingredient.decrement(amountNeeded);
+      }
+    }
+  }
+
 }

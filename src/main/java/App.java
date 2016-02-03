@@ -31,6 +31,7 @@ public class App {
           for (Integer i = dishQuantity; i > 0; i--) {
             Order order = new Order (table, seat, dish.getId());
             order.save();
+            order.make();
           }
         }
       }
@@ -104,6 +105,9 @@ public class App {
       thisOrder.complete();
       Order newOrder = new Order(thisOrder.getTable(), thisOrder.getSeat(), thisOrder.getDishId());
       newOrder.save();
+      if (!(Dish.find(newOrder.getDishId()).hasMissingIngredient())) {
+        newOrder.make();
+      }      
       response.redirect("/servers/orders/" + newOrder.getId());
       return null;
     });
