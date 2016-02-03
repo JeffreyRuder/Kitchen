@@ -122,7 +122,7 @@ public class AppTest extends FluentTest {
     dish.save();
     goTo("http://localhost:4567/manager/dishes/" + Integer.toString(dish.getId()));
     fill("#new-name").with("Hamburg Burger");
-    submit(".btn");
+    submit(".new-name");
     assertThat(pageSource()).contains("Hamburg Burger");
   }
 
@@ -133,8 +133,9 @@ public class AppTest extends FluentTest {
     Ingredient ingredient = new Ingredient("Bunz", "pair(s)", 300, 14);
     ingredient.save();
     goTo("http://localhost:4567/manager/dishes/" + Integer.toString(dish.getId()));
-    click("option", withText("Bunz"));
-    submit(".btn");
+    fillSelect("#add-ingredient").withText("Bunz, pair(s)");
+    fill("#amount").with("1");
+    submit(".add-ingredient");
     assertThat(pageSource()).contains("Bunz");
   }
 
