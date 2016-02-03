@@ -151,6 +151,16 @@ public class Ingredient {
     }
   }
 
+  public int getIngredientAmountForDish(int dishId) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT ingredient_amount FROM dishes_ingredients WHERE dish_id = :dish_id AND ingredient_id = :ingredient_id";
+      return con.createQuery(sql)
+        .addParameter("dish_id", dishId)
+        .addParameter("ingredient_id", mId)
+        .executeScalar(Integer.class);
+    }
+  }
+
   public int getTotalOnHand() {
     int totalOnHand = 0;
     for (Inventory inventory : this.getInventories()) {

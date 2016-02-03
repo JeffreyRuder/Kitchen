@@ -117,4 +117,16 @@ public class DishTest {
     assertEquals(1, dish.getAllRecipes().get(1).getIngredientAmount());
   }
 
+  @Test
+  public void hasEnoughIngredients_indicatesDishHasEnoughIngredients_true() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
+    ingredient.save();
+    dish.addIngredient(ingredient.getId(), 8);
+    Inventory inventory = new Inventory(ingredient.getId(), 10);
+    inventory.save();
+    assertEquals(true, Dish.find(dish.getId()).hasEnoughIngredients());
+  }
+
 }

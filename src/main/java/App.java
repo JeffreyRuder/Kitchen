@@ -30,7 +30,7 @@ public class App {
         if (dishQuantity > 0) {
           for (Integer i = dishQuantity; i > 0; i--) {
             Order order = new Order (table, seat, dish.getId());
-            if (!(Dish.find(order.getDishId()).hasMissingIngredient())) {
+            if (!(Dish.find(order.getDishId()).hasEnoughIngredients())) {
               order.save();
               order.make();
             }
@@ -107,7 +107,7 @@ public class App {
       thisOrder.complete();
       Order newOrder = new Order(thisOrder.getTable(), thisOrder.getSeat(), thisOrder.getDishId());
       newOrder.save();
-      if (!(Dish.find(newOrder.getDishId()).hasMissingIngredient())) {
+      if (!(Dish.find(newOrder.getDishId()).hasEnoughIngredients())) {
         newOrder.make();
       }
       response.redirect("/servers/orders/" + newOrder.getId());
@@ -124,9 +124,9 @@ public class App {
 
     post("/manager/new-ingredient", (request, response) -> {
       Ingredient newIngredient = new Ingredient(
-        request.queryParams("name"),
-        request.queryParams("unit"),
-        Integer.parseInt(request.queryParams("desired-on-hand")),
+        request.queryParams("new-name"),
+        request.queryParams("new-unit"),
+        Integer.parseInt(request.queryParams("new-desired")),
         Integer.parseInt(request.queryParams("shelf-life-days")));
       newIngredient.save();
       response.redirect("/manager/ingredients/" + newIngredient.getId());
