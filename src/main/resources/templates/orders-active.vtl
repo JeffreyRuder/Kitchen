@@ -1,4 +1,36 @@
-<h1>Active Orders</h1>
+<div class="bg-grayLighter">
+
+  <div class="tile-container">
+    <a class="tile bg-cyan bg-active-darkBlue fg-white margin20 padding10" href="/servers/orders/new">
+      <div class="tile-content iconic">
+        <span class="icon mif-spoon-fork"></span>
+      </div>
+      <span class="tile-label">New Order</span>
+    </a>
+  </div>
+
+  <div class="tile-container">
+    #foreach ($order in $orders)
+      <a class="tile-wide bg-crimson big-active-red fg-white margin20 padding10" href="/servers/orders/$order.getId()">
+        <div class="tile-content">
+          <ul>
+            <li>Table: $order.getTable()</li>
+            <li>Seat: $order.getSeat()</li>
+            <li>Dish: $order.getDishName()</li>
+            <li>Placed: $order.getCreationTime().substring(0, 5)</li>
+            #if ($order.checkPaid())
+              <li>Paid: Yes</li>
+            #else
+              <li>Paid: No</li>
+            #end
+          </ul>
+        </div>
+      </a>
+    #end
+  </div>
+</div>
+
+<!-- <h1>Active Orders</h1>
 <a href="/servers/orders/new">New Order</a>
 <div class="orders col-md-12">
   #foreach ($order in $orders)
@@ -29,4 +61,4 @@
       </ul>
     </div>
   #end
-</div>
+</div> -->
