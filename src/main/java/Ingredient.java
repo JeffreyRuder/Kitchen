@@ -120,8 +120,19 @@ public class Ingredient {
 
   public List<Inventory> getInventories() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT inventories.id AS mId, inventories.ingredient_id AS mIngredientId, inventories.current_on_hand AS mCurrentOnHand, inventories.delivery_date AS mDeliveryDate, inventories.expiration_date AS mExpirationDate FROM inventories INNER JOIN ingredients ON (ingredients.id = inventories.ingredient_id) ORDER BY inventories.expiration_date ASC";
-      return con.createQuery(sql).executeAndFetch(Inventory.class);
+      String sql = "SELECT inventories.id AS mId, inventories.ingredient_id AS mIngredientId, inventories.current_on_hand AS mCurrentOnHand, inventories.delivery_date AS mDeliveryDate, inventories.expiration_date AS mExpirationDate FROM inventories INNER JOIN ingredients ON (ingredients.id = inventories.ingredient_id) WHERE inventories.ingredient_id = :id ORDER BY inventories.expiration_date ASC";
+      return con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeAndFetch(Inventory.class);
+    }
+  }
+
+  public List<Dish> getAllDishes() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT dishes.id AS mId, dishes.name AS mName FROM dishes INNER JOIN dishes_ingredients ON (dishes.id = dishes_ingredients.dish_id) WHERE ingredient_id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeAndFetch(Dish.class);
     }
   }
 

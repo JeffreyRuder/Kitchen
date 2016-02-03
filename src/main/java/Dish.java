@@ -80,6 +80,7 @@ public class Dish {
     }
   }
 
+  //TODO: make this work with fractional ingredient amounts
   public void addIngredient(int ingredientId, int ingredientAmount) {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO dishes_ingredients (dish_id, ingredient_id, ingredient_amount) VALUES (:dishId, :ingredientId, :ingredientAmount)";

@@ -11,18 +11,63 @@ public class App {
     staticFileLocation("/public");
     String layout = "templates/layout.vtl";
 
-    //GET RESOURCES
+    //ORDERS
+    //TODO: update ALL order routes to decrement inventory as needed
 
-    get("/", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("template", "templates/index.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
-    //Orders
     get("/servers/orders/active", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
+      model.put("template", "templates/orders-active.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    //Order - take a new order
+    post("/orders/new", (request, response) -> {
+      int table = Integer.parseInt(request.queryParams("table"));
+      int seat = Integer.parseInt(request.queryParams("seat"));
+      for (Dish dish : Dish.all()) {
+        Integer dishQuantity = Integer.parseInt(request.queryParams(dish.getName()));
+        if (dishQuantity > 0) {
+          for (Integer i = dishQuantity; i > 0; i--) {
+            Order order = new Order (table, seat, dish.getId());
+            order.save();
+            order.make();
+          }
+        }
+      }
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - pay for an order
+    post("/servers/orders/:id/pay", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      thisOrder.pay();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - complete an order and make it no longer active
+    post("/servers/orders/:id/complete", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      thisOrder.complete();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - cancel and lost ingredients i.e diner walked out
+    post("/servers/orders/active/remove", (request, response) -> {
+      Order thisOrder = Order.find(
+        Integer.parseInt(request.queryParams("order-remove")));
+      thisOrder.complete();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    get("/kitchen/orders/active", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("orders", Order.getAllActiveOrderByTime());
+      model.put("dishes", Dish.all());
       model.put("template", "templates/orders-active.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -35,14 +80,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/kitchen/orders/active", (request, response) -> {
-      HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("orders", Order.getAllActiveOrderByTime());
-      model.put("dishes", Dish.all());
-      model.put("template", "templates/orders-active.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
-
+    //Order - individual order page
     get("/servers/orders/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("order", Order.find(Integer.parseInt(request.params("id"))));
@@ -51,7 +89,30 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    //Ingredients
+    //Order - change dish i.e. diner changed mind
+    post("/servers/orders/:id/modify", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      Dish requestedDish = Dish.find(Integer.parseInt(request.queryParams("select-dish")));
+      thisOrder.changeDish(requestedDish.getId());
+      response.redirect("/servers/orders/" + thisOrder.getId());
+      return null;
+    });
+
+    //Order - lost ingredients, cancel and restart i.e. diner sent it back
+    post("/servers/orders/active/restart", (request, response) -> {
+      Order thisOrder = Order.find(
+        Integer.parseInt(request.queryParams("order-restart")));
+      thisOrder.complete();
+      Order newOrder = new Order(thisOrder.getTable(), thisOrder.getSeat(), thisOrder.getDishId());
+      newOrder.save();
+      if (!(Dish.find(newOrder.getDishId()).hasMissingIngredient())) {
+        newOrder.make();
+      }
+      response.redirect("/servers/orders/" + newOrder.getId());
+      return null;
+    });
+
+    //INGREDIENTS
     get("/manager/ingredients/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("ingredient", Ingredient.find(Integer.parseInt(request.params("id"))));
@@ -59,13 +120,24 @@ public class App {
       return new ModelAndView(model, layout);
       }, new VelocityTemplateEngine());
 
+    post("/manager/new-ingredient", (request, response) -> {
+      Ingredient newIngredient = new Ingredient(
+        request.queryParams("name"),
+        request.queryParams("unit"),
+        Integer.parseInt(request.queryParams("desired-on-hand")),
+        Integer.parseInt(request.queryParams("shelf-life-days")));
+      newIngredient.save();
+      response.redirect("/manager/ingredients/" + newIngredient.getId());
+      return null;
+    });
+
     get("/manager/new-ingredient", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("template", "templates/ingredient-new.vtl");
       return new ModelAndView(model, layout);
       }, new VelocityTemplateEngine());
 
-    //Inventory
+    //INVENTORY
     get("/manager/inventory", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("ingredients", Ingredient.all());
@@ -74,12 +146,26 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    //Take a delivery
+    post("/manager/ingredients/inventory", (request, response) -> {
+      for (Ingredient ingredient : Ingredient.all()) {
+        int amount = Integer.parseInt(request.queryParams(ingredient.getName()));
+        if (amount > 0) {
+          Inventory delivery = new Inventory(ingredient.getId(), amount);
+          delivery.save();
+        }
+      }
+      response.redirect("/manager/inventory");
+      return null;
+    });
+
     get("/manager/delivery", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("ingredients", Ingredient.all());
       model.put("template", "templates/ingredients-delivery.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
 
     //MODIFY RESOURCES
 
@@ -104,6 +190,9 @@ public class App {
     });
 
 // GET DISHES
+
+    //DISHES
+
     get("/manager/orders/dishes", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("dishes", Dish.all());
@@ -198,5 +287,6 @@ public class App {
       response.redirect("/servers/orders/" + newOrder.getId());
       return null;
     });
+
   }
 }
