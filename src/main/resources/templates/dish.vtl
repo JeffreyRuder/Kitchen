@@ -1,23 +1,79 @@
-<h4>$dish.getName()</h4>
+<h3>$dish.getName()</h3>
 <br>
 <hr>
 <br>
-<h5>Ingredients</h5>
-<table class="table hover-table sortable" id="ingredients-table">
-  <thead>
-    <tr>
-      <th>Ingredient Name</th>
-      <th>Amount</th>
-      <th>Unit</th>
-    </tr>
-  </thead>
-  <tbody>
-    #foreach ($ingredient in $dish.getAllIngredients)
-      <tr>
-          <td><a href="/manager/ingredients/$ingredient.getId()">$ingredient.getName()</a>
-        #foreach ($amount in $recipes)
-          <td><a href="/manager/ingredients/$ingredient.getId()">$recipe.getIngredientAmount()</a></td>
+<div class="row">
+
+  <div class="col-md-12">
+
+    <h4>Ingredients</h4>
+    <table class="table hover-table sortable" id="ingredients-table">
+      <thead>
+        <tr>
+          <th>Ingredient Name</th>
+          <th>Amount</th>
+          <th>Unit</th>
+        </tr>
+      </thead>
+      <tbody>
+        #foreach ($ingredient in $dish.getAllIngredients())
+          <tr>
+              <td><a href="/manager/ingredients/$ingredient.getId()">$ingredient.getName()</a></td>
+              <td><a href="/manager/ingredients/$ingredient.getId()">$recipe.getIngredientAmount()</a></td>
+              <td><a href="/manager/ingredients/$ingredient.getId()">$ingredient.getUnit()</a></td>
+          </tr>
         #end
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+<div class="row">
+
+  <div class="col-md-4">
+    <h4>Update $dish.getName()</h4>
+    <form action="/manager/dishes/$dish.getId()/update" class="form-control" method="post">
+      <input id="dish-id" name="dish-id" type="hidden" value="$dish.getId()">
+      <div class="form-group">
+        <label for="new-name">Dish Name</label>
+        <input id="new-name" name="new-name" type="text" class="form-control">
+        <button type="submit" class="btn btn-default">Update Dish</button>
+      </div>
+    </form>
+  </div>
+
+<!-- ADD INGREDIENT TO LIST -->
+  <div class="col-md-4">
+    <h4>Add an Ingredient to $dish.getName()</h4>
+    <form action="/manager/dishes/$dish.getId()/add-ingredient" class="form-control" method="post">
+      <input id="dish-id" name="dish-id" type="hidden" value="$dish.getId()">
+
+      <div class="form-group">
+        <label for="add-ingredient">Select an Ingredient</label>
+        <select id="add-ingredient" name="add-ingredient" type="text" class="form-control">
+          #foreach($ingredient in $ingredients)
+            <option value="$ingredient.getId()">$ingredient.getName()</option>
+          #end
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Ingredient Amount</label>
+        <input id="amount" name="amount" type="number">
+        <select id="unit" name="unit" type="text" class="form-control">
+          #foreach($ingredient in $ingredients)
+            <option value="$ingredient.getId()">$ingredient.getUnit()</option>
+          #end
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-default">Update Dish</button>
+    </form>
+  </div>
+<!-- DELETE INGREDIENT FROM LIST -->
+
+</div>
           <td><a href="/manager/ingredients/$ingredient.getId()">$ingredient.getUnit()</a>
       </tr>
     #end

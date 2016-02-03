@@ -107,7 +107,7 @@ public class App {
       newOrder.save();
       if (!(Dish.find(newOrder.getDishId()).hasMissingIngredient())) {
         newOrder.make();
-      }      
+      }
       response.redirect("/servers/orders/" + newOrder.getId());
       return null;
     });
@@ -166,7 +166,33 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+
+    //MODIFY RESOURCES
+
+    //TODO: update ALL order routes to decrement inventory as needed
+
+    //Order - take a new order
+    post("/orders/new", (request, response) -> {
+      int table = Integer.parseInt(request.queryParams("table"));
+      int seat = Integer.parseInt(request.queryParams("seat"));
+      for (Dish dish : Dish.all()) {
+        Integer dishQuantity = Integer.parseInt(request.queryParams(dish.getName()));
+        System.out.println(dishQuantity);
+        if (dishQuantity > 0) {
+          for (Integer i = dishQuantity; i > 0; i--) {
+            Order order = new Order (table, seat, dish.getId());
+            order.save();
+          }
+        }
+      }
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+// GET DISHES
+
     //DISHES
+
     get("/manager/orders/dishes", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("dishes", Dish.all());
@@ -174,19 +200,93 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    post("/manager/dishes/:id", (request, response) -> {
+// POST NEW DISH
+    post("/manager/orders/dishes", (request, response) -> {
       Dish dish = new Dish(request.queryParams("dish-name"));
       dish.save();
       response.redirect("/manager/orders/dishes");
       return null;
     });
 
+// GET DISH
+
     get("/manager/dishes/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("dish", Dish.find(Integer.parseInt(request.params(":id"))));
       model.put("recipes", Recipe.all());
+      model.put("ingredients", Ingredient.all());
       model.put("template", "templates/dish.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+// UPDATE DISH
+
+    post("/manager/dishes/:id/update", (request, response) -> {
+      Dish dish = Dish.find(Integer.parseInt(request.params("id")));
+      String newName = request.queryParams("new-name");
+      dish.update(newName);
+      response.redirect("/manager/dishes/" + dish.getId());
+      return null;
+    });
+
+// TO-DO: POST DISH:ADD INGREDIENT TO LIST --> to make this work, create another method to getAllRecipes in Dish so that Ingredient Amount will render on page.
+
+    post("/manager/dishes/:id/add-ingredient", (request, response) -> {
+      Dish dish = Dish.find(Integer.parseInt(request.queryParams("dish-id")));
+      dish.addIngredient(Integer.parseInt(request.queryParams("add-ingredient")), Integer.parseInt(request.queryParams("amount")));
+      response.redirect("/manager/dishes/" + dish.getId());
+      return null;
+    });
+
+// TO-DO: POST DISH:DELETE INGREDIENT FROM LIST
+
+
+
+    //Order - pay for an order
+    post("/servers/orders/:id/pay", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      thisOrder.pay();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - complete an order and make it no longer active
+    post("/servers/orders/:id/complete", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      thisOrder.complete();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - change dish i.e. diner changed mind
+    post("/servers/orders/:id/modify", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      Dish requestedDish = Dish.find(Integer.parseInt(request.queryParams("select-dish")));
+      thisOrder.changeDish(requestedDish.getId());
+      response.redirect("/servers/orders/" + thisOrder.getId());
+      return null;
+    });
+
+
+    //Order - cancel and lost ingredients i.e diner walked out
+    post("/servers/orders/active/remove", (request, response) -> {
+      Order thisOrder = Order.find(
+        Integer.parseInt(request.queryParams("order-remove")));
+      thisOrder.complete();
+      response.redirect("/servers/orders/active");
+      return null;
+    });
+
+    //Order - lost ingredients, cancel and restart i.e. diner sent it back
+    post("/servers/orders/active/restart", (request, response) -> {
+      Order thisOrder = Order.find(
+        Integer.parseInt(request.queryParams("order-restart")));
+      thisOrder.complete();
+      Order newOrder = new Order(thisOrder.getTable(), thisOrder.getSeat(), thisOrder.getDishId());
+      newOrder.save();
+      response.redirect("/servers/orders/" + newOrder.getId());
+      return null;
+    });
+
   }
 }
