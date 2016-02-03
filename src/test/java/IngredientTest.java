@@ -49,6 +49,25 @@ public class IngredientTest {
   }
 
   @Test
+  public void getAllDishes_dishesAttachedToIngredientAreReturned() {
+    Dish dishOne = new Dish("Cake");
+    dishOne.save();
+    Dish dishTwo = new Dish("Cheeseburger");
+    dishTwo.save();
+    Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
+    ingredient.save();
+    Ingredient secondIngredient = new Ingredient("Ground Beef", "ounce", 800, 7);
+    secondIngredient.save();
+    Inventory inventory = new Inventory(ingredient.getId(), 50);
+    inventory.save();
+    Inventory secondInventory = new Inventory(secondIngredient.getId(), 50);
+    secondInventory.save();
+    dishOne.addIngredient(ingredient.getId(), 8);
+    dishTwo.addIngredient(secondIngredient.getId(), 4);
+    assertEquals(1, Ingredient.find(ingredient.getId()).getAllDishes().size());
+  }
+
+  @Test
   public void getMostRecentExpiration_returnsMostRecentExpiration() {
     Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
     ingredient.save();

@@ -1,3 +1,47 @@
 <!--Add ("ingredient", ()) to model-->
 
 <h1>$ingredient.getName()</h1>
+
+<h2>Dishes Used In:</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        Dish Name
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    #foreach ($dish in $ingredient.getAllDishes())
+      <tr>
+        <td>
+          <a href="/manager/dishes/$dish.getId()">$dish.getName()</a>
+        </td>
+      </tr>
+    #end
+  </tbody>
+</table>
+
+
+
+<form action="/managers/ingredients/$ingredient.getId()" method="post">
+  <label for="new-name">Update the name of this ingredient:</label>
+  <div class="input-group">
+    <input id="new-name" class="form-control" name="new-name" type="text" placeholder="New Ingredient Name" required>
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-default">Update</button>
+    </span>
+  </div>
+</form>
+
+<form action="/managers/ingredients/$ingredient.getId()" method="post">
+  <label for="new-desired-on-hand">Update how much you want of this ingredient:</label>
+  <div class="input-group">
+    <input id="new-desired-on-hand" class="form-control" name="new-desired-on-hand" type="number" min="0" value="0">
+    <span class="input-group-btn">
+      <button type="submit" class="btn btn-default">Update</button>
+    </span>
+  </div>
+</form>
+
+<a href="/manager/inventory" class="btn btn-default">Back to Inventory</a>
