@@ -1,6 +1,6 @@
-<div class="bg-grayLighter">
+<div class="container bg-grayLighter">
 
-  <div class="tile-container">
+  <div class="tile-container padding40 no-padding-bottom">
     <a class="tile bg-cyan bg-active-darkBlue fg-white margin20 padding10" href="/servers/orders/new">
       <div class="tile-content iconic">
         <span class="icon mif-spoon-fork"></span>
@@ -9,21 +9,28 @@
     </a>
   </div>
 
-  <div class="tile-container">
+
+  <div class="tile-container padding40 no-padding-top">
     #foreach ($order in $orders)
       <a class="tile-wide bg-crimson big-active-red fg-white margin20 padding10" href="/servers/orders/$order.getId()">
-        <div class="tile-content">
-          <ul>
-            <li>Table: $order.getTable()</li>
-            <li>Seat: $order.getSeat()</li>
-            <li>Dish: $order.getDishName()</li>
-            <li>Placed: $order.getCreationTime().substring(0, 5)</li>
+        <div class="tile-content iconic slide-right">
+          <div class="slide">
+            <span class="icon mif-fire"></span>
+          </div>
+          <div class="slide-over op-red padding-20 text-accent align-center">
+            <p>
+              $order.getDishName()<br>
+              $order.getCreationTime().substring(0, 5)<br>
             #if ($order.checkPaid())
-              <li>Paid: Yes</li>
+              Paid<br>
             #else
-              <li>Paid: No</li>
+              Not Paid<br>
             #end
-          </ul>
+            </p>
+          </div>
+        </div>
+        <div class="tile-label">
+          Table: $order.getTable() | Seat: $order.getSeat()
         </div>
       </a>
     #end

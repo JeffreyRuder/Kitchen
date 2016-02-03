@@ -1,3 +1,26 @@
+.Site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.Site-content {
+  flex: 1;
+}
+
+.Site-footer {
+  flex: none;
+}
+
+html, body {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+}
+
+
 /*body {
   background: #C2CBCF;
 }*/
