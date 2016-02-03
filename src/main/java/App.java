@@ -27,7 +27,6 @@ public class App {
       int seat = Integer.parseInt(request.queryParams("seat"));
       for (Dish dish : Dish.all()) {
         Integer dishQuantity = Integer.parseInt(request.queryParams(dish.getName()));
-        System.out.println(dishQuantity);
         if (dishQuantity > 0) {
           for (Integer i = dishQuantity; i > 0; i--) {
             Order order = new Order (table, seat, dish.getId());
@@ -117,6 +116,17 @@ public class App {
       return new ModelAndView(model, layout);
       }, new VelocityTemplateEngine());
 
+    post("/manager/new-ingredient", (request, response) -> {
+      Ingredient newIngredient = new Ingredient(
+        request.queryParams("name"),
+        request.queryParams("unit"),
+        Integer.parseInt(request.queryParams("desired-on-hand")),
+        Integer.parseInt(request.queryParams("shelf-life-days")));
+      newIngredient.save();
+      response.redirect("/manager/ingredients/" + newIngredient.getId());
+      return null;
+    });
+
     get("/manager/new-ingredient", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("template", "templates/ingredient-new.vtl");
@@ -131,6 +141,19 @@ public class App {
       model.put("template", "templates/ingredients-inventory.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+    //Take a delivery
+    post("/manager/ingredients/inventory", (request, response) -> {
+      for (Ingredient ingredient : Ingredient.all()) {
+        int amount = Integer.parseInt(request.queryParams(ingredient.getName()));
+        if (amount > 0) {
+          Inventory delivery = new Inventory(ingredient.getId(), amount);
+          delivery.save();
+        }
+      }
+      response.redirect("/manager/inventory");
+      return null;
+    });
 
     get("/manager/delivery", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
