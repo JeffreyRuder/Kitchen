@@ -40,11 +40,11 @@
       </div>
     </div>
       #foreach ($dish in $dishes)
-        #if (!($dish.hasEnoughIngredients()))
+        #if ($dish.hasEnoughIngredients())
           <div class="form-group">
             <label for="$dish.getId()" class="control-label col-sm-3">$dish.getName()</label>
             <div class="col-sm-9">
-              <input type="number" name="$dish.getName()" id="$dish.getId()" value="0" max="10" min="0"><br>
+              <input type="number" name="$dish.getName()" id="$dish.getId()" value="0" max="$dish.getNumberPossibleDishes()" min="0"><br>
             </div>
           </div>
         #end

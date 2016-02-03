@@ -129,4 +129,16 @@ public class DishTest {
     assertEquals(true, Dish.find(dish.getId()).hasEnoughIngredients());
   }
 
+  @Test
+  public void getNumberPossibleDishes_returnsCorrectNumber_2() {
+    Dish dish = new Dish("Cheeseburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
+    ingredient.save();
+    dish.addIngredient(ingredient.getId(), 8);
+    Inventory inventory = new Inventory(ingredient.getId(), 18);
+    inventory.save();
+    assertEquals(2, dish.getNumberPossibleDishes());
+  }
+
 }

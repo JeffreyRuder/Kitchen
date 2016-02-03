@@ -153,5 +153,16 @@ public class Dish {
     return hasEnoughIngredients;
   }
 
-
+  public int getNumberPossibleDishes() {
+    int dishesPossible = Integer.MAX_VALUE;
+    for (Ingredient ingredient : this.getAllIngredients()) {
+        int onHand = ingredient.getTotalOnHand();
+        int neededForDish = ingredient.getIngredientAmountForDish(this.getId());
+        int possible = onHand / neededForDish;
+        if (possible < dishesPossible) {
+          dishesPossible = possible;
+        }
+      }
+    return dishesPossible;
+  }
 }
