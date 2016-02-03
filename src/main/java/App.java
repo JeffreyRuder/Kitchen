@@ -30,8 +30,10 @@ public class App {
         if (dishQuantity > 0) {
           for (Integer i = dishQuantity; i > 0; i--) {
             Order order = new Order (table, seat, dish.getId());
-            order.save();
-            order.make();
+            if (!(Dish.find(order.getDishId()).hasMissingIngredient())) {
+              order.save();
+              order.make();
+            }
           }
         }
       }
