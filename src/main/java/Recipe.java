@@ -32,6 +32,10 @@ public class Recipe {
     return Ingredient.find(mIngredientId).getName();
   }
 
+  public String getIngredientUnit() {
+    return Ingredient.find(mIngredientId).getUnit();
+  }
+
   public int getIngredientAmount() {
     return mIngredientAmount;
   }
