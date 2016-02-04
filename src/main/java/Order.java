@@ -1,7 +1,9 @@
+import java.lang.Math;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.sql2o.*;
 
 public class Order {
@@ -274,17 +276,18 @@ public class Order {
     return runningTotal;
   }
 
-  public static ArrayList<Double> getOrderPercentsForWeek() {
-    ArrayList<Double> list = new ArrayList<Double>();
+  public static ArrayList<Integer> getOrderPercentsForWeek() {
+    ArrayList<Integer> list = new ArrayList<Integer>();
     int weekTotal = Order.getTotalOrdersForWeek();
     if (weekTotal > 0) {
       for (int i = 1; i <= 7; i++) {
         int dayTotal = Order.getTotalOrdersForDate(LocalDate.now().minusDays(i));
-        double percent = ((double)dayTotal / weekTotal) * 100;
-        list.add(percent);
+        float percent = ((float)dayTotal / weekTotal) * 100;
+        int rounded = Math.round(percent);
+        list.add(rounded);
       }
     }
-    return list;    
+    return list;
   }
 
 }
