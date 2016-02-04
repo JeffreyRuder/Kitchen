@@ -1,13 +1,84 @@
-<!--Add ("dishes", Dish.all()) to model-->
-<!--Add ("ingredients", Ingredient.all()) to model-->
+<div class="container bg-grayLighter">
+  <div class="padding40 no-padding-bottom">
 
-<h2>86 List</h3>
-#foreach ($dish in $dishes)
-  #if ($dish.hasMissingIngredient())
-    <h3>$dish.getName()</h3>
-  #end
-#end
+    <div class="tile-container">
 
+      <a class="tile bg-cobalt bg-active-darkCobalt fg-white margin20 padding10" href="/manager/delivery">
+        <div class="tile-content iconic">
+          <span class="icon mif-truck"></span>
+        </div>
+        <span class="tile-label">New Delivery</span>
+      </a>
+
+      <a class="tile bg-indigo bg-active-darkIndigo fg-white margin20 padding10" href="/manager/new-ingredient">
+        <div class="tile-content iconic">
+          <span class="icon mif-clipboard"></span>
+        </div>
+        <span class="tile-label">New Ingredient</span>
+      </a>
+
+    </div>
+
+    <div class="login-form padding20 block-shadow margin20 no-margin-left no-margin-right" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+      <h1 class="leader">86 List</h1>
+      <hr>
+      <div class="tile-container">
+        #foreach ($dish in $dishes)
+          #if ($dish.hasMissingIngredient() || $dish.getNumberPossibleDishes() == 0)
+          <a class="tile bg-yellow bg-active-darkBlue fg-white margin20 padding10" href="/manager/dishes/$dish.getId()">
+            <div class="tile-content iconic">
+              <span class="icon mif-not"></span>
+            </div>
+            <span class="tile-label">$dish.getName()</span>
+          </a>
+          #end
+        #end
+      </div>
+    </div>
+
+    <div class="login-form padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+
+      <h1 class="leader">Ingredient Inventory</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              Ingredient
+            </th>
+            <th>
+              Desired Stock
+            </th>
+            <th>
+              Current Stock
+            </th>
+            <th>
+              Lowest Expiration Date
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          #foreach ($ingredient in $ingredients)
+            <tr>
+              <td>
+                <a href="/manager/ingredients/$ingredient.getId()">$ingredient.getName()</a>
+              </td>
+              <td>
+                $ingredient.getDesiredOnHand()
+              </td>
+              <td>
+                $ingredient.getTotalOnHand()
+              </td>
+              <td>
+                $ingredient.getMostRecentExpiration()
+              </td>
+            </tr>
+          #end
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!--
 <h2>Ingredients in the Inventory</h2>
 <table class="table">
   <thead>
@@ -47,4 +118,4 @@
 </table>
 
 <a href="/manager/delivery" class="btn btn-default">New Delivery</a>
-<a href="/manager/new-ingredient" class="btn btn-default">Add New Ingredient</a>
+<a href="/manager/new-ingredient" class="btn btn-default">Add New Ingredient</a> -->

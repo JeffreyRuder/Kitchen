@@ -210,8 +210,6 @@ public class App {
       return null;
     });
 
-// TODO: POST DISH:ADD INGREDIENT TO LIST --> to make this work, create another method to getAllRecipes in Dish so that Ingredient Amount will render on page.
-
     post("/manager/dishes/:id/add-ingredient", (request, response) -> {
       Dish dish = Dish.find(Integer.parseInt(request.queryParams("dish-id")));
       dish.addIngredient(Integer.parseInt(request.queryParams("add-ingredient")), Integer.parseInt(request.queryParams("amount")));
