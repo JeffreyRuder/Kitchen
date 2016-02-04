@@ -93,15 +93,6 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    //Order - change dish i.e. diner changed mind
-    post("/servers/orders/:id/modify", (request, response) -> {
-      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
-      Dish requestedDish = Dish.find(Integer.parseInt(request.queryParams("select-dish")));
-      thisOrder.changeDish(requestedDish.getId());
-      response.redirect("/servers/orders/" + thisOrder.getId());
-      return null;
-    });
-
     //Order - lost ingredients, cancel and restart i.e. diner sent it back
     post("/servers/orders/active/restart", (request, response) -> {
       Order thisOrder = Order.find(
