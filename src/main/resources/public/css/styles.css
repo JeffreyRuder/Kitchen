@@ -34,7 +34,7 @@ h1 {
   background: #CCC;
 }
 
-.panel > .heading {
+/*.panel > .heading {
   color: #ffffff;
   background-color: #00356a;
   cursor: default;
@@ -52,8 +52,7 @@ h1 {
   color: #ffffff;
   background-color: #999999;
   z-index: 1;
-  font-size: 0.875rem;
-}
+}*/
 
 legend {
   display: block;
