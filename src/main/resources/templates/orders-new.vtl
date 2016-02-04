@@ -1,61 +1,28 @@
-<div class="container bg-grayLight">
-  <div class="overlay"></div>
-  <h1>Active Orders</h1>
-  <a href="/servers/orders/new">New Order</a>
-  <div class="orders col-md-12">
-    #foreach ($order in $orders)
-      <div class="order col-md-3 col-md-offset-2">
-        <ul>
-          <li>Table: $order.getTable()</li>
-          <li>Seat: $order.getSeat()</li>
-          <li>Dish: $order.getDishName()</li>
-          <li>Placed: $order.getCreationTime().substring(0, 5)</li>
-          #if ($order.checkPaid())
-            <li>Paid: Yes</li>
-          #else
-            <li>Paid: No</li>
-          #end
-        </ul>
-        <ul class="list-inline">
-          <li>Modify</li>
-          <li>Pay</li>
-          <li>Complete</li>
-        </ul>
-      </div>
-    #end
-  </div>
+<div class="container bg-grayLighter">
 
-  <div class="lightbox col-sm-4">
-    <form action="/orders/new" class="form-horizontal col-sm-12" method="post">
-      <h2>New Order</h2>
-      <div class="form-group">
-        <label for="table" class="control-label col-sm-3">Table</label>
-        <div class="col-sm-9">
-          <input name="table" id="table" min="1" required>
-        </div>
+  <div class="padding40 no-padding-bottom">
+
+    <h1 class="leader">New Order</h1>
+    <form class="align-justify" action="/orders/new" method="post">
+      <label class="padding10">Table</label>
+      <div class="input-control margin10">        
+        <input name="table" type="number" id="table" min="1" required>
       </div>
-      <div class="form-group">
-        <label for="seat" class="control-label col-sm-3">Seat</label>
-        <div class="col-sm-8">
-          <input name="seat" id="seat" min="1" required>
-        </div>
-      </div>
-        #foreach ($dish in $dishes)
-          #if ($dish.hasEnoughIngredients())
-            <div class="form-group">
-              <label for="$dish.getId()" class="control-label col-sm-3">$dish.getName()</label>
-              <div class="col-sm-9">
-                <input type="number" name="$dish.getName()" id="$dish.getId()" value="0" max="$dish.getNumberPossibleDishes()" min="0"><br>
-              </div>
-            </div>
-          #end
+      <label class="padding10">Seat</label>
+      <div class="input-control margin10">
+        <input name="seat" type="number" id="seat" min="1" required>
+      </div><br>
+      #foreach ($dish in $dishes)
+        #if ($dish.hasEnoughIngredients())
+          <label class="padding10">$dish.getName()</label>
+          <div class="input-control margin10">
+            <input type="number" name="$dish.getName()" id="$dish.getId()" value="0" max="$dish.getNumberPossibleDishes()" min="0"><br>
+          </div><br>
         #end
-        <div class="form-group">
-          <div class="col-sm-9 col-sm-offset-3">
-            <button type="submit" class="btn btn-default">Submit Order</button>
-          </div>
-        </div>
-    </form>
-  </div>
+      #end
 
+      <button type="submit" class="button margin10">Submit Order</button>
+    </form>
+
+  </div>
 </div>

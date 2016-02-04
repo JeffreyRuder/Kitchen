@@ -23,6 +23,7 @@ public class App {
     get("/servers/orders/active", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
+      model.put("dishes", Dish.all());
       model.put("template", "templates/orders-active.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -53,7 +54,7 @@ public class App {
     post("/servers/orders/:id/pay", (request, response) -> {
       Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
       thisOrder.pay();
-      response.redirect("/servers/orders/active");
+      response.redirect("/servers/orders/" + Integer.parseInt(request.params("id")));
       return null;
     });
 

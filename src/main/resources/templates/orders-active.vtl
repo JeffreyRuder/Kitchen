@@ -19,8 +19,7 @@
       #end
     #end
   </div>
-
-
+  
   <div class="tile-container padding40 no-padding-top">
     #foreach ($order in $orders)
       <a class="tile-wide bg-crimson big-active-red fg-white margin20 padding10" href="/servers/orders/$order.getId()">
@@ -47,36 +46,3 @@
     #end
   </div>
 </div>
-
-<!-- <h1>Active Orders</h1>
-<a href="/servers/orders/new">New Order</a>
-<div class="orders col-md-12">
-  #foreach ($order in $orders)
-    <div class="order col-md-3 col-md-offset-2">
-      <ul>
-        <li>Table: $order.getTable()</li>
-        <li>Seat: $order.getSeat()</li>
-        <li>Dish: $order.getDishName()</li>
-        <li>Placed: $order.getCreationTime().substring(0, 5)</li>
-        #if ($order.checkPaid())
-          <li>Paid: Yes</li>
-        #else
-          <li>Paid: No</li>
-        #end
-      </ul>
-      <ul class="list-inline">
-        <li><a href="/servers/orders/$order.getId()">Modify</a></li>
-        <li>
-          <form action="/servers/orders/$order.getId()/pay" method="post">
-            <button type="submit" class="btn-link">Pay</button>
-          </form>
-        </li>
-        <li>
-          <form action="/servers/orders/$order.getId()/complete" method="post">
-            <button type="submit" class="btn-link">Complete</button>
-          </form>
-        </li>
-      </ul>
-    </div>
-  #end
-</div> -->
