@@ -20,6 +20,14 @@ html, body {
   height: 100%;
 }
 
+h1 {
+  font-variant: small-caps;
+}
+
+.head-image {
+  position: relative;
+  width: 100%;
+}
 
 /*body {
   background: #C2CBCF;
