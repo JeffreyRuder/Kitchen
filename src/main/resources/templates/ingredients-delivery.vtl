@@ -1,44 +1,53 @@
-<!--Add ("ingredients", Ingredient.all()) to model-->
-
-<h2>Delivery</h2>
-<form action="/manager/ingredients/inventory" method="post">
-  <div class="form-group">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>
-            Ingredient
-          </th>
-          <th>
-            Desired On Hand
-          </th>
-          <th>
-            In Stock
-          </th>
-          <th>
-            Amount Received
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        #foreach ($ingredient in $ingredients)
-          <tr>
-            <td>
-              <a href="/manager/ingredients/$ingredient.getId()">$ingredient.getName()</a>
-            </td>
-            <td>
-              $ingredient.getDesiredOnHand()
-            </td>
-            <td>
-              $ingredient.getTotalOnHand()
-            </td>
-            <td>
-              <input type="number" name="$ingredient.getName()" id="$ingredient.getId()" min="0" value="0">
-            </td>
-          </tr>
-        #end
-      </tbody>
-    </table>
+<div class="container bg-grayLighter">
+  <div class="padding40 no-padding-bottom">
+    <div class="login-form padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+      <form action="/manager/ingredients/inventory" method="post">
+        <h1 class="text-light">New Delivery</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>
+                Ingredient
+              </th>
+              <th>
+                Desired Stock
+              </th>
+              <th>
+                Current Stock
+              </th>
+              <th>
+                Amount Received
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            #foreach ($ingredient in $ingredients)
+              <tr>
+                <td>
+                  <a href="/manager/ingredients/$ingredient.getId()">$ingredient.getName()</a>
+                </td>
+                <td>
+                  $ingredient.getDesiredOnHand()
+                </td>
+                <td>
+                  $ingredient.getTotalOnHand()
+                </td>
+                <td>
+                  <input type="number" name="$ingredient.getName()" id="$ingredient.getId()" min="0" value="0">
+                </td>
+              </tr>
+            #end
+          </tbody>
+        </table>
+        <div class="form-actions">
+          <button type="submit" class="primary command-button">
+            <span class="icon mif-truck"></span>
+            Submit
+            <small>Receive Delivery</small>
+          </button>
+          <button type="button" class="button link"><a href="/manager/inventory">Back to Inventory</a></button>
+        </div>
+      </form>
+    </div>
   </div>
-  <button type="submit" class="btn btn-default">Post Delivery</button>
-<form>
+</div>

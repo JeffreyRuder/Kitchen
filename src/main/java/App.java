@@ -33,7 +33,7 @@ public class App {
       int table = Integer.parseInt(request.queryParams("table"));
       int seat = Integer.parseInt(request.queryParams("seat"));
       for (Dish dish : Dish.all()) {
-        if (dish.hasEnoughIngredients()) {
+        if (dish.hasEnoughIngredients() && dish.getNumberPossibleDishes() > 0) {
           Integer dishQuantity = Integer.parseInt(request.queryParams(dish.getName()));
           if (dishQuantity > 0) {
             for (Integer i = dishQuantity; i > 0; i--) {
@@ -209,8 +209,6 @@ public class App {
       response.redirect("/manager/dishes/" + dish.getId());
       return null;
     });
-
-// TODO: POST DISH:ADD INGREDIENT TO LIST --> to make this work, create another method to getAllRecipes in Dish so that Ingredient Amount will render on page.
 
     post("/manager/dishes/:id/add-ingredient", (request, response) -> {
       Dish dish = Dish.find(Integer.parseInt(request.queryParams("dish-id")));
