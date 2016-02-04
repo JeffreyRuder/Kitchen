@@ -154,4 +154,14 @@ public class OrderTest {
     order.setIsUp();
     assertTrue(order.isUp());
   }
+
+  @Test
+  public void getTotalOrdersForToday_returnsCorrectNumberOfOrders() {
+    Dish dish = new Dish("Hamburger", 2);
+    dish.save();
+    Order order = new Order(1, 1, dish.getId());
+    order.save();
+    order.completeAndStartDuplicate();
+    assertEquals(2, Order.getTotalOrdersForToday());
+  }
 }

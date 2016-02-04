@@ -189,11 +189,20 @@ public class Dish {
   public static List<Dish> hasCategoryOf(int categoryNumber) {
     ArrayList<Dish> hasCategory = new ArrayList<Dish>();
     for (Dish dish : Dish.all()) {
-      if (dish.getCategory() == categoryNumber) {
-        hasCategory.add(dish);
+      if (dish.hasEnoughIngredients()) {
+        if (dish.getCategory() == categoryNumber) {
+          hasCategory.add(dish);
+        }
       }
     }
     return hasCategory;
   }
-  
+
+  public double getPercentOfOrdersToday() {
+    if (Order.getTotalOrdersForToday() == 0) {
+      return 0;
+    } else {
+      return ((double)this.getTimesOrderedToday() / Order.getTotalOrdersForToday()) * 100;
+    }
+  }
 }

@@ -13,12 +13,13 @@
 
     <div class="dishes-table padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
 
-      <h1 class="leader">All Dishes Ordered Today</h1>
+      <h1 class="leader">All Dishes</h1>
       <table class="table" id="dishes-table">
         <thead>
           <tr>
             <th>Dish Name</th>
-            <th>Number of Times Ordered</th>
+            <th>Times Ordered Today</th>
+            <th>Percentage of Today's Orders</th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +27,11 @@
             <tr>
               <td><a href="/manager/dishes/$dish.getId()">$dish.getName()</a></td>
               <td>$dish.getTimesOrderedToday()</td>
+              <td>
+                <div class="progress large" data-value="$dish.getPercentOfOrdersToday() " data-color="ribbed-amber" data-role="progress">
+                  <div class="bar ribbed-amber" style="width: $dish.getPercentOfOrdersToday()%;"></div>
+                </div>
+              </td>
             </tr>
           #end
         </tbody>
