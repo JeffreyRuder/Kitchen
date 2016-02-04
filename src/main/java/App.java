@@ -181,11 +181,17 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("/manager/new-dish", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/dish-new.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
 // POST NEW DISH
-    post("/manager/orders/dishes", (request, response) -> {
-      Dish dish = new Dish(request.queryParams("dish-name"));
+    post("/manager/new-dish", (request, response) -> {
+      Dish newDish = new Dish(request.queryParams("dish-name"));
       dish.save();
-      response.redirect("/manager/orders/dishes");
+      response.redirect("/manager/dishes/" + newDish.getId());
       return null;
     });
 
