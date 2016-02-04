@@ -9,7 +9,7 @@
     </a>
 
     #foreach ($dish in $dishes)
-      #if ($dish.hasMissingIngredient())
+      #if ($dish.hasMissingIngredient() || $dish.getNumberPossibleDishes() == 0)
       <a class="tile bg-yellow bg-active-darkBlue fg-white margin20 padding10" href="/manager/dishes/$dish.getId()">
         <div class="tile-content iconic">
           <span class="icon mif-not"></span>
@@ -19,7 +19,7 @@
       #end
     #end
   </div>
-  
+
   <div class="tile-container padding40 no-padding-top">
     #foreach ($order in $orders)
       <a class="tile-wide bg-crimson big-active-red fg-white margin20 padding10" href="/servers/orders/$order.getId()">

@@ -100,6 +100,7 @@ public class DishTest {
     Inventory inventory = new Inventory(ingredient.getId(), 0);
     inventory.save();
     assertEquals(true, Dish.find(dish.getId()).hasMissingIngredient());
+    assertTrue(Dish.getEightySixes().contains(dish));
   }
 
   @Test
