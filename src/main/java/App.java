@@ -255,7 +255,12 @@ public class App {
       return null;
     });
 
-// TODO: POST DISH:DELETE INGREDIENT FROM LIST
+    post("/manager/dishes/:id/delete-ingredient", (request, response) -> {
+      Dish dish = Dish.find(Integer.parseInt(request.params("id")));
+      dish.removeIngredient(Integer.parseInt(request.queryParams("remove-ingredient")));
+      response.redirect("/manager/dishes/" + dish.getId());
+      return null;
+    });
 
   }
 }
