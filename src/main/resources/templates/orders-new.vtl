@@ -17,28 +17,21 @@
         </div>
         <br>
         <br>
-        #if ($dishes.hasCategoryOf(1))
-        <div class="form-group">
-          <label for="appetizers">Appetizers:</label>
-        </div>
-        <div class="form-group">
-          #foreach ($dish in $dishes)
-            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 1)
-              <div class="input-control text full-size" data-role="input">
-                <label for="$dish.getId()">$dish.getName()</label>
-                <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
-              </div>
-              <br>
-              <br>
+        #if (!($dishclass.hasCategoryOf(1).isEmpty()))
+          <legend>Appetizers:</legend>
+            #foreach ($dish in $dishes)
+              #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 1)
+                <div class="input-control text full-size" data-role="input">
+                  <label for="$dish.getId()">$dish.getName()</label>
+                  <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
+                </div>
+                <br>
+                <br>
             #end
           #end
-        </div>
         #end
-        #if ($dishes.hasCategoryOf(2))
-        <div class="form-group">
-          <label for="entres">Entrées:</label>
-        </div>
-        <div class="form-group">
+        #if (!($dishes.hasCategoryOf(2).size() == 0))
+          <legend>Entrees</legend>
           #foreach ($dish in $dishes)
             #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 2)
               <div class="input-control text full-size" data-role="input">
@@ -49,13 +42,10 @@
               <br>
             #end
           #end
-        </div>
         #end
-        #if ($dishes.hasCategoryOf(3))
-        <div class="form-group">
-          <label for="sides">Sides:</label>
-        </div>
-        <div class="form-group">
+
+        #if (!($dishclass.hasCategoryOf(3).isEmpty()))
+          <legend>Sides</legend>
           #foreach ($dish in $dishes)
             #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 3)
               <div class="input-control text full-size" data-role="input">
@@ -66,13 +56,10 @@
               <br>
             #end
           #end
-        </div>
         #end
-        #if ($dishes.hasCategoryOf(4))
-        <div class="form-group">
-          <label for="desserts">Desserts:</label>
-        </div>
-        <div class="form-group">
+
+        #if (!($dishclass.hasCategoryOf(4).isEmpty()))
+        <legend>Desserts</legend>
           #foreach ($dish in $dishes)
             #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 4)
               <div class="input-control text full-size" data-role="input">
@@ -83,13 +70,10 @@
               <br>
             #end
           #end
-        </div>
         #end
-        #if ($dishes.hasCategoryOf(5))
-        <div class="form-group">
-          <label for="drinks">Drinks:</label>
-        </div>
-        <div class="form-group">
+
+        #if (!($dishclass.hasCategoryOf(5).isEmpty()))
+        <legend>Drinks</legend>
           #foreach ($dish in $dishes)
             #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 5)
               <div class="input-control text full-size" data-role="input">
@@ -100,7 +84,6 @@
               <br>
             #end
           #end
-        </div>
         #end
         <div class="form-actions">
           <button type="submit" class="primary command-button">
