@@ -54,18 +54,9 @@ public class AppTest extends FluentTest {
   }
 
   @Test
-  public void newOrdersPage_rendersActiveOrders() {
-    Dish firstDish = new Dish("Tofu Dog", 2);
-    Dish secondDish = new Dish("Penne Alfredo", 2);
-    firstDish.save();
-    secondDish.save();
-    Order firstOrder = new Order(1, 1, firstDish.getId());
-    firstOrder.save();
-    Order secondOrder = new Order(1, 2, secondDish.getId());
-    secondOrder.save();
+  public void newOrdersPage_rendersCorrectly() {
     goTo("http://localhost:4567/servers/orders/new");
-    assertThat(pageSource()).contains("Tofu Dog");
-    assertThat(pageSource()).contains("Penne Alfredo");
+    assertThat(pageSource()).contains("New Order");
   }
 
   @Test
@@ -84,9 +75,11 @@ public class AppTest extends FluentTest {
     firstDish.save();
     Order firstOrder = new Order(1, 1, firstDish.getId());
     firstOrder.save();
+    goTo("http://localhost:4567/servers/orders/" + firstOrder.getId());
+    click("span", withText("Pay"));
     goTo("http://localhost:4567/servers/orders/active");
-    click(".btn-link", withText("Pay"));
-    assertThat(pageSource()).contains("Yes");
+    assertThat(pageSource()).contains("Paid");
+    assertThat(pageSource()).doesNotContain("Not Paid");
   }
 
   @Test
@@ -145,8 +138,8 @@ public class AppTest extends FluentTest {
     firstDish.save();
     Order firstOrder = new Order(1, 1, firstDish.getId());
     firstOrder.save();
-    goTo("http://localhost:4567/servers/orders/active");
-    click(".btn-link", withText("Complete"));
+    goTo("http://localhost:4567/servers/orders/" + firstOrder.getId());
+    click("span", withText("Close Order"));
     assertThat(pageSource()).doesNotContain("Tofu Dog");
   }
 

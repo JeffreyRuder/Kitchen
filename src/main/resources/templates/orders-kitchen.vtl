@@ -1,13 +1,6 @@
 <div class="container bg-grayLighter">
 
   <div class="tile-container padding40 no-padding-bottom">
-    <a class="tile bg-cyan bg-active-darkBlue fg-white margin20 padding10" href="/servers/orders/new">
-      <div class="tile-content iconic">
-        <span class="icon mif-spoon-fork"></span>
-      </div>
-      <span class="tile-label">New Order</span>
-    </a>
-
     #foreach ($dish in $dishes)
       #if ($dish.hasMissingIngredient() || $dish.getNumberPossibleDishes() == 0)
       <a class="tile bg-darkOrange bg-active-orange fg-white margin20 padding10" href="/manager/dishes/$dish.getId()">
@@ -23,18 +16,18 @@
   <div class="tile-container padding40 no-padding-top">
     #foreach ($order in $orders)
       #if ($order.checkPaid())
-        <a class="tile-wide bg-emerald big-active-green fg-white margin20 padding10" href="/servers/orders/$order.getId()">
+        <a class="tile-wide bg-emerald big-active-green fg-white margin20 padding10" href="/kitchen/orders/$order.getId()">
       #elseif ($order.isUp())
-        <a class="tile-wide bg-darkCobalt big-active-blue fg-white margin20 padding10" href="/servers/orders/$order.getId()">
+        <a class="tile-wide bg-darkCobalt big-active-blue fg-white margin20 padding10" href="/kitchen/orders/$order.getId()">
       #else
-        <a class="tile-wide bg-crimson big-active-red fg-white margin20 padding10" href="/servers/orders/$order.getId()">
+        <a class="tile-wide bg-crimson big-active-red fg-white margin20 padding10" href="/kitchen/orders/$order.getId()">
       #end
           <div class="tile-content iconic slide-right">
             #if ($order.checkPaid())
               <div class="slide">
                 <span class="icon mif-dollar2"></span>
               </div>
-              <div class="slide-over op-green padding-20 text-accent align-center">
+              <div class="slide-over op-green padding-20 text-accent align-center">            
             #elseif ($order.isUp())
               <div class="slide">
                 <span class="icon mif-arrow-up"></span>

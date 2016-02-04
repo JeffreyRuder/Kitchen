@@ -45,11 +45,11 @@
         <div class="tile-container">
           #foreach ($dish in $dishes)
             #if ($eightysixes.contains($dish))
-            <a class="tile bg-yellow bg-active-darkBlue fg-white margin20 padding10" href="/manager/dishes/$dish.getId()">
+            <a class="tile bg-darkOrange bg-active-orange fg-white margin20 padding10" href="/manager/dishes/$dish.getId()">
               <div class="tile-content iconic">
                 <span class="icon mif-not"></span>
               </div>
-              <span class="tile-label">$dish.getName()</span>
+              <span class="tile-label">86 $dish.getName()</span>
             </a>
             #end
           #end

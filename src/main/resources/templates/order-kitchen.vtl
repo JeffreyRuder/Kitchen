@@ -23,21 +23,12 @@
   </dl>
 
   <div class="tile-container padding100 no-padding-top">
-    <form action="/servers/orders/$order.getId()/pay" method="post">
-      <button type="submit" class="tile bg-emerald bg-active-lightGreen fg-white margin20 padding10">
+    <form action="/kitchen/orders/$order.getId()/up" method="post">
+      <button type="submit" class="tile bg-darkCobalt bg-active-blue fg-white margin20 padding10">
         <div class="tile-content iconic">
-          <span class="icon mif-dollar2"></span>
+          <span class="icon mif-arrow-up"></span>
         </div>
-        <span class="tile-label">Pay</span>
-      </button>
-    </form>
-
-    <form action="/servers/orders/$order.getId()/complete" method="post">
-      <button type="submit" class="tile bg-mauve bg-active-darkViolet fg-white margin20 padding10">
-        <div class="tile-content iconic">
-          <span class="icon mif-checkmark"></span>
-        </div>
-        <span class="tile-label">Close Order</span>
+        <span class="tile-label">Order is Up</span>
       </button>
     </form>
 
@@ -65,7 +56,7 @@
       </div>
     </form>
 
-    <a class="tile bg-grayLight bg-active-Steel fg-white margin20 padding10" href="/servers/orders/active">
+    <a class="tile bg-grayLight bg-active-Steel fg-white margin20 padding10" href="/kitchen/orders/active">
       <div class="tile-content iconic">
         <span class="icon mif-arrow-left"></span>
       </div>
