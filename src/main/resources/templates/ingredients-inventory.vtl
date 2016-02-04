@@ -67,10 +67,10 @@
               Ingredient
             </th>
             <th>
-              Desired Stock
+              Current Stock
             </th>
             <th>
-              Current Stock
+              Desired Stock
             </th>
             <th>
               Lowest Expiration Date
@@ -80,18 +80,33 @@
         <tbody>
           #foreach ($ingredient in $ingredients)
             <tr>
-              <td>
-                <a href="/manager/ingredients/$ingredient.getId()">$ingredient.getName()</a>
-              </td>
-              <td>
-                $ingredient.getDesiredOnHand()
-              </td>
-              <td>
-                $ingredient.getTotalOnHand()
-              </td>
-              <td>
-                $ingredient.getMostRecentExpiration()
-              </td>
+              #if ($ingredient.isLessThanOrEqualToTwentyPercent())
+                <td class="fg-red">
+                  <a href="/manager/ingredients/$ingredient.getId()" class="fg-red">$ingredient.getName()</a>
+                </td>
+                <td class="fg-red">
+                  $ingredient.getTotalOnHand() $ingredient.getUnit()
+                </td>
+                <td class="fg-red">
+                  $ingredient.getDesiredOnHand() $ingredient.getUnit()
+                </td>
+                <td class="fg-red">
+                  $ingredient.getMostRecentExpiration()
+                </td>
+              #else
+                <td>
+                  <a href="/manager/ingredients/$ingredient.getId()">$ingredient.getName()</a>
+                </td>
+                <td>
+                  $ingredient.getTotalOnHand() $ingredient.getUnit()
+                </td>
+                <td>
+                  $ingredient.getDesiredOnHand() $ingredient.getUnit()
+                </td>
+                <td>
+                  $ingredient.getMostRecentExpiration()
+                </td>
+              #end
             </tr>
           #end
         </tbody>
