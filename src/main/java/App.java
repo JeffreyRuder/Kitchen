@@ -17,6 +17,7 @@ public class App {
     get("/servers/orders/active", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
+      model.put("dishes", Dish.all());
       model.put("template", "templates/orders-active.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());

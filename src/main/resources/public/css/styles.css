@@ -8,74 +8,10 @@
   flex: 1;
 }
 
-.Site-footer {
-  flex: none;
-}
-
 html, body {
   height: 100%;
 }
 
 .container {
-  height: 100%;
+  min-height: 100vh;
 }
-
-
-/*body {
-  background: #C2CBCF;
-}*/
-
-
-/*
-.container {
-  background: #E6AA73;
-  margin-top: 50px;
-  border: 2px solid #111;
-  border-radius: 5px;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.8);
-}
-
-.lightbox {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: turquoise;
-  padding: 1em;
-  border: 2px solid #111;
-  border-radius: 5px;
-}
-
-.orders {
-  margin: auto;
-}
-
-.order {
-  background: #EEE;
-  padding: 10px;
-  border: 1px solid #111;
-  border-radius: 5px;
-  margin-bottom: 20px;
-}
-
-.order ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.order ul li {
-  font-size: 1.25em;
-}
-
-form h2 {
-  text-align: center;
-}*/
