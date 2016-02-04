@@ -185,4 +185,15 @@ public class Dish {
     }
     return eightySixes;
   }
+
+  public static List<Dish> hasCategoryOf(int categoryNumber) {
+    ArrayList<Dish> hasCategory = new ArrayList<Dish>();
+    for (Dish dish : Dish.all()) {
+      if (dish.getCategory() == categoryNumber) {
+        hasCategory.add(dish);
+      }
+    }
+    return hasCategory;
+  }
+  
 }

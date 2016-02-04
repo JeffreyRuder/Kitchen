@@ -17,14 +17,69 @@
         </div>
         <br>
         <br>
-        #foreach ($dish in $dishes)
-          #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients())
-            <div class="input-control text full-size" data-role="input">
-              <label for="$dish.getId()">$dish.getName()</label>
-              <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
-            </div>
-            <br>
-            <br>
+        #if ($dishes.hasCategoryOf(1))
+          <label for="appetizers">Appetizers:</label>
+          #foreach ($dish in $dishes)
+            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 1)
+              <div class="input-control text full-size" data-role="input">
+                <label for="$dish.getId()">$dish.getName()</label>
+                <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
+              </div>
+              <br>
+              <br>
+            #end
+          #end
+        #end
+        #if ($dishes.hasCategoryOf(2))
+          <label for="appetizers">Entres:</label>
+          #foreach ($dish in $dishes)
+            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 2)
+              <div class="input-control text full-size" data-role="input">
+                <label for="$dish.getId()">$dish.getName()</label>
+                <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
+              </div>
+              <br>
+              <br>
+            #end
+          #end
+        #end
+        #if ($dishes.hasCategoryOf(3))
+          <label for="appetizers">Sides:</label>
+          #foreach ($dish in $dishes)
+            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 3)
+              <div class="input-control text full-size" data-role="input">
+                <label for="$dish.getId()">$dish.getName()</label>
+                <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
+              </div>
+              <br>
+              <br>
+            #end
+          #end
+        #end
+        #if ($dishes.hasCategoryOf(4))
+          <label for="appetizers">Desserts:</label>
+          #foreach ($dish in $dishes)
+            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 4)
+              <div class="input-control text full-size" data-role="input">
+                <label for="$dish.getId()">$dish.getName()</label>
+                <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
+              </div>
+              <br>
+              <br>
+            #end
+          #end
+        #end
+        #if ($dishes.hasCategoryOf(5))
+          <label for="appetizers">Drinks:</label>
+          #foreach ($dish in $dishes)
+            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 5)
+              <div class="input-control text full-size" data-role="input">
+                <label for="$dish.getId()">$dish.getName()</label>
+                <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
+              </div>
+              <br>
+              <br>
+            #end
           #end
         #end
         <div class="form-actions">
