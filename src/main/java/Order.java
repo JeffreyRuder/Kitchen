@@ -243,4 +243,13 @@ public class Order {
     }
   }
 
+  public static int getTotalOrdersForToday() {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT COUNT(orders.id) FROM orders WHERE orders.creation_date = to_date(:creationdate, 'YYYY-MM-DD')";
+      return con.createQuery(sql)
+        .addParameter("creationdate", LocalDate.now().toString())
+        .executeScalar(Integer.class);
+    }
+  }
+
 }

@@ -195,5 +195,12 @@ public class Dish {
     }
     return hasCategory;
   }
-  
+
+  public int getPercentOfOrdersToday() {
+    if (Order.getTotalOrdersForToday() == 0) {
+      return 0;
+    } else {
+      return this.getTimesOrderedToday() / Order.getTotalOrdersForToday();
+    }
+  }
 }
