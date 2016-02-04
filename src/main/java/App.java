@@ -192,7 +192,7 @@ public class App {
 
     get("/manager/dishes/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("dish", Dish.find(Integer.parseInt(request.params(":id"))));
+      model.put("dish", Dish.find(Integer.parseInt(request.params("id"))));
       model.put("recipes", Recipe.all());
       model.put("ingredients", Ingredient.all());
       model.put("template", "templates/dish.vtl");
