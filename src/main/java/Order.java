@@ -252,4 +252,39 @@ public class Order {
     }
   }
 
+  public static int getTotalOrdersForDate(LocalDate date) {
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "SELECT COUNT(orders.id) FROM orders WHERE orders.creation_date = to_date(:creationdate, 'YYYY-MM-DD')";
+      return con.createQuery(sql)
+        .addParameter("creationdate", date.toString())
+        .executeScalar(Integer.class);
+    }
+  }
+
+  public static int getTotalOrdersForWeek() {
+    int runningTotal = 0;
+    for (int counter = 1; counter <= 7; counter++) {
+      try (Connection con = DB.sql2o.open()) {
+        String sql = "SELECT COUNT(orders.id) FROM orders WHERE orders.creation_date = to_date(:creationdate, 'YYYY-MM-DD')";
+        runningTotal += con.createQuery(sql)
+          .addParameter("creationdate", LocalDate.now().minusDays(counter).toString())
+          .executeScalar(Integer.class);
+      }
+    }
+    return runningTotal;
+  }
+
+  public static ArrayList<Double> getOrderPercentsForWeek() {
+    ArrayList<Double> list = new ArrayList<Double>();
+    int weekTotal = Order.getTotalOrdersForWeek();
+    if (weekTotal > 0) {
+      for (int i = 1; i <= 7; i++) {
+        int dayTotal = Order.getTotalOrdersForDate(LocalDate.now().minusDays(i));
+        double percent = ((double)dayTotal / weekTotal) * 100;
+        list.add(percent);
+      }
+    }
+    return list;    
+  }
+
 }

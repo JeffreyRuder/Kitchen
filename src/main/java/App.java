@@ -1,3 +1,4 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -40,6 +41,9 @@ public class App {
               if (Dish.find(order.getDishId()).hasEnoughIngredients()) {
                 order.save();
                 order.make();
+              }
+              if (request.queryParams("comments") != null) {
+                order.addComments(request.queryParams("comments"));
               }
             }
           }
@@ -193,7 +197,15 @@ public class App {
 
     get("/manager/dishes", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
+      Integer[] daysAgo = {1, 2, 3, 4, 5, 6, 7};
+      Integer[] arrayIndex = {0, 1, 2, 3, 4, 5, 6};
+
       model.put("dishes", Dish.all());
+      model.put("LocalDate", LocalDate.class);
+      model.put("OrderClass", Order.class);
+      model.put("daysAgo", daysAgo);
+      model.put("arrayIndex", arrayIndex);
+      model.put("orderPercents", Order.getOrderPercentsForWeek());
       model.put("template", "templates/dishes.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
