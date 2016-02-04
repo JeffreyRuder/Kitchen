@@ -17,24 +17,45 @@
         <span class="tile-label">New Ingredient</span>
       </a>
 
+      <a class="tile bg-indigo bg-active-darkIndigo fg-white margin20 padding10" href="/manager/new-dish">
+        <div class="tile-content iconic">
+          <span class="icon mif-plus"></span>
+        </div>
+        <span class="tile-label">New Menu Item</span>
+      </a>
+
     </div>
 
-    <div class="login-form padding20 block-shadow margin20 no-margin-left no-margin-right" style="opacity: 1; transform: scale(1); transition: 0.5s;">
-      <h1 class="leader">86 List</h1>
-      <hr>
-      <div class="tile-container">
-        #foreach ($dish in $dishes)
-          #if ($dish.hasMissingIngredient() || $dish.getNumberPossibleDishes() == 0)
-          <a class="tile bg-yellow bg-active-darkBlue fg-white margin20 padding10" href="/manager/dishes/$dish.getId()">
+    #if ($eightysixes.size() == 0)
+      <div class="login-form padding20 block-shadow margin20 no-margin-left no-margin-right" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+        <div class="tile-container">
+          <a class="tile-wide bg-lightGreen bg-active-Green fg-white margin20 padding10" href="/manager/orders/dishes">
             <div class="tile-content iconic">
-              <span class="icon mif-not"></span>
+              <span class="icon mif-thumbs-up"></span>
             </div>
-            <span class="tile-label">$dish.getName()</span>
+            <span class="tile-label">All Dishes Available</span>
           </a>
-          #end
-        #end
+        </div>
       </div>
-    </div>
+    #else
+
+      <div class="login-form padding20 block-shadow margin20 no-margin-left no-margin-right" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+        <h1 class="leader">86 List</h1>
+        <hr>
+        <div class="tile-container">
+          #foreach ($dish in $dishes)
+            #if ($eightysixes.contains($dish))
+            <a class="tile bg-yellow bg-active-darkBlue fg-white margin20 padding10" href="/manager/dishes/$dish.getId()">
+              <div class="tile-content iconic">
+                <span class="icon mif-not"></span>
+              </div>
+              <span class="tile-label">$dish.getName()</span>
+            </a>
+            #end
+          #end
+        </div>
+      </div>
+    #end
 
     <div class="login-form padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
 

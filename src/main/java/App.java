@@ -146,6 +146,7 @@ public class App {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("ingredients", Ingredient.all());
       model.put("dishes", Dish.all());
+      model.put("eightysixes", Dish.getEightySixes());
       model.put("template", "templates/ingredients-inventory.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -174,7 +175,7 @@ public class App {
 
     //DISHES
 
-    get("/manager/orders/dishes", (request, response) -> {
+    get("/manager/dishes", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("dishes", Dish.all());
       model.put("template", "templates/dishes.vtl");
@@ -187,14 +188,6 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-// POST NEW DISH
-    post("/manager/new-dish", (request, response) -> {
-      Dish newDish = new Dish(request.queryParams("dish-name"));
-      dish.save();
-      response.redirect("/manager/dishes/" + newDish.getId());
-      return null;
-    });
-
 // GET DISH
 
     get("/manager/dishes/:id", (request, response) -> {
@@ -206,12 +199,22 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+// POST NEW DISH
+
+    post("/manager/new-dish", (request, response) -> {
+      Dish newDish = new Dish(request.queryParams("dish-name"), Integer.parseInt(request.queryParams("category-id")));
+      newDish.save();
+      response.redirect("/manager/dishes/" + newDish.getId());
+      return null;
+    });
+
+
 // UPDATE DISH
 
     post("/manager/dishes/:id/update", (request, response) -> {
       Dish dish = Dish.find(Integer.parseInt(request.params("id")));
       String newName = request.queryParams("new-name");
-      dish.update(newName);
+      dish.update(newName, dish.getCategory());
       response.redirect("/manager/dishes/" + dish.getId());
       return null;
     });

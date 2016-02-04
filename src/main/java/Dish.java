@@ -8,6 +8,7 @@ import org.sql2o.*;
 public class Dish {
   private int mId;
   private String mName;
+  private int mCategory;
 
   public int getId() {
     return mId;
@@ -17,8 +18,13 @@ public class Dish {
     return mName;
   }
 
-  public Dish(String name) {
+  public int getCategory() {
+    return mCategory;
+  }
+
+  public Dish(String name, int category) {
     this.mName = name;
+    this.mCategory = category;
   }
 
   @Override
@@ -27,13 +33,14 @@ public class Dish {
       return false;
     } else {
       Dish newDish = (Dish) otherDish;
-      return this.getName().equals(newDish.getName());
+      return this.getName().equals(newDish.getName()) &&
+             this.getCategory() == (newDish.getCategory());
     }
   }
 
   public static List<Dish> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, name AS mName from dishes";
+      String sql = "SELECT id AS mId, name AS mName, category AS mCategory from dishes";
       return con.createQuery(sql)
                 .executeAndFetch(Dish.class);
     }
@@ -41,9 +48,10 @@ public class Dish {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO dishes(name) VALUES (:name)";
-      this.mId = (int) con.createQuery(sql, true)
-                          .addParameter("name", this.mName)
+      String sql = "INSERT INTO dishes(name, category) VALUES (:name, :category)";
+      mId = (int) con.createQuery(sql, true)
+                          .addParameter("name", mName)
+                          .addParameter("category", mCategory)
                           .executeUpdate()
                           .getKey();
     }
@@ -51,7 +59,7 @@ public class Dish {
 
   public static Dish find(int id) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, name AS mName FROM dishes WHERE id = :id";
+      String sql = "SELECT id AS mId, name AS mName, category AS mCategory FROM dishes WHERE id = :id";
       Dish dish = con.createQuery(sql)
                      .addParameter("id", id)
                      .executeAndFetchFirst(Dish.class);
@@ -69,12 +77,14 @@ public class Dish {
     }
   }
 
-  public void update(String newName) {
+  public void update(String newName, int newCategory) {
     mName = newName;
+    mCategory = newCategory;
     try(Connection con = DB.sql2o.open()) {
-      String sql = "UPDATE dishes SET name = :name WHERE id = :id";
+      String sql = "UPDATE dishes SET name = :name, category = :category WHERE id = :id";
       con.createQuery(sql)
          .addParameter("name", newName)
+         .addParameter("category", newCategory)
          .addParameter("id", mId)
          .executeUpdate();
     }
@@ -164,5 +174,15 @@ public class Dish {
         }
       }
     return dishesPossible;
+  }
+
+  public static List<Dish> getEightySixes() {
+    ArrayList<Dish> eightySixes = new ArrayList<Dish>();
+    for (Dish dish : Dish.all()) {
+      if (!(dish.hasEnoughIngredients()) || dish.getNumberPossibleDishes() == 0) {
+        eightySixes.add(dish);
+      }
+    }
+    return eightySixes;
   }
 }
