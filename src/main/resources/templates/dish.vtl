@@ -3,7 +3,7 @@
 
     <div class="dish-page padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
       <h1 class="leader">$dish.getName()</h1>
-      <h2>Ingredients</h2>
+      <h3>Ingredients</h3>
       <table class="table" id="ingredients-table">
         <thead>
           <tr>
@@ -21,21 +21,69 @@
             </tr>
           #end
         </tbody>
+
+
       </table>
+
     </div>
 
     <div class="grid">
-      <div class="row cells3">
+      <div class="row cells2">
         <div class="cell">
-          <div class="panel collapsible" data-role="panel">
-            <div class="heading">
+          <div class="panel collapsible collapsed" data-role="panel">
+
+            <div class="heading bg-darkCobalt fg-white">
+              <span class="icon mif-plus"></span>
+              <span class="title">Add a New Ingredient to $dish.getName()</span>
+            </div>
+
+            <div class="content padding10 bg-gray fg-white" style="display: none;">
+              <form action="/manager/dishes/$dish.getId()/add-ingredient" class="padding10" method="post">
+                <input id="dish-id" name="dish-id" type="hidden" value="$dish.getId()">
+                <br>
+                <div class="input-control text full-size margin10" data-role="input">
+                  <label for="add-ingredient">Select an Ingredient</label>
+                  <select id="add-ingredient" name="add-ingredient" type="text">
+                    #foreach($ingredient in $ingredients)
+                      <option value="$ingredient.getId()">$ingredient.getName(), $ingredient.getUnit()</option>
+                    #end
+                  </select>
+                </div>
+                <br>
+                <div class="input-control text full-size margin10" data-role="input">
+                  <label for="amount">Ingredient Amount (e.g. 10 pairs of Buns)</label>
+                  <input id="amount" name="amount" type="number" min="1" required>
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="button bg-darkCobalt fg-white add-ingredient">
+                    <span class="mif-plus"></span>
+                    Add
+                  </button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="row cells2">
+        <div class="cell">
+          <div class="panel collapsible collapsed" data-role="panel">
+            <div class="heading bg-darkCobalt fg-white">
               <span class="icon mif-wrench"></span>
               <span class="title">Update $dish.getName()</span>
             </div>
 
-            <div class="content padding10" style="display: block;">
+            <div class="content padding10 bg-gray fg-white" style="display: none;">
               <form action="/manager/dishes/$dish.getId()/update" class="padding10 no-padding-left no-padding-right" method="post">
                 <input id="dish-id" name="dish-id" type="hidden" value="$dish.getId()">
+
                 <div class="input-control text full-size" data-role="input">
                   <label for="new-name">Dish Name</label>
                   <input id="new-name" name="new-name" type="text" placeholder="(e.g. Hamburger)">
@@ -73,29 +121,7 @@
     </form>
   </div> -->
 
-<!-- ADD INGREDIENT TO LIST -->
-  <div class="col-md-4">
-    <h4>Add an Ingredient to $dish.getName()</h4>
-    <form action="/manager/dishes/$dish.getId()/add-ingredient" class="form-control" method="post">
-      <input id="dish-id" name="dish-id" type="hidden" value="$dish.getId()">
 
-      <div class="form-group">
-        <label for="add-ingredient">Select an Ingredient</label>
-        <select id="add-ingredient" name="add-ingredient" type="text" class="form-control">
-          #foreach($ingredient in $ingredients)
-            <option value="$ingredient.getId()">$ingredient.getName(), $ingredient.getUnit()</option>
-          #end
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="amount">Ingredient Amount (e.g. 10 pairs of Buns)</label>
-        <input id="amount" name="amount" type="number" min="1" required>
-      </div>
-
-      <button type="submit" class="btn btn-default add-ingredient">Update Dish</button>
-    </form>
-  </div>
 <!-- DELETE INGREDIENT FROM LIST -->
 
 </div>
