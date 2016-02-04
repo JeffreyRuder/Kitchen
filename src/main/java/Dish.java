@@ -175,4 +175,14 @@ public class Dish {
       }
     return dishesPossible;
   }
+
+  public static List<Dish> getEightySixes() {
+    ArrayList<Dish> eightySixes = new ArrayList<Dish>();
+    for (Dish dish : Dish.all()) {
+      if (!(dish.hasEnoughIngredients()) || dish.getNumberPossibleDishes() == 0) {
+        eightySixes.add(dish);
+      }
+    }
+    return eightySixes;
+  }
 }
