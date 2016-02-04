@@ -1,0 +1,37 @@
+<div class="container bg-grayLighter">
+  <div class="padding40 no-padding-bottom">
+    <div class="new-dish padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+      <form action="/manager/new-dish" method="post">
+        <h1 class="text-light">Add A New Dish</h1>
+        <hr class="thin">
+        <br>
+        <div class="input-control text full-size" data-role="input">
+          <label for="dish-name">Dish Name</label>
+          <input id="dish-name" name="dish-name" type="type" style="padding-right: 42px;" placeholder="(e.g. Cheeseburger)" required>
+        </div>
+        <br>
+        <br>
+        <div class="input-control select full-size" data-role="input">
+          <label for="category-id">Category</label>
+          <select id="category-id" name="category-id">
+            <option value="1">Appetizer</option>
+            <option value="2">Entre</option>
+            <option value="3">Side</option>
+            <option value="4">Dessert</option>
+            <option value="5">Drink</option>
+          </select>
+        </div>
+        <br>
+        <br>
+        <div class="form-actions">
+          <button type="submit" class="primary command-button">
+            <span class="icon mif-upload"></span>
+            Submit
+            <small>Add to Menu</small>
+          </button>
+          <button type="button" class="button link"><a href="/manager/dishes">Back to All Dishes</a></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

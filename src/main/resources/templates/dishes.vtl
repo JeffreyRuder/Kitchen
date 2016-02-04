@@ -1,48 +1,35 @@
-<h3>All Dishes Ordered Today</h3>
+<div class="container bg-grayLighter">
+  <div class="padding40 no-padding-bottom">
+    <div class="tile-container">
 
-<div class="row">
+      <a href="/manager/new-dish" class="tile bg-indigo bg-active-darkIndigo fg-white margin20 padding10">
+        <div class="tile-content iconic">
+          <span class="icon mif-plus"></span>
+        </div>
+        <span class="tile-label">New Dish</span>
+      </a>
 
-  <div class="col-md-8">
+    </div>
 
-    <table class="table hover-table sortable" id="dishes-table">
-      <thead>
-        <tr>
-          <th>Dish Name</th>
-          <th>Number of Times Ordered</th>
-        </tr>
-      </thead>
-      <tbody>
-        #foreach ($dish in $dishes)
+    <div class="dishes-table padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+
+      <h1 class="leader">All Dishes Ordered Today</h1>
+      <table class="table" id="dishes-table">
+        <thead>
           <tr>
-            <td><a href="/manager/dishes/$dish.getId()">$dish.getName()</a></td>
-            <td><a href="/manager/dishes/$dish.getId()">$dish.getTimesOrderedToday()</a></td>
+            <th>Dish Name</th>
+            <th>Number of Times Ordered</th>
           </tr>
-        #end
-      </tbody>
-    </table>
-
+        </thead>
+        <tbody>
+          #foreach ($dish in $dishes)
+            <tr>
+              <td><a href="/manager/dishes/$dish.getId()">$dish.getName()</a></td>
+              <td>$dish.getTimesOrderedToday()</td>
+            </tr>
+          #end
+        </tbody>
+      </table>
+    </div>
   </div>
-<br>
-<!-- ADD A NEW DISH -->
-  <div class="col-md-4">
-    <h4>Add a New Dish</h4>
-    <form action="/manager/orders/dishes" class="form-control" method="post">
-      <div class="form-group">
-        <label for="dish-name">Dish Name</label>
-        <input id="dish-name" name="dish-name" type="text">
-      </div>
-      <div class="form-group drop-down">
-        <label for="category-id">Category</label>
-        <select class="form-control">
-          <option id="category-id" name="category-id" value="1">Appetizer</option>
-          <option id="category-id" name="category-id" value="2">Entre</option>
-          <option id="category-id" name="category-id" value="3">Side</option>
-          <option id="category-id" name="category-id" value="4">Dessert</option>
-          <option id="category-id" name="category-id" value="5">Drink</option>
-        </select>
-        <button type="submit" class="btn btn-default">Add New Dish</button>
-      </div>
-    </form>
-  </div>
-
 </div>
