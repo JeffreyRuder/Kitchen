@@ -15,7 +15,7 @@
         <tbody>
           #foreach ($recipe in $dish.getAllRecipes())
             <tr>
-                <td><a href="/manager/ingredients/$ingredient.getId()">$recipe.getIngredientName()</a></td>
+                <td><a href="/manager/ingredients/$recipe.getIngredientId()">$recipe.getIngredientName()</a></td>
                 <td>$recipe.getIngredientAmount()</td>
                 <td>$recipe.getIngredientUnit()</td>
                 <td>
