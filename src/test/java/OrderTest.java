@@ -11,7 +11,7 @@ public class OrderTest {
 
   @Test
   public void order_instantiatesAndSavesCorrectly() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Order order = new Order(1, 1, dish.getId());
     order.save();
@@ -23,7 +23,7 @@ public class OrderTest {
 
   @Test
   public void order_instantiatesAndSavesCorrectlyWithPatron() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Patron patron = new Patron("Jon", "Snow");
     patron.save();
@@ -38,7 +38,7 @@ public class OrderTest {
 
   @Test
   public void complete_completesOrderCorrectly() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Order order = new Order(1, 1, dish.getId());
     order.save();
@@ -52,7 +52,7 @@ public class OrderTest {
 
   @Test
   public void equals_returnsTrueIfEquivalent() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Order firstOrder = new Order(1, 1, dish.getId());
     firstOrder.save();
@@ -63,7 +63,7 @@ public class OrderTest {
 
   @Test
   public void addComments_addsCommentsToOrder() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Order order = new Order(1, 1, dish.getId());
     order.save();
@@ -73,9 +73,9 @@ public class OrderTest {
 
   @Test
   public void order_changeDish_changesDishOfOrder() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
-    Dish secondDish = new Dish("Cheeseburger");
+    Dish secondDish = new Dish("Cheeseburger", 2);
     secondDish.save();
     Order order = new Order(1, 1, dish.getId());
     order.save();
@@ -85,7 +85,7 @@ public class OrderTest {
 
   @Test
   public void all_returnsAllOrders_true() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Order firstOrder = new Order(1, 1, dish.getId());
     firstOrder.save();
@@ -97,7 +97,7 @@ public class OrderTest {
 
   @Test
   public void getAllActive_returnsAllActiveOrders() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Order firstOrder = new Order(1, 1, dish.getId());
     firstOrder.save();
@@ -115,7 +115,7 @@ public class OrderTest {
 
   @Test
   public void completeAndStartDuplicate_endsAndRestartsOrder() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Order order = new Order(1, 1, dish.getId());
     order.save();
@@ -126,7 +126,7 @@ public class OrderTest {
 
   @Test
   public void make_appropriatelyDecrementsIngredientsOnHand() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Pounds", 100, 5);
     ingredient.save();

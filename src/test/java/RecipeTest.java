@@ -17,7 +17,7 @@ public class RecipeTest {
 
   @Test
   public void equals_returnsTrueIfSameObject() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
     ingredient.save();
@@ -30,7 +30,7 @@ public class RecipeTest {
 
   @Test
   public void recipe_instantiatesIdsAndFindsDishIdInListOfRecipes() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
     ingredient.save();
@@ -42,7 +42,7 @@ public class RecipeTest {
 
   @Test
   public void getDishName_returnsDishName() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
     ingredient.save();
@@ -53,7 +53,7 @@ public class RecipeTest {
 
   @Test
   public void getIngredientName_returnsIngredientName() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
     ingredient.save();
