@@ -29,6 +29,11 @@ h1 {
   margin-bottom: 20px;
 }
 
+.progress, .progress-bar {
+  width: 100%;
+  background: #CCC;
+}
+
 legend {
   display: block;
   width: 100%;
