@@ -40,7 +40,7 @@ public class Dish {
 
   public static List<Dish> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, name AS mName, category AS mCategory from dishes";
+      String sql = "SELECT id AS mId, name AS mName, category AS mCategory from dishes ORDER BY category, name";
       return con.createQuery(sql)
                 .executeAndFetch(Dish.class);
     }

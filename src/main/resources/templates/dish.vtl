@@ -1,35 +1,65 @@
-<h3>$dish.getName()</h3>
-<br>
-<hr>
-<br>
-<div class="row">
+<div class="container bg-grayLighter">
+  <div class="padding40 no-padding-bottom">
 
-  <div class="col-md-12">
-
-    <h4>Ingredients</h4>
-    <table class="table hover-table sortable" id="ingredients-table">
-      <thead>
-        <tr>
-          <th>Ingredient Name</th>
-          <th>Amount</th>
-          <th>Unit</th>
-        </tr>
-      </thead>
-      <tbody>
-        #foreach ($recipe in $dish.getAllRecipes())
+    <div class="dish-page padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+      <h1 class="leader">$dish.getName()</h1>
+      <h2>Ingredients</h2>
+      <table class="table" id="ingredients-table">
+        <thead>
           <tr>
-              <td><a href="/manager/ingredients/$ingredient.getId()">$recipe.getIngredientName()</a></td>
-              <td><a href="/manager/ingredients/$ingredient.getId()">$recipe.getIngredientAmount()</a></td>
-              <td><a href="/manager/ingredients/$ingredient.getId()">$recipe.getIngredientUnit()</a></td>
+            <th>Ingredient Name</th>
+            <th>Amount</th>
+            <th>Unit</th>
           </tr>
-        #end
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          #foreach ($recipe in $dish.getAllRecipes())
+            <tr>
+                <td><a href="/manager/ingredients/$ingredient.getId()">$recipe.getIngredientName()</a></td>
+                <td>$recipe.getIngredientAmount()</td>
+                <td>$recipe.getIngredientUnit()</td>
+            </tr>
+          #end
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid">
+      <div class="row cells3">
+        <div class="cell">
+          <div class="panel collapsible" data-role="panel">
+            <div class="heading">
+              <span class="icon mif-wrench"></span>
+              <span class="title">Update $dish.getName()</span>
+            </div>
+
+            <div class="content padding10" style="display: block;">
+              <form action="/manager/dishes/$dish.getId()/update" class="padding10 no-padding-left no-padding-right" method="post">
+                <input id="dish-id" name="dish-id" type="hidden" value="$dish.getId()">
+                <div class="input-control text full-size" data-role="input">
+                  <label for="new-name">Dish Name</label>
+                  <input id="new-name" name="new-name" type="text" placeholder="(e.g. Hamburger)">
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="button bg-darkCobalt fg-white">
+                    <span class="mif-redo"></span>
+                    Update
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
   </div>
 </div>
 
-<div class="row">
+
+<!-- <div class="row">
 
   <div class="col-md-4">
     <h4>Update $dish.getName()</h4>
@@ -41,7 +71,7 @@
         <button type="submit" class="btn btn-default new-name">Update Dish</button>
       </div>
     </form>
-  </div>
+  </div> -->
 
 <!-- ADD INGREDIENT TO LIST -->
   <div class="col-md-4">
