@@ -16,6 +16,7 @@ public class Order {
   private String mCompletionTime;
   private String mComments;
   private boolean mPaid;
+  private boolean mUp;
 
   //CONSTRUCTORS
   public Order(int table, int seat, int dish) {
@@ -23,6 +24,7 @@ public class Order {
     mSeat = seat;
     mDishId = dish;
     mPaid = false;
+    mUp = false;
     mCreationDate = LocalDate.now().toString();
     mCreationTime = LocalTime.now().toString();
   }
@@ -33,6 +35,7 @@ public class Order {
     mDishId = dish;
     mPatronId = patronId;
     mPaid = false;
+    mUp = false;
     mCreationDate = LocalDate.now().toString();
     mCreationTime = LocalTime.now().toString();
   }
@@ -66,6 +69,10 @@ public class Order {
     return mPaid;
   }
 
+  public boolean isUp() {
+    return mUp;
+  }
+
   public String getCreationDate() {
     return mCreationDate;
   }
@@ -91,7 +98,7 @@ public class Order {
 
   public static Order find(int searchId) {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid FROM orders WHERE id = :id";
+      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid, is_up AS mUp FROM orders WHERE id = :id";
       return con.createQuery(sql)
         .addParameter("id", searchId)
         .executeAndFetchFirst(Order.class);
@@ -100,7 +107,7 @@ public class Order {
 
   public static List<Order> all() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid FROM orders ORDER BY creation_date, creation_time";
+      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid, is_up AS mUp FROM orders ORDER BY creation_date, creation_time";
       return con.createQuery(sql)
         .executeAndFetch(Order.class);
     }
@@ -108,15 +115,15 @@ public class Order {
 
   public static List<Order> getAllActive() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid FROM orders WHERE completion_time IS NULL ORDER BY table_num, creation_date, creation_time";
+      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid, is_up AS mUp FROM orders WHERE completion_time IS NULL ORDER BY table_num, creation_date, creation_time";
       return con.createQuery(sql)
         .executeAndFetch(Order.class);
     }
   }
 
-  public static List<Order> getAllActiveOrderByTime() {
+  public static List<Order> getAllActiveKitchenSort() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid FROM orders WHERE completion_time IS NULL ORDER BY creation_date, creation_time";
+      String sql = "SELECT id as mId, patron_id AS mPatronId, table_num AS mTable, seat_num AS mSeat, dish_id AS mDishId, comments AS mComments, creation_date AS mCreationDate, creation_time AS mCreationTime, completion_date AS mCompletionDate, completion_time AS mCompletionTime, is_paid AS mPaid, is_up AS mUp FROM orders WHERE completion_time IS NULL ORDER BY is_up DESC, is_paid DESC, creation_date, creation_time";
       return con.createQuery(sql)
         .executeAndFetch(Order.class);
     }
@@ -139,6 +146,16 @@ public class Order {
     mPaid = true;
     try (Connection con = DB.sql2o.open()) {
       String sql = "UPDATE orders SET is_paid = true WHERE id = :id";
+      con.createQuery(sql)
+        .addParameter("id", mId)
+        .executeUpdate();
+    }
+  }
+
+  public void setIsUp() {
+    mUp = true;
+    try (Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE orders SET is_up = true WHERE id = :id";
       con.createQuery(sql)
         .addParameter("id", mId)
         .executeUpdate();

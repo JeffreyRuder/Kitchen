@@ -18,7 +18,6 @@ public class App {
     }, new VelocityTemplateEngine());
 
     //ORDERS
-    //TODO: update ALL order routes to decrement inventory as needed
 
     get("/servers/orders/active", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -75,14 +74,31 @@ public class App {
       return null;
     });
 
+    //Order - chef routing
     get("/kitchen/orders/active", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("orders", Order.getAllActiveOrderByTime());
+      model.put("orders", Order.getAllActiveKitchenSort());
       model.put("dishes", Dish.all());
-      model.put("template", "templates/orders-active.vtl");
+      model.put("template", "templates/orders-kitchen.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("kitchen/orders/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("order", Order.find(Integer.parseInt(request.params("id"))));
+      model.put("dishes", Dish.all());
+      model.put("template", "templates/order-kitchen.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/kitchen/orders/:id/up", (request, response) -> {
+      Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
+      thisOrder.setIsUp();
+      response.redirect("/kitchen/orders/" + Integer.parseInt(request.params("id")));
+      return null;
+    });
+
+    //Order - server routing
     get("/servers/orders/new", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
@@ -91,7 +107,6 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    //Order - individual order page
     get("/servers/orders/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("order", Order.find(Integer.parseInt(request.params("id"))));

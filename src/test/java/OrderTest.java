@@ -138,4 +138,20 @@ public class OrderTest {
     order.make();
     assertEquals(0, ingredient.getTotalOnHand());
   }
+
+  @Test
+  public void setIsUp_setsOrderStatusToUp_true() {
+    Dish dish = new Dish("Hamburger");
+    dish.save();
+    Ingredient ingredient = new Ingredient("Ground Beef", "Pounds", 100, 5);
+    ingredient.save();
+    dish.addIngredient(ingredient.getId(), 1);
+    Inventory inventory = new Inventory(ingredient.getId(), 1);
+    inventory.save();
+    Order order = new Order(1, 1, dish.getId());
+    order.save();
+    order.make();
+    order.setIsUp();
+    assertTrue(order.isUp());
+  }
 }
