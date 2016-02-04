@@ -141,7 +141,7 @@ public class OrderTest {
 
   @Test
   public void setIsUp_setsOrderStatusToUp_true() {
-    Dish dish = new Dish("Hamburger");
+    Dish dish = new Dish("Hamburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Pounds", 100, 5);
     ingredient.save();
