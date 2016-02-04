@@ -35,7 +35,8 @@ SET default_with_oids = false;
 
 CREATE TABLE dishes (
     id integer NOT NULL,
-    name character varying
+    name character varying,
+    category integer
 );
 
 
@@ -184,7 +185,8 @@ CREATE TABLE orders (
     creation_date date,
     completion_date date,
     creation_time character varying,
-    completion_time character varying
+    completion_time character varying,
+    is_up boolean
 );
 
 
@@ -293,7 +295,7 @@ ALTER TABLE ONLY patrons ALTER COLUMN id SET DEFAULT nextval('patrons_id_seq'::r
 -- Data for Name: dishes; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY dishes (id, name) FROM stdin;
+COPY dishes (id, name, category) FROM stdin;
 \.
 
 
@@ -301,7 +303,7 @@ COPY dishes (id, name) FROM stdin;
 -- Name: dishes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('dishes_id_seq', 1, false);
+SELECT pg_catalog.setval('dishes_id_seq', 1833, true);
 
 
 --
@@ -316,7 +318,7 @@ COPY dishes_ingredients (id, dish_id, ingredient_id, ingredient_amount) FROM std
 -- Name: dishes_ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('dishes_ingredients_id_seq', 1, false);
+SELECT pg_catalog.setval('dishes_ingredients_id_seq', 540, true);
 
 
 --
@@ -331,7 +333,7 @@ COPY ingredients (id, name, unit, desired_on_hand, shelf_life_days) FROM stdin;
 -- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('ingredients_id_seq', 1, false);
+SELECT pg_catalog.setval('ingredients_id_seq', 1177, true);
 
 
 --
@@ -346,14 +348,14 @@ COPY inventories (id, ingredient_id, current_on_hand, delivery_date, expiration_
 -- Name: inventories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('inventories_id_seq', 1, false);
+SELECT pg_catalog.setval('inventories_id_seq', 814, true);
 
 
 --
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY orders (id, dish_id, table_num, seat_num, comments, is_paid, patron_id, creation_date, completion_date, creation_time, completion_time) FROM stdin;
+COPY orders (id, dish_id, table_num, seat_num, comments, is_paid, patron_id, creation_date, completion_date, creation_time, completion_time, is_up) FROM stdin;
 \.
 
 
@@ -361,7 +363,7 @@ COPY orders (id, dish_id, table_num, seat_num, comments, is_paid, patron_id, cre
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('orders_id_seq', 1, false);
+SELECT pg_catalog.setval('orders_id_seq', 1336, true);
 
 
 --
@@ -376,7 +378,7 @@ COPY patrons (id, first_name, last_name, phone, is_active) FROM stdin;
 -- Name: patrons_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('patrons_id_seq', 1, false);
+SELECT pg_catalog.setval('patrons_id_seq', 522, true);
 
 
 --
