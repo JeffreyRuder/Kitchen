@@ -87,6 +87,7 @@ public class App {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("orders", Order.getAllActive());
       model.put("dishes", Dish.all());
+      model.put("dishclass", Dish.class);
       model.put("template", "templates/orders-new.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
