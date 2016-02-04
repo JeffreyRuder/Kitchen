@@ -143,4 +143,11 @@ public class DishTest {
     assertEquals(2, dish.getNumberPossibleDishes());
   }
 
+  @Test
+  public void hasCategoryOf_returnsCorrectNumber_2() {
+    Dish dish = new Dish("Cheeseburger", 2);
+    dish.save();
+    assertEquals(1, (Dish.hasCategoryOf(2).size()));
+  }
+
 }
