@@ -1,39 +1,43 @@
-<h1>Add a new ingredient:</h1>
-
-
-<form class="form-horizontal" action="/manager/new-ingredient" method="post">
-  <div class="form-group">
-    <label for="new-name" class="control-label col-xs-2">Add a new ingredient:</label>
-    <div class="col-xs-10">
-      <input id="new-name" class="form-control" name="new-name" type="text" placeholder="Ingredient Name" required>
+<div class="container bg-grayLighter">
+  <div class="padding40 no-padding-bottom">
+    <div class="login-form padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+      <form action="/manager/new-ingredient" method="post">
+        <h1 class="text-light">Add New Ingredient to Inventory</h1>
+        <hr class="thin">
+        <br>
+        <div class="input-control text full-size" data-role="input">
+            <label for="new-name">Ingredient Name</label>
+            <input id="new-name" name="new-name" type="text" placeholder="(e.g., Olive Oil)" required style="padding-right: 42px;">
+        </div>
+        <br>
+        <br>
+        <div class="input-control text full-size" data-role="input">
+            <label for="new-unit">Unit of Measurement</label>
+            <input id="new-unit" name="new-unit" type="text" placeholder="(e.g., Ounces)" required style="padding-right: 42px;">
+        </div>
+        <br>
+        <br>
+        <div class="input-control text full-size" data-role="input">
+            <label for="new-desired">Desired Stock</label>
+            <input id="new-desired" name="new-desired" type="number" placeholder="0" required style="padding-right: 42px;">
+        </div>
+        <br>
+        <br>
+        <div class="input-control text full-size" data-role="input">
+            <label for="shelf-life-days">Expected Shelf Life Days</label>
+            <input id="shelf-life-days" name="shelf-life-days" type="number" placeholder="0" required style="padding-right: 42px;">
+        </div>
+        <br>
+        <br>
+        <div class="form-actions">
+          <button type="submit" class="primary command-button">
+            <span class="icon mif-clipboard"></span>
+            Submit
+            <small>Add to Inventory List</small>
+          </button>
+          <button type="button" class="button link"><a href="/manager/inventory">Back to Inventory</a></button>
+        </div>
+      </form>
     </div>
   </div>
-  <div class="form-group">
-    <label for="new-unit" class="control-label col-xs-2">Unit of measurement</label>
-    <div class="col-xs-10">
-      <input id="new-unit" class="form-control" name="new-unit" type="text" placeholder="Measurement" required>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="new-desired" class="control-label col-xs-2">Desired In Stock</label>
-    <div class="col-xs-10">
-      <input id="new-desired" class="form-control" name="new-desired" type="number" placeholder="0" required>
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="current-on-hand" class="control-label col-xs-2">Shelf Life Days</label>
-    <div class="col-xs-10">
-      <input id="shelf-life-days" class="form-control" name="shelf-life-days" type="number" placeholder="0" required>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-xs-offset-2 col-xs-10">
-      <button type="submit" class="btn btn-default btn-lg">Submit</button>
-    </div>
-  </div>
-  <div class="form-group">
-    <div class="col-xs-offset-2 col-xs-10">
-      <a href="/manager/inventory" class="btn btn-default btn-lg">Back to Inventory</a>
-    </div>
-  </div>
-</form>
+</div>

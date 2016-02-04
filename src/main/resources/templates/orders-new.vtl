@@ -1,42 +1,41 @@
 <div class="container bg-grayLighter">
-
   <div class="padding40 no-padding-bottom">
-
     <div class="login-form padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
-        <form action="/orders/new" method="post">
-            <h1 class="text-light">New Order</h1>
-            <hr class="thin">
-            <br>
+      <form action="/orders/new" method="post">
+        <h1 class="text-light">New Order</h1>
+        <hr class="thin">
+        <br>
+        <div class="input-control text full-size" data-role="input">
+            <label for="table">Table</label>
+            <input type="text" name="table" id="table" min="1" required style="padding-right: 42px;">
+        </div>
+        <br>
+        <br>
+        <div class="input-control text full-size" data-role="input">
+            <label for="seat">Seat</label>
+            <input type="text" name="seat" id="seat" required style="padding-right: 42px;">
+        </div>
+        <br>
+        <br>
+        #foreach ($dish in $dishes)
+          #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients())
             <div class="input-control text full-size" data-role="input">
-                <label for="table">Table</label>
-                <input type="text" name="table" id="table" min="1" required style="padding-right: 42px;">
+              <label for="$dish.getId()">$dish.getName()</label>
+              <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
             </div>
             <br>
             <br>
-            <div class="input-control text full-size" data-role="input">
-                <label for="seat">Seat</label>
-                <input type="text" name="seat" id="seat" required style="padding-right: 42px;">
-            </div>
-            <br>
-            <br>
-            #foreach ($dish in $dishes)
-              #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients())
-                <div class="input-control text full-size" data-role="input">
-                  <label for="$dish.getId()">$dish.getName()</label>
-                  <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
-                </div>
-                <br>
-                <br>
-              #end
-            #end
-            <div class="form-actions">
-              <button type="submit" class="primary command-button">
-                <span class="icon mif-fire"></span>
-                Submit
-                <small>Order and Fire</small>
-              </button>
-            </div>
-        </form>
+          #end
+        #end
+        <div class="form-actions">
+          <button type="submit" class="primary command-button">
+            <span class="icon mif-fire"></span>
+            Submit
+            <small>Order and Fire</small>
+          </button>
+          <button type="button" class="button link"><a href="/server/orders/active">Back to Active Orders</a></button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
