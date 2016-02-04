@@ -18,7 +18,10 @@
         <br>
         <br>
         #if ($dishes.hasCategoryOf(1))
+        <div class="form-group">
           <label for="appetizers">Appetizers:</label>
+        </div>
+        <div class="form-group">
           #foreach ($dish in $dishes)
             #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 1)
               <div class="input-control text full-size" data-role="input">
@@ -29,9 +32,13 @@
               <br>
             #end
           #end
+        </div>
         #end
         #if ($dishes.hasCategoryOf(2))
-          <label for="appetizers">Entres:</label>
+        <div class="form-group">
+          <label for="entres">Entres:</label>
+        </div>
+        <div class="form-group">
           #foreach ($dish in $dishes)
             #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 2)
               <div class="input-control text full-size" data-role="input">
@@ -42,9 +49,13 @@
               <br>
             #end
           #end
+        </div>
         #end
         #if ($dishes.hasCategoryOf(3))
-          <label for="appetizers">Sides:</label>
+        <div class="form-group">
+          <label for="sides">Sides:</label>
+        </div>
+        <div class="form-group">
           #foreach ($dish in $dishes)
             #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 3)
               <div class="input-control text full-size" data-role="input">
@@ -55,9 +66,13 @@
               <br>
             #end
           #end
+        </div>
         #end
         #if ($dishes.hasCategoryOf(4))
-          <label for="appetizers">Desserts:</label>
+        <div class="form-group">
+          <label for="desserts">Desserts:</label>
+        </div>
+        <div class="form-group">
           #foreach ($dish in $dishes)
             #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 4)
               <div class="input-control text full-size" data-role="input">
@@ -68,9 +83,13 @@
               <br>
             #end
           #end
+        </div>
         #end
         #if ($dishes.hasCategoryOf(5))
-          <label for="appetizers">Drinks:</label>
+        <div class="form-group">
+          <label for="drinks">Drinks:</label>
+        </div>
+        <div class="form-group">
           #foreach ($dish in $dishes)
             #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 5)
               <div class="input-control text full-size" data-role="input">
@@ -81,6 +100,7 @@
               <br>
             #end
           #end
+        </div>
         #end
         <div class="form-actions">
           <button type="submit" class="primary command-button">
