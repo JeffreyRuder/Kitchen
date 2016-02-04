@@ -47,7 +47,7 @@ public class App {
     post("/servers/orders/:id/pay", (request, response) -> {
       Order thisOrder = Order.find(Integer.parseInt(request.params("id")));
       thisOrder.pay();
-      response.redirect("/servers/orders/active");
+      response.redirect("/servers/orders/" + Integer.parseInt(request.params("id")));
       return null;
     });
 
