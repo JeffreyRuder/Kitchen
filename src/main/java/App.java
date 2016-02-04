@@ -42,8 +42,9 @@ public class App {
                 order.save();
                 order.make();
               }
-              if (request.queryParams("comments") != null) {
-                order.addComments(request.queryParams("comments"));
+              System.out.println(request.queryParams(dish.getId() + "comments"));
+              if (request.queryParams(dish.getId() + "comments") != null) {
+                order.addComments(request.queryParams(dish.getId() + "comments"));
               }
             }
           }

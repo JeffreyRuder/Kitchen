@@ -46,28 +46,30 @@
       </table>
     </div>
 
-    <div class="dishes-table padding20 margin20 no-margin-left no-margin-right block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
-      <h1 class="leader">Previous 7 Days</h1>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Total Orders</th>
-            <th>Percentage</th>
-          </tr>
-        </thead>
-        <tbody>
-          #foreach ($num in $arrayIndex)
+    #if ($OrderClass.getTotalOrdersForWeek > 0)
+      <div class="dishes-table padding20 margin20 no-margin-left no-margin-right block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+        <h1 class="leader">Previous 7 Days</h1>
+        <table class="table">
+          <thead>
             <tr>
-              <td>$LocalDate.now().minusDays($daysAgo.get($num)).toString()</td>
-              <td>$OrderClass.getTotalOrdersForDate($LocalDate.now().minusDays($daysAgo.get($num)))</td>
-              <td><div class="progress large" data-value="$orderPercents.get($num)" data-animate="1000" data-color="ribbed-green" data-role="progress">&nbsp;$orderPercents.get($num)%</div></td>
+              <th>Date</th>
+              <th>Total Orders</th>
+              <th>Percentage</th>
             </tr>
-          #end
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            #foreach ($num in $arrayIndex)
+              <tr>
+                <td>$LocalDate.now().minusDays($daysAgo.get($num)).toString()</td>
+                <td>$OrderClass.getTotalOrdersForDate($LocalDate.now().minusDays($daysAgo.get($num)))</td>
+                <td><div class="progress large" data-value="$orderPercents.get($num)" data-animate="1000" data-color="ribbed-green" data-role="progress">&nbsp;$orderPercents.get($num)%</div></td>
+              </tr>
+            #end
+          </tbody>
+        </table>
 
-    </div>
+      </div>
+    #end
 
   </div>
 </div>
