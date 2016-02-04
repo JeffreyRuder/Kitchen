@@ -27,13 +27,13 @@
     <div class="grid">
       <div class="row cells3">
         <div class="cell">
-          <div class="panel collapsible" data-role="panel">
+          <div class="panel collapsible collapsed" data-role="panel">
             <div class="heading">
               <span class="icon mif-wrench"></span>
               <span class="title">Update $dish.getName()</span>
             </div>
 
-            <div class="content padding10" style="display: block;">
+            <div class="content padding10" style="display: none;">
               <form action="/manager/dishes/$dish.getId()/update" class="padding10 no-padding-left no-padding-right" method="post">
                 <input id="dish-id" name="dish-id" type="hidden" value="$dish.getId()">
                 <div class="input-control text full-size" data-role="input">
