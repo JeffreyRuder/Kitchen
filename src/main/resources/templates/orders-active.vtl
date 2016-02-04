@@ -7,6 +7,17 @@
       </div>
       <span class="tile-label">New Order</span>
     </a>
+
+    #foreach ($dish in $dishes)
+      #if ($dish.hasMissingIngredient())
+      <a class="tile bg-yellow bg-active-darkBlue fg-white margin20 padding10" href="/manager/dishes/$dish.getId()">
+        <div class="tile-content iconic">
+          <span class="icon mif-not"></span>
+        </div>
+        <span class="tile-label">$dish.getName()</span>
+      </a>
+      #end
+    #end
   </div>
   
   <div class="tile-container padding40 no-padding-top">
