@@ -11,9 +11,9 @@ public class DishTest {
 
   @Test
   public void equals_returnsTrueIfSameName() {
-    Dish firstDish = new Dish("Cheeseburger");
+    Dish firstDish = new Dish("Cheeseburger", 2);
     firstDish.save();
-    Dish secondDish = new Dish("Cheeseburger");
+    Dish secondDish = new Dish("Cheeseburger", 2);
     secondDish.save();
     assertTrue(firstDish.equals(secondDish));
   }
@@ -25,16 +25,17 @@ public class DishTest {
 
   @Test
   public void dish_instantiatesNameAndFindsItInListOfDishes() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     assertEquals("Cheeseburger", Dish.find(dish.getId()).getName());
+    assertEquals(2, Dish.find(dish.getId()).getCategory());
   }
 
   @Test
   public void delete_deletesADish() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
-    Dish anotherDish = new Dish("Turkey Burger");
+    Dish anotherDish = new Dish("Turkey Burger", 2);
     anotherDish.save();
     dish.delete();
     assertEquals(1, Dish.all().size());
@@ -42,15 +43,15 @@ public class DishTest {
 
   @Test
   public void update_updateWorksProperly() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
-    dish.update("Turkey Burger");
+    dish.update("Turkey Burger", 2);
     assertEquals(dish.getName(), "Turkey Burger");
   }
 
   @Test
   public void addIngredient_addsIngredientToDishesIngredientsTable() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
     ingredient.save();
@@ -61,7 +62,7 @@ public class DishTest {
 
   @Test
   public void removeIngredient_removesAnIngredientFromDishesIngredientsTable() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
     ingredient.save();
@@ -77,9 +78,9 @@ public class DishTest {
 
   @Test
   public void getTimesOrderedToday_getsACountOfDishOrderedToday_2() {
-    Dish dishOne = new Dish("Cheeseburger");
+    Dish dishOne = new Dish("Cheeseburger", 2);
     dishOne.save();
-    Dish dishTwo = new Dish("Hamburger");
+    Dish dishTwo = new Dish("Hamburger", 2);
     dishTwo.save();
     Order orderOne = new Order(1, 1, dishOne.getId());
     orderOne.save();
@@ -92,7 +93,7 @@ public class DishTest {
 
   @Test
   public void hasMissingIngredient_indicatesDishMissingIngredient_true() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
     ingredient.save();
@@ -104,7 +105,7 @@ public class DishTest {
 
   @Test
   public void getAllRecipes_getsAllRecipesForDish() {
-    Dish dish = new Dish("Hot Dog");
+    Dish dish = new Dish("Hot Dog", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Sausage", "Unit", 20, 5);
     ingredient.save();
@@ -119,7 +120,7 @@ public class DishTest {
 
   @Test
   public void hasEnoughIngredients_indicatesDishHasEnoughIngredients_true() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
     ingredient.save();
@@ -131,7 +132,7 @@ public class DishTest {
 
   @Test
   public void getNumberPossibleDishes_returnsCorrectNumber_2() {
-    Dish dish = new Dish("Cheeseburger");
+    Dish dish = new Dish("Cheeseburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Ground Beef", "Ounce", 20, 5);
     ingredient.save();

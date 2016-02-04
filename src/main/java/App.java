@@ -183,7 +183,7 @@ public class App {
 
 // POST NEW DISH
     post("/manager/orders/dishes", (request, response) -> {
-      Dish dish = new Dish(request.queryParams("dish-name"));
+      Dish dish = new Dish(request.queryParams("dish-name"), Integer.parseInt(request.queryParams("category-id")));
       dish.save();
       response.redirect("/manager/orders/dishes");
       return null;
@@ -205,7 +205,7 @@ public class App {
     post("/manager/dishes/:id/update", (request, response) -> {
       Dish dish = Dish.find(Integer.parseInt(request.params("id")));
       String newName = request.queryParams("new-name");
-      dish.update(newName);
+      dish.update(newName, dish.getCategory());
       response.redirect("/manager/dishes/" + dish.getId());
       return null;
     });

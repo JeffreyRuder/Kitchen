@@ -50,9 +50,9 @@ public class IngredientTest {
 
   @Test
   public void getAllDishes_dishesAttachedToIngredientAreReturned() {
-    Dish dishOne = new Dish("Cake");
+    Dish dishOne = new Dish("Cake", 4);
     dishOne.save();
-    Dish dishTwo = new Dish("Cheeseburger");
+    Dish dishTwo = new Dish("Cheeseburger", 2);
     dishTwo.save();
     Ingredient ingredient = new Ingredient("Flour", "ounce", 800, 180);
     ingredient.save();

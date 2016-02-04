@@ -25,8 +25,8 @@ public class AppTest extends FluentTest {
 
   @Test
   public void activeOrdersPage_rendersActiveOrders() {
-    Dish firstDish = new Dish("Tofu Dog");
-    Dish secondDish = new Dish("Penne Alfredo");
+    Dish firstDish = new Dish("Tofu Dog", 2);
+    Dish secondDish = new Dish("Penne Alfredo", 2);
     firstDish.save();
     secondDish.save();
     Order firstOrder = new Order(1, 1, firstDish.getId());
@@ -40,8 +40,8 @@ public class AppTest extends FluentTest {
 
   @Test
   public void activeOrdersPageKitchen_rendersActiveOrders() {
-    Dish firstDish = new Dish("Tofu Dog");
-    Dish secondDish = new Dish("Penne Alfredo");
+    Dish firstDish = new Dish("Tofu Dog", 2);
+    Dish secondDish = new Dish("Penne Alfredo", 2);
     firstDish.save();
     secondDish.save();
     Order firstOrder = new Order(1, 1, firstDish.getId());
@@ -55,8 +55,8 @@ public class AppTest extends FluentTest {
 
   @Test
   public void newOrdersPage_rendersActiveOrders() {
-    Dish firstDish = new Dish("Tofu Dog");
-    Dish secondDish = new Dish("Penne Alfredo");
+    Dish firstDish = new Dish("Tofu Dog", 2);
+    Dish secondDish = new Dish("Penne Alfredo", 2);
     firstDish.save();
     secondDish.save();
     Order firstOrder = new Order(1, 1, firstDish.getId());
@@ -70,7 +70,7 @@ public class AppTest extends FluentTest {
 
   @Test
   public void individualOrderPage_rendersCorrectly() {
-    Dish firstDish = new Dish("Tofu Dog");
+    Dish firstDish = new Dish("Tofu Dog", 2);
     firstDish.save();
     Order firstOrder = new Order(1, 1, firstDish.getId());
     firstOrder.save();
@@ -80,7 +80,7 @@ public class AppTest extends FluentTest {
 
   @Test
   public void payButton_marksOrderPaid() {
-    Dish firstDish = new Dish("Tofu Dog");
+    Dish firstDish = new Dish("Tofu Dog", 2);
     firstDish.save();
     Order firstOrder = new Order(1, 1, firstDish.getId());
     firstOrder.save();
@@ -91,9 +91,9 @@ public class AppTest extends FluentTest {
 
   @Test
   public void dishesByTimesOrderedToday_displaysCorrectly() {
-    Dish dishOne = new Dish("Cheezeburger");
+    Dish dishOne = new Dish("Cheezeburger", 2);
     dishOne.save();
-    Dish dishTwo = new Dish("Hamburg Burger");
+    Dish dishTwo = new Dish("Hamburg Burger", 2);
     dishTwo.save();
     Order orderOne = new Order(1, 1, dishOne.getId());
     orderOne.save();
@@ -118,7 +118,7 @@ public class AppTest extends FluentTest {
 
   @Test
   public void dish_updatesDishName() {
-    Dish dish = new Dish("Cheezeburger");
+    Dish dish = new Dish("Cheezeburger", 2);
     dish.save();
     goTo("http://localhost:4567/manager/dishes/" + Integer.toString(dish.getId()));
     fill("#new-name").with("Hamburg Burger");
@@ -128,7 +128,7 @@ public class AppTest extends FluentTest {
 
   @Test
   public void dish_addIngredientToList() {
-    Dish dish = new Dish("Cheezeburger");
+    Dish dish = new Dish("Cheezeburger", 2);
     dish.save();
     Ingredient ingredient = new Ingredient("Bunz", "pair(s)", 300, 14);
     ingredient.save();
@@ -141,7 +141,7 @@ public class AppTest extends FluentTest {
 
   @Test
   public void completeButton_completesOrder() {
-    Dish firstDish = new Dish("Tofu Dog");
+    Dish firstDish = new Dish("Tofu Dog", 2);
     firstDish.save();
     Order firstOrder = new Order(1, 1, firstDish.getId());
     firstOrder.save();
