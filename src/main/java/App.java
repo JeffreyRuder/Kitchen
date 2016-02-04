@@ -146,6 +146,7 @@ public class App {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("ingredients", Ingredient.all());
       model.put("dishes", Dish.all());
+      model.put("eightysixes", Dish.getEightySixes());
       model.put("template", "templates/ingredients-inventory.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
