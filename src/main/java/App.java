@@ -33,7 +33,7 @@ public class App {
       int table = Integer.parseInt(request.queryParams("table"));
       int seat = Integer.parseInt(request.queryParams("seat"));
       for (Dish dish : Dish.all()) {
-        if (dish.hasEnoughIngredients()) {
+        if (dish.hasEnoughIngredients() && dish.getNumberPossibleDishes() > 0) {
           Integer dishQuantity = Integer.parseInt(request.queryParams(dish.getName()));
           if (dishQuantity > 0) {
             for (Integer i = dishQuantity; i > 0; i--) {
