@@ -181,5 +181,13 @@ public class Ingredient {
     }
   }
 
+  public boolean isLessThanOrEqualToTwentyPercent() {
+    if ((double)this.getTotalOnHand()/this.getDesiredOnHand() <= .2) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
 }

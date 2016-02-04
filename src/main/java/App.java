@@ -149,7 +149,7 @@ public class App {
         Integer.parseInt(request.queryParams("new-desired")),
         Integer.parseInt(request.queryParams("shelf-life-days")));
       newIngredient.save();
-      response.redirect("/manager/ingredients/" + newIngredient.getId());
+      response.redirect("/manager/inventory");
       return null;
     });
 
