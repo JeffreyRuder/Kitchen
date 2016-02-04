@@ -18,6 +18,13 @@
                 <td><a href="/manager/ingredients/$ingredient.getId()">$recipe.getIngredientName()</a></td>
                 <td>$recipe.getIngredientAmount()</td>
                 <td>$recipe.getIngredientUnit()</td>
+                <td>
+                  <form action="/manager/dishes/$dish.getId()/delete-ingredient" method="post">
+                    <button name="remove-ingredient" class="toolbar-button" value="$recipe.getIngredientId()">
+                      <span class="mif-bin"></span>
+                    </button>
+                  </form>
+                </td>
             </tr>
           #end
         </tbody>
@@ -34,7 +41,7 @@
 
             <div class="heading bg-darkCobalt fg-white">
               <span class="icon mif-plus"></span>
-              <span class="title">Add a New Ingredient to $dish.getName()</span>
+              <span class="title">Add a New Ingredient</span>
             </div>
 
             <div class="content padding10 bg-gray fg-white" style="display: none;">
@@ -107,21 +114,5 @@
 </div>
 
 
-<!-- <div class="row">
-
-  <div class="col-md-4">
-    <h4>Update $dish.getName()</h4>
-    <form action="/manager/dishes/$dish.getId()/update" class="form-control" method="post">
-      <input id="dish-id" name="dish-id" type="hidden" value="$dish.getId()">
-      <div class="form-group">
-        <label for="new-name">Dish Name</label>
-        <input id="new-name" name="new-name" type="text" class="form-control">
-        <button type="submit" class="btn btn-default new-name">Update Dish</button>
-      </div>
-    </form>
-  </div> -->
-
 
 <!-- DELETE INGREDIENT FROM LIST -->
-
-</div>
