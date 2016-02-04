@@ -1,5 +1,5 @@
 <div class="container bg-grayLighter">
-
+  
   <div class="tile-container padding40 no-padding-bottom">
     <a class="tile bg-cyan bg-active-darkBlue fg-white margin20 padding10" href="/servers/orders/new">
       <div class="tile-content iconic">
@@ -21,11 +21,11 @@
             <p>
               $order.getDishName()<br>
               $order.getCreationTime().substring(0, 5)<br>
-            #if ($order.checkPaid())
-              Paid<br>
-            #else
-              Not Paid<br>
-            #end
+              #if ($order.checkPaid())
+                Paid<br>
+              #else
+                Not Paid<br>
+              #end
             </p>
           </div>
         </div>

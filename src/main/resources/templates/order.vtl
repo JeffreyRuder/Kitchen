@@ -1,40 +1,63 @@
-<dl class="order-description">
-  <dt>Order ID</dt>
-  <dd>$order.getId()</dd>
-  <dt>Table</dt>
-  <dd>$order.getTable()</dd>
-  <dt>Seat</dt>
-  <dd>$order.getSeat()</dd>
-  <dt>Dish</dt>
-  <dd>$order.getDishName()</dd>
-</dl>
+<div class="container bg-grayLighter">
+  <dl class="order-description horizontal padding20 no-margin-top text-accent">
+    <dt>Order ID</dt>
+    <dd>$order.getId()</dd>
+    <dt>Table</dt>
+    <dd>$order.getTable()</dd>
+    <dt>Seat</dt>
+    <dd>$order.getSeat()</dd>
+    <dt>Dish</dt>
+    <dd>$order.getDishName()</dd>
+    <dt>Paid</dt>
+    #if ($order.checkPaid())
+      <dd>Paid</dd>
+    #else
+      <dd>Not Paid</dd>
+    #end
+  </dl>
 
-<form action="/servers/orders/$order.getId()/modify" method="post">
-  <div class="form-group">
-    <label for="select-dish">Select New Dish</label>
-    <select id="select-dish" name="select-dish">
-      #foreach ($dish in $dishes)
-        <option value="$dish.getId()">$dish.getName()</option>
-      #end
-    </select>
-  </div>
-  <div class="form-group">
-    <button type="submit" class="btn btn-default">Change Dish</button>
-  </div>
-</form>
+  <div class="tile-container padding40 no-padding-top">
+    <form action="/servers/orders/$order.getId()/pay" method="post">
+      <button type="submit" class="tile bg-emerald bg-active-lightGreen fg-white margin20 padding10">
+        <div class="tile-content iconic">
+          <span class="icon mif-dollar2"></span>
+        </div>
+        <span class="tile-label">Pay</span>
+      </button>
+    </form>
 
-<form action="/servers/orders/active/remove" method="post">
-  <div class="form-group">
-    <input type="hidden" name="order-remove" value="$order.getId()">
-    <button type="submit" class="btn btn-default">Cancel Order - Ingredients Lost</button>
-  </div>
-</form>
+    <form action="/servers/orders/$order.getId()/complete" method="post">
+      <button type="submit" class="tile bg-cobalt bg-active-cyan fg-white margin20 padding10">
+        <div class="tile-content iconic">
+          <span class="icon mif-checkmark"></span>
+        </div>
+        <span class="tile-label">Complete</span>
+      </button>
+    </form>
 
-<form action="/servers/orders/active/restart" method="post">
-  <div class="form-group">
-    <input type="hidden" name="order-restart" value="$order.getId()">
-    <button type="submit" class="btn btn-default">Cancel Order and Restart - Ingredients Lost</button>
-  </div>
-</form>
+    <form action="/servers/orders/active/remove" method="post">
+      <div class="input-contol">
+        <input type="hidden" name="order-remove" value="$order.getId()">
+        <button type="submit" class="tile bg-amber bg-active-yellow fg-white margin20 padding10">
+          <div class="tile-content iconic">
+            <span class="icon mif-cancel"></span>
+          </div>
+          <span class="tile-label">Cancel</span>
+        </button>
+      </div>
+    </form>
 
-<a href="/servers/orders/active">All Active Orders</a>
+    <form action="/servers/orders/active/restart" method="post">
+      <div class="input-contol">
+        <input type="hidden" name="order-remove" value="$order.getId()">
+        <button type="submit" class="tile bg-darkOrange bg-active-orange fg-white margin20 padding10">
+          <div class="tile-content iconic">
+            <span class="icon mif-redo"></span>
+          </div>
+          <span class="tile-label">Re-Fire</span>
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
