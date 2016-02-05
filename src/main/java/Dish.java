@@ -124,9 +124,7 @@ public class Dish {
 
   public List<Recipe> getAllRecipes() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT id AS mId, dish_id AS mDishId, ingredient_id AS mIngredientId, ingredient_amount AS mIngredientAmount "
-                  + "FROM dishes_ingredients "
-                  + "WHERE dish_id = :dishid";
+      String sql = "SELECT id AS mId, dish_id AS mDishId, ingredient_id AS mIngredientId, ingredient_amount AS mIngredientAmount FROM dishes_ingredients WHERE dish_id = :dishid";
       return con.createQuery(sql)
                 .addParameter("dishid", mId)
                 .executeAndFetch(Recipe.class);
