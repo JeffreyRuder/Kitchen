@@ -129,7 +129,7 @@ public class Ingredient {
 
   public List<Dish> getAllDishes() {
     try (Connection con = DB.sql2o.open()) {
-      String sql = "SELECT dishes.id AS mId, dishes.name AS mName FROM dishes INNER JOIN dishes_ingredients ON (dishes.id = dishes_ingredients.dish_id) WHERE ingredient_id = :id";
+      String sql = "SELECT dishes.id AS mId, dishes.name AS mName, dishes.category AS mCategory FROM dishes INNER JOIN dishes_ingredients ON (dishes.id = dishes_ingredients.dish_id) WHERE ingredient_id = :id";
       return con.createQuery(sql)
         .addParameter("id", mId)
         .executeAndFetch(Dish.class);
