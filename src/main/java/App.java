@@ -143,6 +143,25 @@ public class App {
       return new ModelAndView(model, layout);
       }, new VelocityTemplateEngine());
 
+
+    // UPDATE ingredient name
+
+    post("manager/ingredients/:id/update", (request, response) -> {
+      Ingredient ingredient = Ingredient.find(Integer.parseInt(request.params("id")));
+      String newName = request.queryParams("new-name");
+      ingredient.update(newName, ingredient.getUnit(), ingredient.getDesiredOnHand(), ingredient.getShelfLifeDays());
+      response.redirect("/manager/ingredients/" + ingredient.getId());
+      return null;
+    });
+
+    post("/manager/dishes/:id/update", (request, response) -> {
+      Dish dish = Dish.find(Integer.parseInt(request.params("id")));
+      String newName = request.queryParams("new-name");
+      dish.update(newName, dish.getCategory());
+      response.redirect("/manager/dishes/" + dish.getId());
+      return null;
+    });
+
     post("/manager/new-ingredient", (request, response) -> {
       Ingredient newIngredient = new Ingredient(
         request.queryParams("new-name"),
@@ -154,7 +173,7 @@ public class App {
       return null;
     });
 
-    //UPDATE ingredients
+    //ADD new ingredient
 
     get("/manager/new-ingredient", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();

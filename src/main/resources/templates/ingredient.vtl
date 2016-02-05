@@ -1,28 +1,86 @@
-<!--Add ("ingredient", ()) to model-->
+<div class="container bg-grayLighter">
+  <div class="padding40 no-padding-bottom">
 
-<h1>$ingredient.getName()</h1>
+    <div class="ingredient-page padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
+      <h1 class="leader">$ingredient.getName()</h1>
+      <h3>Dishes With $ingredient.getName():</h3>
+      <table class="table" id="dishes-table">
 
-<h2>Dishes Used In:</h2>
-<table class="table">
-  <thead>
-    <tr>
-      <th>
-        Dish Name
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    #foreach ($dish in $ingredient.getAllDishes())
-      <tr>
-        <td>
-          <a href="/manager/dishes/$dish.getId()">$dish.getName()</a>
-        </td>
-      </tr>
-    #end
-  </tbody>
-</table>
+        <thead>
+          <tr>
+            <th>Dish Name</th>
+            <th>Category</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          #foreach ($dish in $ingredient.getAllDishes())
+            <tr>
+              <td>
+                <a href="/manager/dishes/$dish.getId()">$dish.getName()</a>
+              </td>
+
+            #if ($dish.getCategory() == 1)
+              <td>Appetizer</td>
+            #elseif ($dish.getCategory() == 2)
+              <td>Entree</td>
+            #elseif ($dish.getCategory() == 3)
+              <td>Side</td>
+            #elseif ($dish.getCategory() == 4)
+              <td>Dessert</td>
+            #elseif ($dish.getCategory() == 5)
+              <td>Drink</td>
+            #end
+
+            </tr>
+          #end
+        </tbody>
+
+      </table>
+    </div>
+
+    <div class="grid">
+      <div class="row cells2">
+        <div class="cell">
+          <div class="panel collapsible collapsed" data-role="panel">
+
+            <div class="heading bg-darkCobalt fg-white">
+              <span class="icon mif-wrench"></span>
+              <span class="title">Update Name of Ingredient</span>
+            </div>
+
+            <div class="content padding10 bg-gray fg-white" style="display: none;">
+              <form action="/manager/ingredients/$ingredient.getId()/update" class="padding10 no-padding-left no-padding-right" method="post">
+                <input id="ingredient-id" name="ingredient-id" type="hidden" value="$ingredient.getId()">
+
+                <div class="input-control text full-size" data-role="input">
+                  <label for="new-name">New Ingredient Name</label>
+                  <input id="new-name" name="new-name" type="text" placeholder="(e.g. Ground Chuck)">
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="button bg-darkCobalt fg-white">
+                    <span class="mif-redo"></span>
+                    Update Name
+                  </button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="cell">
+
+        </div>
+
+      </div>
+    </div>
 
 
+  </div>
+</div>
 
 <form action="/manager/ingredients/$ingredient.getId()" method="post">
   <label for="new-name">Update the name of this ingredient:</label>
