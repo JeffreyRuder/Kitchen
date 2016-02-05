@@ -146,7 +146,7 @@ public class App {
 
     // UPDATE ingredient name
 
-    post("manager/ingredients/:id/update", (request, response) -> {
+    post("/manager/ingredients/:id/update", (request, response) -> {
       Ingredient ingredient = Ingredient.find(Integer.parseInt(request.params("id")));
       String newName = request.queryParams("new-name");
       ingredient.update(newName, ingredient.getUnit(), ingredient.getDesiredOnHand(), ingredient.getShelfLifeDays());
@@ -154,11 +154,13 @@ public class App {
       return null;
     });
 
-    post("/manager/dishes/:id/update", (request, response) -> {
-      Dish dish = Dish.find(Integer.parseInt(request.params("id")));
-      String newName = request.queryParams("new-name");
-      dish.update(newName, dish.getCategory());
-      response.redirect("/manager/dishes/" + dish.getId());
+    // UPDATE ingredient desired on hand
+
+    post("/manager/ingredients/:id/update-stock", (request, response) -> {
+      Ingredient ingredient = Ingredient.find(Integer.parseInt(request.params("id")));
+      String newDesiredStock = request.queryParams("new-desired-stock");
+      ingredient.update(ingredient.getName(), ingredient.getUnit(), Integer.parseInt(newDesiredStock), ingredient.getShelfLifeDays());
+      response.redirect("/manager/ingredients/" + ingredient.getId());
       return null;
     });
 

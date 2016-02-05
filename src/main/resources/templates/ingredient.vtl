@@ -4,6 +4,8 @@
     <div class="ingredient-page padding20 block-shadow" style="opacity: 1; transform: scale(1); transition: 0.5s;">
       <h1 class="leader">$ingredient.getName()</h1>
       <h3>Dishes With $ingredient.getName():</h3>
+      <h4>Current Stock: $ingredient.getTotalOnHand()</h4>
+      <h4>Desired Stock: $ingredient.getDesiredOnHand()</h4>
       <table class="table" id="dishes-table">
 
         <thead>
@@ -72,7 +74,33 @@
         </div>
 
         <div class="cell">
+          <div class="panel collapsible collapsed" data-role="panel">
 
+            <div class="heading bg-darkCobalt fg-white">
+              <span class="icon mif-wrench"></span>
+              <span class="title">Update Desired Stock of Ingredient</span>
+            </div>
+
+            <div class="content padding10 bg-gray fg-white" style="display: none;">
+              <form action="/manager/ingredients/$ingredient.getId()/update-stock" class="padding10 no-padding-left no-padding-right" method="post">
+                <input id="ingredient-id" name="ingredient-id" type="hidden" value="$ingredient.getId()">
+
+                <div class="input-control text full-size" data-role="input">
+                  <label for="new-desired-stock">New Desired Stock Amount</label>
+                  <input id="new-desired-stock" name="new-desired-stock" type="number" min="1">
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="button bg-darkCobalt fg-white">
+                    <span class="mif-redo"></span>
+                    Update Desired Stock
+                  </button>
+                </div>
+
+              </form>
+            </div>
+
+          </div>
         </div>
 
       </div>
@@ -82,15 +110,6 @@
   </div>
 </div>
 
-<form action="/manager/ingredients/$ingredient.getId()" method="post">
-  <label for="new-name">Update the name of this ingredient:</label>
-  <div class="input-group">
-    <input id="new-name" class="form-control" name="new-name" type="text" placeholder="New Ingredient Name" required>
-    <span class="input-group-btn">
-      <button type="submit" class="btn btn-default">Update</button>
-    </span>
-  </div>
-</form>
 
 <form action="/manager/ingredients/$ingredient.getId()" method="post">
   <label for="new-desired-on-hand">Update how much you want of this ingredient:</label>
