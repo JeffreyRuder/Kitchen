@@ -49,15 +49,8 @@
                 <p>
                   $order.getDishName()<br>
                   $order.getCreationTime().substring(0, 5)<br>
-                  #if ($order.isUp())
-                    Up<br>
-                  #else
-                    Not Up<br>
-                  #end
-                  #if ($order.checkPaid())
-                    Paid<br>
-                  #else
-                    Not Paid<br>
+                  #if ($order.getComments())
+                    $order.getComments()
                   #end
                 </p>
               </div>
