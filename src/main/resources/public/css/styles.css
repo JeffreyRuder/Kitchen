@@ -8,6 +8,15 @@
   flex: 1;
 }
 
+.head-image {
+  height: 900px;
+  /*background: linear-gradient(rgba(0, 53, 106, 0.8), transparent 90%),*/
+    /*linear-gradient(0deg, #647687, transparent), */
+  background: url("/img/chef-tablet-stand.jpg");
+  background-size: cover;
+  border: 1px solid black;
+}
+
 html, body {
   height: 100%;
 }
