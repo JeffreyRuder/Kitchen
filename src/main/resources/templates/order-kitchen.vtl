@@ -22,6 +22,10 @@
     #end
   </dl>
 
+  #if ($order.getComments())
+    <h2 class="subleader padding100 no-padding-bottom no-padding-top">Comments: $order.getComments()</h2>
+  #end
+
   <div class="tile-container padding100 no-padding-top">
     <form action="/kitchen/orders/$order.getId()/up" method="post">
       <button type="submit" class="tile bg-darkCobalt bg-active-blue fg-white margin20 padding10">

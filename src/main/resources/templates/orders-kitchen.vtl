@@ -27,7 +27,7 @@
               <div class="slide">
                 <span class="icon mif-dollar2"></span>
               </div>
-              <div class="slide-over op-green padding-20 text-accent align-center">            
+              <div class="slide-over op-green padding-20 text-accent align-center">
             #elseif ($order.isUp())
               <div class="slide">
                 <span class="icon mif-arrow-up"></span>
@@ -42,15 +42,8 @@
                 <p>
                   $order.getDishName()<br>
                   $order.getCreationTime().substring(0, 5)<br>
-                  #if ($order.isUp())
-                    Up<br>
-                  #else
-                    Not Up<br>
-                  #end
-                  #if ($order.checkPaid())
-                    Paid<br>
-                  #else
-                    Not Paid<br>
+                  #if ($order.getComments())
+                    $order.getComments()
                   #end
                 </p>
               </div>
