@@ -296,6 +296,11 @@ ALTER TABLE ONLY patrons ALTER COLUMN id SET DEFAULT nextval('patrons_id_seq'::r
 --
 
 COPY dishes (id, name, category) FROM stdin;
+1834	Hamburger	2
+1835	Fries	3
+1836	Ice Cream	4
+1837	Beer	5
+1838	Clam Chowder	1
 \.
 
 
@@ -303,7 +308,7 @@ COPY dishes (id, name, category) FROM stdin;
 -- Name: dishes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('dishes_id_seq', 1833, true);
+SELECT pg_catalog.setval('dishes_id_seq', 1838, true);
 
 
 --
@@ -311,6 +316,12 @@ SELECT pg_catalog.setval('dishes_id_seq', 1833, true);
 --
 
 COPY dishes_ingredients (id, dish_id, ingredient_id, ingredient_amount) FROM stdin;
+541	1834	1178	8.00
+542	1835	1179	9.00
+543	1836	1180	8.00
+545	1837	1181	1.00
+546	1834	1182	1.00
+547	1838	1183	12.00
 \.
 
 
@@ -318,7 +329,7 @@ COPY dishes_ingredients (id, dish_id, ingredient_id, ingredient_amount) FROM std
 -- Name: dishes_ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('dishes_ingredients_id_seq', 540, true);
+SELECT pg_catalog.setval('dishes_ingredients_id_seq', 547, true);
 
 
 --
@@ -326,6 +337,12 @@ SELECT pg_catalog.setval('dishes_ingredients_id_seq', 540, true);
 --
 
 COPY ingredients (id, name, unit, desired_on_hand, shelf_life_days) FROM stdin;
+1179	Potatoes	Ounces	1000	200
+1180	Ice Cream	Ounces	1000	20
+1178	Ground Beef	Ounces	500	7
+1181	Beer	Pints	100	100
+1182	Buns	Pairs	1000	20
+1183	Clams	Ounces	100	2
 \.
 
 
@@ -333,7 +350,7 @@ COPY ingredients (id, name, unit, desired_on_hand, shelf_life_days) FROM stdin;
 -- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('ingredients_id_seq', 1177, true);
+SELECT pg_catalog.setval('ingredients_id_seq', 1183, true);
 
 
 --
@@ -341,6 +358,11 @@ SELECT pg_catalog.setval('ingredients_id_seq', 1177, true);
 --
 
 COPY inventories (id, ingredient_id, current_on_hand, delivery_date, expiration_date) FROM stdin;
+815	1178	1520.00	2016-02-04	2016-02-11
+819	1182	1198.00	2016-02-05	2016-02-25
+816	1179	64.00	2016-02-04	2016-08-22
+818	1181	99.00	2016-02-04	2016-05-14
+817	1180	960.00	2016-02-04	2016-02-24
 \.
 
 
@@ -348,7 +370,7 @@ COPY inventories (id, ingredient_id, current_on_hand, delivery_date, expiration_
 -- Name: inventories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('inventories_id_seq', 814, true);
+SELECT pg_catalog.setval('inventories_id_seq', 819, true);
 
 
 --
@@ -356,6 +378,25 @@ SELECT pg_catalog.setval('inventories_id_seq', 814, true);
 --
 
 COPY orders (id, dish_id, table_num, seat_num, comments, is_paid, patron_id, creation_date, completion_date, creation_time, completion_time, is_up) FROM stdin;
+1362	1834	1	2		\N	0	2016-02-05	\N	08:15:24.473	\N	\N
+1363	1835	1	2	extra crispy	\N	0	2016-02-05	\N	08:15:24.612	\N	\N
+1364	1837	1	2	foamy	\N	0	2016-02-05	\N	08:15:24.770	\N	\N
+1361	1834	1	1	well done	\N	0	2016-02-05	\N	08:15:00.584	\N	t
+1365	1836	2	1	with syrup	t	0	2016-02-05	\N	08:15:48.959	\N	t
+1344	1834	1	1	\N	t	0	2016-02-04	2016-02-04	15:18:25.251	16:23:39.088	t
+1355	1834	16	1	well done	\N	0	2016-02-04	2016-02-04	16:43:50.633	16:45:19.046	\N
+1357	1834	\N	\N	\N	t	\N	2016-02-01	2016-02-05	\N	08:09:49.142	\N
+1358	1834	\N	\N	\N	t	\N	2016-02-01	2016-02-05	\N	08:09:51.870	\N
+1359	1834	\N	\N	\N	t	\N	2016-02-01	2016-02-05	\N	08:09:54.790	\N
+1360	1834	\N	\N	\N	t	\N	2016-02-01	2016-02-05	\N	08:09:57.414	\N
+1354	1834	1	18	\N	t	0	2016-02-04	2016-02-05	16:38:23.363	08:14:24.174	\N
+1345	1834	2	1	\N	t	0	2016-02-04	2016-02-05	15:24:41.454	08:14:26.422	t
+1348	1834	9	9	well done	t	0	2016-02-04	2016-02-05	15:28:48.012	08:14:28.302	\N
+1346	1835	2	3	\N	t	0	2016-02-04	2016-02-05	15:25:02.098	08:14:30.070	\N
+1349	1835	9	9	extra crispy	t	0	2016-02-04	2016-02-05	15:28:48.142	08:14:32.134	t
+1350	1836	9	9	with cream	t	0	2016-02-04	2016-02-05	15:28:48.281	08:14:34.110	t
+1347	1836	10	1	with syrup	t	0	2016-02-04	2016-02-05	15:27:06.528	08:14:36.126	\N
+1356	1834	16	1	\N	t	0	2016-02-04	2016-02-05	16:45:19.052	08:14:37.870	\N
 \.
 
 
@@ -363,7 +404,7 @@ COPY orders (id, dish_id, table_num, seat_num, comments, is_paid, patron_id, cre
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('orders_id_seq', 1336, true);
+SELECT pg_catalog.setval('orders_id_seq', 1365, true);
 
 
 --
