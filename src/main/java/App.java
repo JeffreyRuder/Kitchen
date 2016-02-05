@@ -42,7 +42,6 @@ public class App {
                 order.save();
                 order.make();
               }
-              System.out.println(request.queryParams(dish.getId() + "comments"));
               if (request.queryParams(dish.getId() + "comments") != null) {
                 order.addComments(request.queryParams(dish.getId() + "comments"));
               }
@@ -128,6 +127,7 @@ public class App {
       thisOrder.complete();
       Order newOrder = new Order(thisOrder.getTable(), thisOrder.getSeat(), thisOrder.getDishId());
       newOrder.save();
+      newOrder.addComments(thisOrder.getComments());
       if (Dish.find(newOrder.getDishId()).hasEnoughIngredients()) {
         newOrder.make();
       }
