@@ -17,27 +17,12 @@
         </div>
         <br>
         <br>
-        #if (!($dishclass.hasCategoryOf(1).isEmpty()))
-          <legend>Appetizers:</legend>
-            #foreach ($dish in $dishes)
-              #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 1)
-                <label for="$dish.getName">$dish.getName()</label>
-                <div class="input-control text full-size" data-role="input">
-                  <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
-                </div>
-                <div class="input-control text full-size" data-role="input">
-                  <input type="text" name="$dish.getId()comments" id="comments" placeholder="Special requests">
-                </div>
-                <br>
-                <br>
-            #end
-          #end
-        #end
-        #if (!($dishclass.hasCategoryOf(2).isEmpty()))
-          <legend>Entrees</legend>
+
+        #macro( dishesInCategory $categoryName $categoryNumber )
+          <legend>$categoryName</legend>
           #foreach ($dish in $dishes)
-            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 2)
-              <label for="$dish.getId()">$dish.getName()</label>
+            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == $categoryNumber)
+              <label for="$dish.getName">$dish.getName()</label>
               <div class="input-control text full-size" data-role="input">
                 <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
               </div>
@@ -48,58 +33,27 @@
               <br>
             #end
           #end
+        #end
+
+        #if (!($dishclass.hasCategoryOf(1).isEmpty()))
+          #dishesInCategory( "Appetizers", 1 )
+        #end
+        #if (!($dishclass.hasCategoryOf(2).isEmpty()))
+          #dishesInCategory( "Entrees", 2 )
         #end
 
         #if (!($dishclass.hasCategoryOf(3).isEmpty()))
-          <legend>Sides</legend>
-          #foreach ($dish in $dishes)
-            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 3)
-              <label for="$dish.getId()">$dish.getName()</label>
-              <div class="input-control text full-size" data-role="input">
-                <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
-              </div>
-              <div class="input-control text full-size" data-role="input">
-                <input type="text" name="$dish.getId()comments" id="comments" placeholder="Special requests">
-              </div>
-              <br>
-              <br>
-            #end
-          #end
+          #dishesInCategory( "Sides", 3 )
         #end
 
         #if (!($dishclass.hasCategoryOf(4).isEmpty()))
-        <legend>Desserts</legend>
-          #foreach ($dish in $dishes)
-            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 4)
-              <label for="$dish.getId()">$dish.getName()</label>
-              <div class="input-control text full-size" data-role="input">
-                <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
-              </div>
-              <div class="input-control text full-size" data-role="input">
-                <input type="text" name="$dish.getId()comments" id="comments" placeholder="Special requests">
-              </div>
-              <br>
-              <br>
-            #end
-          #end
+          #dishesInCategory( "Desserts", 4 )
         #end
 
         #if (!($dishclass.hasCategoryOf(5).isEmpty()))
-        <legend>Drinks</legend>
-          #foreach ($dish in $dishes)
-            #if ($dish.getNumberPossibleDishes() > 0 && $dish.hasEnoughIngredients() && $dish.getCategory() == 5)
-              <label for="$dish.getId()">$dish.getName()</label>
-              <div class="input-control text full-size" data-role="input">
-                <input type="number" name="$dish.getName()" id="dish.getId()" value="0" max="$dish.getNumberPossibleDishes()">
-              </div>
-              <div class="input-control text full-size" data-role="input">
-                <input type="text" name="$dish.getId()comments" id="comments" placeholder="Special requests">
-              </div>
-              <br>
-              <br>
-            #end
-          #end
+          #dishesInCategory( "Drinks", 5 )
         #end
+
         <div class="form-actions margin20 no-margin-left no-margin-right no-margin-bottom">
           <button type="submit" class="primary command-button">
             <span class="icon mif-fire"></span>
