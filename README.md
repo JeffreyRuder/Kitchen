@@ -23,8 +23,16 @@ YesChef! demonstrates object-oriented programming with Java, routing using the S
 
 ## Screenshots
 
+### Kitchen View
+
 ![YesChef-1](YesChef-1.png)
+
+### Server View
+
 ![YesChef-2](YesChef-2.png)
+
+### Manager View
+
 ![YesChef-3](YesChef-3.png)
 
 ## Setup
